@@ -1,11 +1,11 @@
 require 'active_support/core_ext/hash/keys'
-module M3
+module FlexibleMetadata
   # @todo move custom error classes to a single location
-  class NoM3ContextError < StandardError; end
-  class NoM3AdminSetError < StandardError; end
+  class NoFlexibleMetadataContextError < StandardError; end
+  class NoFlexibleMetadataAdminSetError < StandardError; end
   
   class DynamicSchemaService
-    attr_accessor :dynamic_schema, :m3_context, :m3_context_id, :model
+    attr_accessor :dynamic_schema, :flexible_metadata_context, :flexible_metadata_context_id, :model
 
     class << self
       # Retrieve the properties for the model / work type
@@ -49,9 +49,9 @@ module M3
 
       # Retrieve the latest default dynamic_schema
       def schema(work_class_name:)
-        M3::DynamicSchema.where(
-          m3_class: work_class_name,
-          m3_context: M3::Context.where(name: 'default')
+        FlexibleMetadata::DynamicSchema.where(
+          flexible_metadata_class: work_class_name,
+          flexible_metadata_context: FlexibleMetadata::Context.where(name: 'default')
         ).order('created_at').last.schema
       rescue StandardError
         {}
@@ -94,12 +94,12 @@ module M3
     def initialize(admin_set_id:, work_class_name:, dynamic_schema_id: nil)
       
       if admin_set_id.blank?
-        raise M3::NoM3AdminSetError('The Admin Set ID is blank')
+        raise FlexibleMetadata::NoFlexibleMetadataAdminSetError('The Admin Set ID is blank')
       end
 
       context_for(admin_set_id: admin_set_id)
       dynamic_schema_for(
-        m3_context_id: m3_context_id,
+        flexible_metadata_context_id: flexible_metadata_context_id,
         work_class_name: work_class_name,
         dynamic_schema_id: dynamic_schema_id
       )
@@ -148,7 +148,7 @@ module M3
         return property.to_s.capitalize
       end
 
-      label = I18n.t("m3.#{m3_context}.#{model}.#{locale_key}.#{property}")
+      label = I18n.t("flexible_metadata.#{flexible_metadata_context}.#{model}.#{locale_key}.#{property}")
       label = nil if label.include?('translation missing')
       label || send("#{locale_key}_for", property) || property.to_s.capitalize
     end
@@ -158,21 +158,21 @@ module M3
     def context_for(admin_set_id:)
       cxt = AdminSet.find(admin_set_id).metadata_context
       if cxt.blank?
-        raise M3::NoM3ContextError(
+        raise FlexibleMetadata::NoFlexibleMetadataContextError(
           "No Metadata Context for Admin Set #{admin_set_id}"
         )
       end
-      @m3_context = cxt.name
-      @m3_context_id = cxt.id
+      @flexible_metadata_context = cxt.name
+      @flexible_metadata_context_id = cxt.id
     end
 
     # Retrieve the given DynamicSchema for an existing work
-    def dynamic_schema_for(m3_context_id:, work_class_name:, dynamic_schema_id: nil)
+    def dynamic_schema_for(flexible_metadata_context_id:, work_class_name:, dynamic_schema_id: nil)
       if dynamic_schema_id.present?
-        @dynamic_schema ||= M3::DynamicSchema.find(dynamic_schema_id)
+        @dynamic_schema ||= FlexibleMetadata::DynamicSchema.find(dynamic_schema_id)
       else
-        @dynamic_schema ||= M3::DynamicSchema.where(m3_context: m3_context_id).select do |ds|
-          ds.m3_class == work_class_name.to_s
+        @dynamic_schema ||= FlexibleMetadata::DynamicSchema.where(flexible_metadata_context: flexible_metadata_context_id).select do |ds|
+          ds.flexible_metadata_class == work_class_name.to_s
         end.first
       end
     end
@@ -186,7 +186,7 @@ module M3
     end
 
     def locale_label_for(property)
-      I18n.t("m3.#{m3_context}.#{model}.labels.#{property}") ||
+      I18n.t("flexible_metadata.#{flexible_metadata_context}.#{model}.labels.#{property}") ||
         label_for(property) ||
         property.to_s.capitalize
     end

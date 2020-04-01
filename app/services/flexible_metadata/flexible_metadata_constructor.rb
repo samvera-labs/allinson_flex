@@ -1,37 +1,37 @@
-module M3
+module FlexibleMetadata
   class FlexibleMetadataConstructor
     class_attribute :default_logger
     self.default_logger = Rails.logger
 
     def self.find_or_create_from(name:, data:, logger: default_logger)
       profile_name = data.dig('name') || name
-      profile_match = M3::Profile.where(name: profile_name, profile_version: data.dig('profile', 'version')).first
+      profile_match = FlexibleMetadata::Profile.where(name: profile_name, profile_version: data.dig('profile', 'version')).first
 
       if profile_match.blank?
-        profile = M3::Profile.new(
-          name:                     profile_name,
-          m3_version:               data.dig('m3_version'),
-          profile_version:          data.dig('profile', 'version'),
-          responsibility:           data.dig('profile', 'responsibility'),
-          responsibility_statement: data.dig('profile', 'responsibility_statement'),
-          date_modified:            data.dig('profile', 'date_modified'),
-          profile_type:             data.dig('profile', 'type'),
-          profile:                  data
+        profile = FlexibleMetadata::Profile.new(
+          name:                       profile_name,
+          flexible_metadata_version:  data.dig('flexible_metadata_version'),
+          profile_version:            data.dig('profile', 'version'),
+          responsibility:             data.dig('profile', 'responsibility'),
+          responsibility_statement:   data.dig('profile', 'responsibility_statement'),
+          date_modified:              data.dig('profile', 'date_modified'),
+          profile_type:               data.dig('profile', 'type'),
+          profile:                    data
         )
 
         construct_profile_contexts(profile: profile)
         profile.save!
-        logger.info(%(Loaded M3::Profile "#{profile.name}" ID=#{profile.id}))
+        logger.info(%(LoadedFlexibleMetadata::Profile "#{profile.name}" ID=#{profile.id}))
 
         create_dynamic_schemas(profile: profile)
 
         profile
       else
         if profile_match.profile != data
-          logger.error(%(\nM3::Profile version #{profile_match.profile_version} found, but the content has changed))
-          raise ProfileVersionError, "This M3::Profile version (#{profile_match.profile_version}) already exists, please increment the version number"
+          logger.error(%(\nFlexibleMetadata::Profile version #{profile_match.profile_version} found, but the content has changed))
+          raise ProfileVersionError, "This FlexibleMetadata::Profile version (#{profile_match.profile_version}) already exists, please increment the version number"
         else
-          logger.info(%(Loaded M3::Profile "#{profile_match.name}" ID=#{profile_match.id}))
+          logger.info(%(Loaded FlexibleMetadata::Profile "#{profile_match.name}" ID=#{profile_match.id}))
           profile_match
         end
       end
@@ -41,12 +41,12 @@ module M3
       profile = construct_default_dynamic_schemas(profile: profile)
       profile = construct_dynamic_schemas(profile: profile)
       profile.save!
-      logger.info(%(Created M3::Context and M3::DynamicSchema objects for "#{profile.name}" ID=#{profile.id}))
+      logger.info(%(Created FlexibleMetadata::Context and FlexibleMetadata::DynamicSchema objects for "#{profile.name}" ID=#{profile.id}))
     end
 
     def self.build_profile_data(profile:)
       {
-        'm3_version' => profile.m3_version,
+        'flexible_metadata_version' => profile.flexible_metadata_version,
         'profile' => {
           'responsibility' => profile.responsibility,
           'responsibility_statement' => profile.responsibility_statement,
@@ -74,8 +74,8 @@ module M3
           end.inject(:merge),
         'properties' =>
           profile.properties.map do |prop|
-            class_text = prop.texts.map { |text| text if text.name == 'display_label' && text.textable_type == 'M3::ProfileClass' }.compact
-            context_text = prop.texts.map { |text| text if text.name == 'display_label' && text.textable_type == 'M3::ProfileContext' }.compact
+            class_text = prop.texts.map { |text| text if text.name == 'display_label' && text.textable_type == 'FlexibleMetadata::ProfileClass' }.compact
+            context_text = prop.texts.map { |text| text if text.name == 'display_label' && text.textable_type == 'FlexibleMetadata::ProfileContext' }.compact
             display_labels = []
             display_labels << { 'default' => prop.texts.map { |text| text.value if text.name == 'display_label' && text.textable_type.nil? }.compact.first }
             class_text.each do |clt|
@@ -117,7 +117,7 @@ module M3
           name:          name,
           display_label: profile_contexts_hash.dig(name, 'display_label')
         )
-        logger.info(%(Constructed M3::ProfileContext "#{profile_context.name}"))
+        logger.info(%(Constructed FlexibleMetadata::ProfileContext "#{profile_context.name}"))
 
         construct_profile_classes(profile: profile, profile_context: profile_context)
 
@@ -134,7 +134,7 @@ module M3
           display_label: profile_classes_hash.dig(name, 'display_label'),
           schema_uri:    profile_classes_hash.dig(name, 'schema_uri')
         )
-        logger.info(%(Constructed M3::ProfileClass "#{profile_class.name}"))
+        logger.info(%(Constructed FlexibleMetadata::ProfileClass "#{profile_class.name}"))
 
         profile_class.contexts << profile_context
 
@@ -155,7 +155,7 @@ module M3
           cardinality_maximum: properties_hash.dig(name, 'cardinality', 'maximum'),
           indexing:            properties_hash.dig(name, 'indexing')
         )
-        logger.info(%(Constructed M3::ProfileProperty "#{property.name}"))
+        logger.info(%(Constructed FlexibleMetadata::ProfileProperty "#{property.name}"))
 
         context = properties_hash.dig(name, 'available_on', 'context')
         if context.present? && context.include?(profile_context.name)
@@ -168,7 +168,7 @@ module M3
           value: properties_hash.dig(name, 'display_label', 'default')
         )
 
-        logger.info(%(Constructed M3::ProfileText "#{property_text.value}" for M3::ProfileProperty "#{property.name}"))
+        logger.info(%(Constructed FlexibleMetadata::ProfileText "#{property_text.value}" for FlexibleMetadata::ProfileProperty "#{property.name}"))
 
         if properties_hash.dig(name, 'display_label').keys.include? profile_context.name
           property_text = property.texts.build(
@@ -176,7 +176,7 @@ module M3
             value: properties_hash.dig(name, 'display_label', profile_context.name),
             textable: profile_context
           )
-          logger.info(%(Constructed M3::ProfileText "#{property_text.value}" for M3::ProfileProperty "#{property.name} on #{profile_context.name}"))
+          logger.info(%(Constructed FlexibleMetadata::ProfileText "#{property_text.value}" for FlexibleMetadata::ProfileProperty "#{property.name} on #{profile_context.name}"))
         end
 
         if properties_hash.dig(name, 'display_label').keys.include? profile_class.name
@@ -185,7 +185,7 @@ module M3
             value: properties_hash.dig(name, 'display_label', profile_class.name),
             textable: profile_class
           )
-          logger.info(%(Constructed M3::ProfileText "#{property_text.value}" for M3::ProfileProperty "#{property.name}" on #{profile_class.name}))
+          logger.info(%(Constructed FlexibleMetadata::ProfileText "#{property_text.value}" for FlexibleMetadata::ProfileProperty "#{property.name}" on #{profile_class.name}))
         end
 
         property
@@ -197,10 +197,10 @@ module M3
 
       profile.classes.each do |cl|
         profile.dynamic_schemas.build(
-            m3_class: cl.name,
-            m3_context: profile.m3_contexts.build(
+            flexible_metadata_class: cl.name,
+            flexible_metadata_context: profile.flexible_metadata_contexts.build(
               name: 'default', 
-              m3_profile_context: cxt),
+              flexible_metadata_profile_context: cxt),
             schema: build_schema(cl)
           )
       end
@@ -211,10 +211,10 @@ module M3
       profile.classes.each do |cl|
         cl.contexts.each do |cl_cxt|
           profile.dynamic_schemas.build(
-            m3_class: cl.name,
-            m3_context: profile.m3_contexts.build(
+            flexible_metadata_class: cl.name,
+            flexible_metadata_context: profile.flexible_metadata_contexts.build(
               name: cl_cxt.name, 
-              m3_profile_context: cl_cxt),
+              flexible_metadata_profile_context: cl_cxt),
             schema: build_schema(cl, cl_cxt)
           )
         end
@@ -222,17 +222,17 @@ module M3
       profile
     end
 
-    def self.build_schema(m3_class, m3_context = nil)
+    def self.build_schema(flexible_metadata_class, flexible_metadata_context = nil)
       {
-        'type' => m3_class.schema_uri || "http://example.com/#{m3_class.name}",
-        'display_label' => m3_class.display_label,
+        'type' => flexible_metadata_class.schema_uri || "http://example.com/#{flexible_metadata_class.name}",
+        'display_label' => flexible_metadata_class.display_label,
         'properties' =>
-          (m3_context || m3_class).available_properties.map do |prop|
-            property = prop.m3_profile_property
+          (flexible_metadata_context || flexible_metadata_class).available_properties.map do |prop|
+            property = prop.flexible_metadata_profile_property
             {
               property.name => {
                 'predicate' => property.property_uri,
-                'display_label' => display_label(property, m3_class, m3_context),
+                'display_label' => display_label(property, flexible_metadata_class, flexible_metadata_context),
                 'required' => required?(property.cardinality_minimum),
                 'singular' => singular?(property.cardinality_maximum),
                 'indexing' => property.indexing
@@ -252,12 +252,12 @@ module M3
       cardinality_maximum > 1
     end
 
-    def self.display_label(property, m3_class, m3_context = nil)
-      unless m3_context.nil?
-        context_label = m3_context.context_texts.map { |t| t.value if t.name == 'display_label' && t.m3_profile_property_id == property.id }.first
+    def self.display_label(property, flexible_metadata_class, flexible_metadata_context = nil)
+      unless flexible_metadata_context.nil?
+        context_label = flexible_metadata_context.context_texts.map { |t| t.value if t.name == 'display_label' && t.flexible_metadata_profile_property_id == property.id }.first
         return context_label unless context_label.blank?
       end
-      class_label = m3_class.class_texts.map { |t| t.value if t.name == 'display_label' && t.m3_profile_property_id == property.id }.first
+      class_label = flexible_metadata_class.class_texts.map { |t| t.value if t.name == 'display_label' && t.flexible_metadata_profile_property_id == property.id }.first
       return class_label unless class_label.blank?
       property.texts.map { |t| t.value if t.name == 'display_label' && t.textable_type.nil? }.compact.first
     end
