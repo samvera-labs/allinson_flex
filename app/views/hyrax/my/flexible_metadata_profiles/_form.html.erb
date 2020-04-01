@@ -1,0 +1,52 @@
+<div class="panel-body">
+  <% if m3_profile && m3_profile.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(m3_profile.errors.count, "error") %> prohibited this m3_profile from being saved:</h2>
+
+      <ul>
+        <% m3_profile.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.label "Version" %>
+  <%= form.text_field :profile_version, :readonly => true, class: "form-control" %><hr>
+  <h4>Profile:</h4>
+  <%= form.input :name %>
+  <%= form.input :profile_type %>
+  <%= form.input :responsibility %> 
+  <%= form.label :responsiblity_statement %>
+  <%= form.select(:responsibility_statement, ["Indiana University"], {}, { class: "form-control" }) %>
+  <%= form.input :date_modified, :readonly => true, required: false %><hr>
+  
+  <h4>Classes:</h4>
+  <%= form.fields_for :classes do |c| %>
+    <%= c.label :name %>
+    <%= c.select(:name, @m3_profile.available_classes, { include_blank: true }, { class: "form-control" }) %>
+    <%= c.input :display_label %><hr>
+  <% end %>
+
+  <h4>Contexts:</h4>
+  <%= form.fields_for :contexts do |cc| %>
+    <%= cc.input :name %>
+    <%= cc.input :display_label %><hr>
+  <% end %>
+
+  <h4>Properties:</h4>
+  <%= form.fields_for :properties do |p| %>
+    <%= p.input :name %>
+    <%= p.input :property_uri %>
+    <%= p.input :cardinality_minimum %>
+    <%= p.input :cardinality_maximum %>
+    <%= p.label :indexing %>
+    <%= p.select(:indexing, M3::ProfileProperty::INDEXING, { include_hidden: false }, { multiple: true, class: "form-control" }) %><hr>
+    <h4>Text:</h4>
+    <%= p.fields_for :texts do |t| %>
+      <%= t.label :name %>
+      <%= t.select(:name, @m3_profile.available_text_names, { include_blank: true }, { class: "form-control" }) %>
+      <%= t.input :value %>
+    <% end %>
+  <% end %>
+</div>

@@ -1,0 +1,82 @@
+<% provide :page_title, t("hyrax.admin.sidebar.m3_profiles") %>
+
+<% provide :head do %>
+  <%= rss_feed_link_tag route_set: hyrax %>
+  <%= atom_feed_link_tag route_set: hyrax %>
+<% end %>
+
+<% provide :page_header do %>
+  <h1><span class="fa fa-table" aria-hidden="true"></span> M3 Profiles</h1>
+  <div class="pull-right">
+    <%#= link_to hyrax.my_import_m3_profiles_path, class: 'btn btn-primary' do %>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+      <span class="fa fa-upload" aria-hidden="true"></span>
+      <%= t(:'helpers.action.m3_profile.import_profile') %>
+    </button>
+    <% if @m3_profiles.blank? %>
+      <%= link_to hyrax.new_my_m3_profile_path, class: 'btn btn-primary' do %>
+        <span aria-hidden="true"></span> <%= t(:'helpers.action.m3_profile.create') %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <% if @m3_profiles.present? %>
+      <div class="table-responsive">
+        <table class="table table-striped datatable">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Version</th>
+              <th scope="col">Profile Type</th>
+              <th scope="col">Created At</th>
+              <th scope="col">Updated At</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @m3_profiles.order("updated_at DESC").each do |m3_profile| %>
+              <tr>
+                <!-- TODO: fix show pgs --> 
+                <td><%= m3_profile.name %></td>
+                <td><%= m3_profile.profile_version.to_f %></td>
+                <td><%= m3_profile.profile_type %></td>
+                <td><%= m3_profile.created_at.strftime("%b %d, %Y") %></td>
+                <td><%= m3_profile.updated_at.strftime("%b %d, %Y") if m3_profile.updated_at %></td>
+                <% if m3_profile == M3::Profile.current_version %>
+                  <td><%= link_to raw('<span class="glyphicon glyphicon-pencil"></span>'), hyrax.edit_my_m3_profile_path(m3_profile) %></td>
+                  <td><%= link_to raw('<span class="glyphicon glyphicon-download-alt"></span>'), hyrax.my_m3_profile_export_path(m3_profile), tagert: "_blank" %></td>
+                  <td><%= link_to raw('<span class="glyphicon glyphicon-remove"></span>'), hyrax.my_m3_profile_path(m3_profile), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                <% else %>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <% else %>
+        <p>No M3 Profiles have been created.</p>
+      <% end %>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="<%= t('hyrax.dashboard.heading_actions.close') %>"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"><%= t(:'helpers.action.m3_profile.import') %></h4>
+      </div>
+      <div class="modal-body">
+        <%= render 'import_modal' %>
+    </div>
+  </div>
+</div>
