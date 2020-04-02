@@ -1,0 +1,95 @@
+<p id="notice"><%= notice %></p>
+
+
+<div class="panel panel-default">
+  <div class="panel-body" style="width:50%;">
+    <h4> Profile: </h4>
+    <table class="table table-striped table-bordered">
+      <tr>
+        <th>Name:</th>
+        <td><%= @m3_profile.name %></td>
+      </tr>
+      <tr>
+        <th>Version:</th>
+        <td><%= @m3_profile.profile_version.to_f %></td>
+      </tr>
+      <tr>
+        <th>Profile Type:</th>
+        <td><%= @m3_profile.profile_type %></td>
+      </tr>
+      <tr>
+        <th>Responsibility:</th>
+        <td><%= @m3_profile.responsibility %></td>
+      </tr>
+      <tr>
+        <th>Responsibility Statement:</th>
+        <td><%= @m3_profile.responsibility_statement %></td>
+      </tr>
+      <tr>
+        <th>Created At:</th>
+        <td><%= @m3_profile.created_at.strftime("%b %d, %Y") %></td>
+      </tr>
+      <tr>
+        <th>Updated At:</th>
+        <td><%= @m3_profile.updated_at.strftime("%b %d, %Y") if @m3_profile.updated_at %></td>
+      </tr>
+    </table>
+    <hr>
+
+    <h4> Classes: </h4>
+    <table class="table table-striped table-bordered">
+      <% @m3_profile.classes.each do |c| %>
+        <tr>
+          <th>Display Label:</th>
+          <td><%= c.display_label %></td>
+        </tr>
+      <% end %>
+    </table>
+    <hr>
+
+    <h4> Contexts: </h4>
+    <table class="table table-striped table-bordered">
+      <% @m3_profile.classes.each do |cc| %>
+        <tr>
+          <th>Display Label:</th>
+          <td><%= cc.display_label %></td>
+        </tr>
+      <% end %>
+    </table>
+    <hr>
+
+    <h4> Properties: </h4>
+    <table class="table table-striped table-bordered">
+      <% @m3_profile.properties.each do |p| %>
+        <tr>
+          <th>Name:</th>
+          <td><%= p.name %></td>
+        </tr>
+        <tr>
+          <th>Property URI:</th>
+          <td><%= p.property_uri %></td>
+        </tr>
+        <tr>
+          <th>Cardinality Minimum:</th>
+          <td><%= p.cardinality_minimum %></td>
+        </tr>
+        <tr>
+          <th>Cardinality Maximum:</th>
+          <td><%= p.cardinality_maximum %></td>
+        </tr>
+        <tr>
+          <th>Indexing:</th>
+          <td><%= p.indexing %></td>
+        </tr>
+        <% p.texts.each do |t| %>
+          <tr>
+            <th><%= t.name %></th>
+            <td><%= t.value %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </table>
+  </div>
+</div>
+<%= link_to 'Back', my_m3_profiles_path, class: "btn btn-primary" %>
+
