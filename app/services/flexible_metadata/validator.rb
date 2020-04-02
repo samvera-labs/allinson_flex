@@ -1,4 +1,4 @@
-module M3
+module FlexibleMetadata
   class Validator
 
     def self.validate(data:, schema:, logger:)

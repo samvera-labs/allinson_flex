@@ -1,8 +1,8 @@
-## One M3::Profile per yaml file upload
+## One FlexibleMetadata::Profile per yaml file upload
 #
 require 'json_schemer'
 
-module M3
+module FlexibleMetadata
   class Importer
     class_attribute :default_logger
     self.default_logger = Rails.logger
@@ -19,7 +19,7 @@ module M3
 
     # One profile per yaml file upload
     def construct
-      M3::FlexibleMetadataConstructor.find_or_create_from(name: name, data: data)
+      FlexibleMetadata::FlexibleMetadataConstructor.find_or_create_from(name: name, data: data)
     end
 
     private
@@ -55,11 +55,11 @@ module M3
     attr_accessor :name, :data, :validator, :schema
 
     def default_validator
-      M3::Validator
+      FlexibleMetadata::Validator
     end
 
     def default_schema
-      @schema_path    = Pathname.new('m3_profile_schema.json')
+      @schema_path    = Pathname.new('flexible_metadata_profile_schema.json')
       @default_schema = JSONSchemer.schema(@schema_path)
       @default_schema
     end

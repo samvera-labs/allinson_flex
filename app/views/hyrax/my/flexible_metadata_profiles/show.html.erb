@@ -7,38 +7,38 @@
     <table class="table table-striped table-bordered">
       <tr>
         <th>Name:</th>
-        <td><%= @m3_profile.name %></td>
+        <td><%= @flexible_metadata_profile.name %></td>
       </tr>
       <tr>
         <th>Version:</th>
-        <td><%= @m3_profile.profile_version.to_f %></td>
+        <td><%= @flexible_metadata_profile.profile_version.to_f %></td>
       </tr>
       <tr>
         <th>Profile Type:</th>
-        <td><%= @m3_profile.profile_type %></td>
+        <td><%= @flexible_metadata_profile.profile_type %></td>
       </tr>
       <tr>
         <th>Responsibility:</th>
-        <td><%= @m3_profile.responsibility %></td>
+        <td><%= @flexible_metadata_profile.responsibility %></td>
       </tr>
       <tr>
         <th>Responsibility Statement:</th>
-        <td><%= @m3_profile.responsibility_statement %></td>
+        <td><%= @flexible_metadata_profile.responsibility_statement %></td>
       </tr>
       <tr>
         <th>Created At:</th>
-        <td><%= @m3_profile.created_at.strftime("%b %d, %Y") %></td>
+        <td><%= @flexible_metadata_profile.created_at.strftime("%b %d, %Y") %></td>
       </tr>
       <tr>
         <th>Updated At:</th>
-        <td><%= @m3_profile.updated_at.strftime("%b %d, %Y") if @m3_profile.updated_at %></td>
+        <td><%= @flexible_metadata_profile.updated_at.strftime("%b %d, %Y") if @flexible_metadata_profile.updated_at %></td>
       </tr>
     </table>
     <hr>
 
     <h4> Classes: </h4>
     <table class="table table-striped table-bordered">
-      <% @m3_profile.classes.each do |c| %>
+      <% @flexible_metadata_profile.classes.each do |c| %>
         <tr>
           <th>Display Label:</th>
           <td><%= c.display_label %></td>
@@ -49,7 +49,7 @@
 
     <h4> Contexts: </h4>
     <table class="table table-striped table-bordered">
-      <% @m3_profile.classes.each do |cc| %>
+      <% @flexible_metadata_profile.classes.each do |cc| %>
         <tr>
           <th>Display Label:</th>
           <td><%= cc.display_label %></td>
@@ -60,7 +60,7 @@
 
     <h4> Properties: </h4>
     <table class="table table-striped table-bordered">
-      <% @m3_profile.properties.each do |p| %>
+      <% @flexible_metadata_profile.properties.each do |p| %>
         <tr>
           <th>Name:</th>
           <td><%= p.name %></td>
@@ -91,5 +91,5 @@
     </table>
   </div>
 </div>
-<%= link_to 'Back', my_m3_profiles_path, class: "btn btn-primary" %>
+<%= link_to 'Back', my_flexible_metadata_profiles_path, class: "btn btn-primary" %>
 

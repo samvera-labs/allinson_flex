@@ -1,6 +1,6 @@
-module M3
+module FlexibleMetadata
   module PrependPermissionTemplatesController
-    include M3Helper
+    include FlexibleMetadataHelper
 
     # override (from Hyrax 2.5.0) - extend to add :metadata_context_id
     def update_params

@@ -1,4 +1,4 @@
-<% provide :page_title, t("hyrax.admin.sidebar.m3_profiles") %>
+<% provide :page_title, t("hyrax.admin.sidebar.flexible_metadata_profiles") %>
 
 <% provide :head do %>
   <%= rss_feed_link_tag route_set: hyrax %>
@@ -6,16 +6,16 @@
 <% end %>
 
 <% provide :page_header do %>
-  <h1><span class="fa fa-table" aria-hidden="true"></span> M3 Profiles</h1>
+  <h1><span class="fa fa-table" aria-hidden="true"></span> FlexibleMetadata Profiles</h1>
   <div class="pull-right">
-    <%#= link_to hyrax.my_import_m3_profiles_path, class: 'btn btn-primary' do %>
+    <%#= link_to hyrax.my_import_flexible_metadata_profiles_path, class: 'btn btn-primary' do %>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
       <span class="fa fa-upload" aria-hidden="true"></span>
-      <%= t(:'helpers.action.m3_profile.import_profile') %>
+      <%= t(:'helpers.action.flexible_metadata_profile.import_profile') %>
     </button>
-    <% if @m3_profiles.blank? %>
-      <%= link_to hyrax.new_my_m3_profile_path, class: 'btn btn-primary' do %>
-        <span aria-hidden="true"></span> <%= t(:'helpers.action.m3_profile.create') %>
+    <% if @flexible_metadata_profiles.blank? %>
+      <%= link_to hyrax.new_my_flexible_metadata_profile_path, class: 'btn btn-primary' do %>
+        <span aria-hidden="true"></span> <%= t(:'helpers.action.flexible_metadata_profile.create') %>
       <% end %>
     <% end %>
   </div>
@@ -23,7 +23,7 @@
 
 <div class="panel panel-default">
   <div class="panel-body">
-    <% if @m3_profiles.present? %>
+    <% if @flexible_metadata_profiles.present? %>
       <div class="table-responsive">
         <table class="table table-striped datatable">
           <thead>
@@ -36,18 +36,18 @@
             </tr>
           </thead>
           <tbody>
-            <% @m3_profiles.order("updated_at DESC").each do |m3_profile| %>
+            <% @flexible_metadata_profiles.order("updated_at DESC").each do |flexible_metadata_profile| %>
               <tr>
                 <!-- TODO: fix show pgs --> 
-                <td><%= m3_profile.name %></td>
-                <td><%= m3_profile.profile_version.to_f %></td>
-                <td><%= m3_profile.profile_type %></td>
-                <td><%= m3_profile.created_at.strftime("%b %d, %Y") %></td>
-                <td><%= m3_profile.updated_at.strftime("%b %d, %Y") if m3_profile.updated_at %></td>
-                <% if m3_profile == M3::Profile.current_version %>
-                  <td><%= link_to raw('<span class="glyphicon glyphicon-pencil"></span>'), hyrax.edit_my_m3_profile_path(m3_profile) %></td>
-                  <td><%= link_to raw('<span class="glyphicon glyphicon-download-alt"></span>'), hyrax.my_m3_profile_export_path(m3_profile), tagert: "_blank" %></td>
-                  <td><%= link_to raw('<span class="glyphicon glyphicon-remove"></span>'), hyrax.my_m3_profile_path(m3_profile), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                <td><%= flexible_metadata_profile.name %></td>
+                <td><%= flexible_metadata_profile.profile_version.to_f %></td>
+                <td><%= flexible_metadata_profile.profile_type %></td>
+                <td><%= flexible_metadata_profile.created_at.strftime("%b %d, %Y") %></td>
+                <td><%= flexible_metadata_profile.updated_at.strftime("%b %d, %Y") if flexible_metadata_profile.updated_at %></td>
+                <% if flexible_metadata_profile == FlexibleMetadata::Profile.current_version %>
+                  <td><%= link_to raw('<span class="glyphicon glyphicon-pencil"></span>'), hyrax.edit_my_flexible_metadata_profile_path(flexible_metadata_profile) %></td>
+                  <td><%= link_to raw('<span class="glyphicon glyphicon-download-alt"></span>'), hyrax.my_flexible_metadata_profile_export_path(flexible_metadata_profile), tagert: "_blank" %></td>
+                  <td><%= link_to raw('<span class="glyphicon glyphicon-remove"></span>'), hyrax.my_flexible_metadata_profile_path(flexible_metadata_profile), method: :delete, data: { confirm: 'Are you sure?' } %></td>
                 <% else %>
                   <td></td>
                   <td></td>
@@ -59,7 +59,7 @@
         </table>
       </div>
       <% else %>
-        <p>No M3 Profiles have been created.</p>
+        <p>No FLexibleMetadata Profiles have been created.</p>
       <% end %>
   </div>
 </div>
@@ -73,7 +73,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="<%= t('hyrax.dashboard.heading_actions.close') %>"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><%= t(:'helpers.action.m3_profile.import') %></h4>
+        <h4 class="modal-title"><%= t(:'helpers.action.flexible_metadata_profile.import') %></h4>
       </div>
       <div class="modal-body">
         <%= render 'import_modal' %>

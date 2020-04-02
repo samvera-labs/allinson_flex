@@ -1,15 +1,15 @@
-module M3
+module FlexibleMetadata
   class Profile < ApplicationRecord
-    self.table_name = 'm3_profiles'
+    self.table_name = 'flexible_metadata_profiles'
 
     before_destroy :check_for_works
     # flexible metadata objects
-    has_many :m3_contexts, class_name: 'M3::Context', foreign_key: 'm3_profile_id', dependent: :destroy
-    has_many :dynamic_schemas, class_name: 'M3::DynamicSchema', foreign_key: 'm3_profile_id', dependent: :destroy
+    has_many :flexible_metadata_contexts, class_name: 'FlexibleMetadata::Context', foreign_key: 'flexible_metadata_profile_id', dependent: :destroy
+    has_many :dynamic_schemas, class_name: 'FlexibleMetadata::DynamicSchema', foreign_key: 'flexible_metadata_profile_id', dependent: :destroy
     # profile elements
-    has_many :classes, class_name: 'M3::ProfileClass', foreign_key: 'm3_profile_id', dependent: :destroy
-    has_many :contexts, class_name: 'M3::ProfileContext', foreign_key: 'm3_profile_id', dependent: :destroy
-    has_many :properties, class_name: 'M3::ProfileProperty', foreign_key: 'm3_profile_id', dependent: :destroy
+    has_many :classes, class_name: 'FlexibleMetadata::ProfileClass', foreign_key: 'flexible_metadata_profile_id', dependent: :destroy
+    has_many :contexts, class_name: 'FlexibleMetadata::ProfileContext', foreign_key: 'flexible_metadata_profile_id', dependent: :destroy
+    has_many :properties, class_name: 'FlexibleMetadata::ProfileProperty', foreign_key: 'flexible_metadata_profile_id', dependent: :destroy
     accepts_nested_attributes_for :classes, :contexts, :properties
     # serlializations
     serialize :profile
@@ -17,13 +17,13 @@ module M3
     validates :name, :profile_version, :responsibility, presence: true
     validates :profile_version, uniqueness: true
     # callbacks
-    before_create :add_date_modified, :add_m3_version
+    before_create :add_date_modified, :add_flexible_metadata_version
     after_create :add_profile_data
 
     attr_accessor :profile_data
 
     def self.current_version
-      M3::Profile.order("created_at asc").last
+      FlexibleMetadata::Profile.order("created_at asc").last
     end
 
     def available_classes
@@ -31,7 +31,7 @@ module M3
       Hyrax.config.curation_concerns.map(&:to_s)
     end
 
-    # @todo, extend to full set in M3
+    # @todo, extend to full set in FlexibleMetadata
     def available_text_names
       [
         ['Display Label', 'display_label']
@@ -58,8 +58,8 @@ module M3
     end
 
     # @todo make this configurable
-    def add_m3_version
-      self.m3_version = '1.0.beta2'.freeze
+    def addflexible_metadata_version
+      self.flexible_metadata_version = '1.0.beta2'.freeze
     end
 
     def add_profile_data
@@ -68,7 +68,7 @@ module M3
     end
 
     def profile_data
-      @profile_data ||= M3::FlexibleMetadataConstructor.build_profile_data(
+      @profile_data ||= FlexibleMetadata::FlexibleMetadataConstructor.build_profile_data(
         profile: self
       )
     end
@@ -92,8 +92,8 @@ module M3
     end
 
     def check_for_works
-      m3_contexts.each do |m3_context|
-        m3_context.admin_set_ids.each do |admin_set_id|
+      flexible_metadata_contexts.each do |flexible_metadata_context|
+        flexible_metadata_context.admin_set_ids.each do |admin_set_id|
           next unless AdminSet.find(admin_set_id).members.count > 0
           errors.add(
             :base,
