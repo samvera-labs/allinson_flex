@@ -10,7 +10,7 @@ module FlexibleMetadata
       if profile_match.blank?
         profile = FlexibleMetadata::Profile.new(
           name:                       profile_name,
-          flexible_metadata_version:  data.dig('flexible_metadata_version'),
+          m3_version:  data.dig('m3_version'),
           profile_version:            data.dig('profile', 'version'),
           responsibility:             data.dig('profile', 'responsibility'),
           responsibility_statement:   data.dig('profile', 'responsibility_statement'),
@@ -46,7 +46,7 @@ module FlexibleMetadata
 
     def self.build_profile_data(profile:)
       {
-        'flexible_metadata_version' => profile.flexible_metadata_version,
+        'm3_version' => profile.m3_version,
         'profile' => {
           'responsibility' => profile.responsibility,
           'responsibility_statement' => profile.responsibility_statement,
@@ -197,10 +197,10 @@ module FlexibleMetadata
 
       profile.classes.each do |cl|
         profile.dynamic_schemas.build(
-            flexible_metadata_class: cl.name,
-            flexible_metadata_context: profile.flexible_metadata_contexts.build(
+            m3_class: cl.name,
+            m3_context: profile.m3_contexts.build(
               name: 'default', 
-              flexible_metadata_profile_context: cxt),
+              m3_profile_context: cxt),
             schema: build_schema(cl)
           )
       end
@@ -211,10 +211,10 @@ module FlexibleMetadata
       profile.classes.each do |cl|
         cl.contexts.each do |cl_cxt|
           profile.dynamic_schemas.build(
-            flexible_metadata_class: cl.name,
-            flexible_metadata_context: profile.flexible_metadata_contexts.build(
+            m3_class: cl.name,
+            m3_context: profile.m3_contexts.build(
               name: cl_cxt.name, 
-              flexible_metadata_profile_context: cl_cxt),
+              m3_profile_context: cl_cxt),
             schema: build_schema(cl, cl_cxt)
           )
         end
@@ -228,7 +228,7 @@ module FlexibleMetadata
         'display_label' => flexible_metadata_class.display_label,
         'properties' =>
           (flexible_metadata_context || flexible_metadata_class).available_properties.map do |prop|
-            property = prop.flexible_metadata_profile_property
+            property = prop.m3_profile_property
             {
               property.name => {
                 'predicate' => property.property_uri,
@@ -254,10 +254,10 @@ module FlexibleMetadata
 
     def self.display_label(property, flexible_metadata_class, flexible_metadata_context = nil)
       unless flexible_metadata_context.nil?
-        context_label = flexible_metadata_context.context_texts.map { |t| t.value if t.name == 'display_label' && t.flexible_metadata_profile_property_id == property.id }.first
+        context_label = flexible_metadata_context.context_texts.map { |t| t.value if t.name == 'display_label' && t.m3_profile_property_id == property.id }.first
         return context_label unless context_label.blank?
       end
-      class_label = flexible_metadata_class.class_texts.map { |t| t.value if t.name == 'display_label' && t.flexible_metadata_profile_property_id == property.id }.first
+      class_label = flexible_metadata_class.class_texts.map { |t| t.value if t.name == 'display_label' && t.m3_profile_property_id == property.id }.first
       return class_label unless class_label.blank?
       property.texts.map { |t| t.value if t.name == 'display_label' && t.textable_type.nil? }.compact.first
     end
