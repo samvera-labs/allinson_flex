@@ -1,9 +1,9 @@
 
 # override (from Hyrax 2.5.0) - new module
-module M3
+module FlexibleMetadata
   module DynamicControllerBehavior
     extend ActiveSupport::Concern
-    include M3Helper
+    include FlexibleMetadataHelper
 
     # @todo admin_set will be incoming with the work_type selection
     # Retrieve the dynamic_schema_service for the curation_concern

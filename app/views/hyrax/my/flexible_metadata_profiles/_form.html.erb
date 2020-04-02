@@ -1,10 +1,10 @@
 <div class="panel-body">
-  <% if m3_profile && m3_profile.errors.any? %>
+  <% if flexible_metadata_profile && flexible_metadata_profile.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(m3_profile.errors.count, "error") %> prohibited this m3_profile from being saved:</h2>
+      <h2><%= pluralize(flexible_metadata_profile.errors.count, "error") %> prohibited this flexible_metadata_profile from being saved:</h2>
 
       <ul>
-        <% m3_profile.errors.full_messages.each do |message| %>
+        <% flexible_metadata_profile.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
@@ -24,7 +24,7 @@
   <h4>Classes:</h4>
   <%= form.fields_for :classes do |c| %>
     <%= c.label :name %>
-    <%= c.select(:name, @m3_profile.available_classes, { include_blank: true }, { class: "form-control" }) %>
+    <%= c.select(:name, @flexible_metadata_profile.available_classes, { include_blank: true }, { class: "form-control" }) %>
     <%= c.input :display_label %><hr>
   <% end %>
 
@@ -41,11 +41,11 @@
     <%= p.input :cardinality_minimum %>
     <%= p.input :cardinality_maximum %>
     <%= p.label :indexing %>
-    <%= p.select(:indexing, M3::ProfileProperty::INDEXING, { include_hidden: false }, { multiple: true, class: "form-control" }) %><hr>
+    <%= p.select(:indexing, FlexibleMetadata::ProfileProperty::INDEXING, { include_hidden: false }, { multiple: true, class: "form-control" }) %><hr>
     <h4>Text:</h4>
     <%= p.fields_for :texts do |t| %>
       <%= t.label :name %>
-      <%= t.select(:name, @m3_profile.available_text_names, { include_blank: true }, { class: "form-control" }) %>
+      <%= t.select(:name, @flexible_metadata_profile.available_text_names, { include_blank: true }, { class: "form-control" }) %>
       <%= t.input :value %>
     <% end %>
   <% end %>

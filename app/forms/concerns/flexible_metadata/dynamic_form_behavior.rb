@@ -1,12 +1,12 @@
 
 # override (from Hyrax 2.5.0) - new module
-module M3
+module FlexibleMetadata
   module DynamicFormBehavior
     extend ActiveSupport::Concern
 
     included do
       # Set the terms at class level to the full default set - this will be used to determine permitted parameters
-      self.terms = M3::DynamicSchemaService.default_properties(
+      self.terms = FlexibleMetadata::DynamicSchemaService.default_properties(
         work_class_name: model_class.to_s
       )
       self.required_fields = []
