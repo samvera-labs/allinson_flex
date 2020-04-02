@@ -1,15 +1,15 @@
 module FlexibleMetadata
   class Profile < ApplicationRecord
-    self.table_name = 'flexible_metadata_profiles'
+    self.table_name = 'm3_profiles'
 
     before_destroy :check_for_works
     # flexible metadata objects
-    has_many :flexible_metadata_contexts, class_name: 'FlexibleMetadata::Context', foreign_key: 'flexible_metadata_profile_id', dependent: :destroy
-    has_many :dynamic_schemas, class_name: 'FlexibleMetadata::DynamicSchema', foreign_key: 'flexible_metadata_profile_id', dependent: :destroy
+    has_many :flexible_metadata_contexts, class_name: 'FlexibleMetadata::Context', foreign_key: 'm3_profile_id', dependent: :destroy
+    has_many :dynamic_schemas, class_name: 'FlexibleMetadata::DynamicSchema', foreign_key: 'm3_profile_id', dependent: :destroy
     # profile elements
-    has_many :classes, class_name: 'FlexibleMetadata::ProfileClass', foreign_key: 'flexible_metadata_profile_id', dependent: :destroy
-    has_many :contexts, class_name: 'FlexibleMetadata::ProfileContext', foreign_key: 'flexible_metadata_profile_id', dependent: :destroy
-    has_many :properties, class_name: 'FlexibleMetadata::ProfileProperty', foreign_key: 'flexible_metadata_profile_id', dependent: :destroy
+    has_many :classes, class_name: 'FlexibleMetadata::ProfileClass', foreign_key: 'm3_profile_id', dependent: :destroy
+    has_many :contexts, class_name: 'FlexibleMetadata::ProfileContext', foreign_key: 'm3_profile_id', dependent: :destroy
+    has_many :properties, class_name: 'FlexibleMetadata::ProfileProperty', foreign_key: 'm3_profile_id', dependent: :destroy
     accepts_nested_attributes_for :classes, :contexts, :properties
     # serlializations
     serialize :profile
@@ -17,7 +17,7 @@ module FlexibleMetadata
     validates :name, :profile_version, :responsibility, presence: true
     validates :profile_version, uniqueness: true
     # callbacks
-    before_create :add_date_modified, :add_flexible_metadata_version
+    before_create :add_date_modified, :add_m3_version
     after_create :add_profile_data
 
     attr_accessor :profile_data
@@ -58,8 +58,8 @@ module FlexibleMetadata
     end
 
     # @todo make this configurable
-    def addflexible_metadata_version
-      self.flexible_metadata_version = '1.0.beta2'.freeze
+    def add_m3_version
+      self.m3_version = '1.0.beta2'.freeze
     end
 
     def add_profile_data
