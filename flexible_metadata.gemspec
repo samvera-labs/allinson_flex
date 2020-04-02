@@ -9,8 +9,8 @@ require 'flexible_metadata/version'
 Gem::Specification.new do |s|
   s.name        = 'flexible_metadata'
   s.version     = FlexibleMetadata::VERSION
-  s.authors     = ['Rob Kaufman']
-  s.email       = ['rob@notch8.com']
+  s.authors     = ['Julie Allinson', 'JP Engstrom']
+  s.email       = ['julie@notch8.com']
   s.homepage    = 'https://github.com/notch8/flexible_metadata'
   s.summary     = 'Summary of Flexible Metadata.'
   s.description = 'Description of Flexible Metadata.'
@@ -24,4 +24,6 @@ Gem::Specification.new do |s|
 
   # TODO: ADD RUBOCOP AS DEPENDENCY? Might need to downgrade version for hyrax?
   s.add_development_dependency 'bixby'
+  s.add_development_dependency 'rspec-rails', '~> 3.1'
+  s.add_development_dependency 'engine_cart', '~> 2.2'
 end
