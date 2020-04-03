@@ -1,4 +1,12 @@
 # engine_cart test app
 .internal_test_app
 
-tmp/
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+.DS_Store
+
+
