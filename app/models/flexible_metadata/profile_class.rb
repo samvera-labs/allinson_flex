@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FlexibleMetadata
   class ProfileClass < ApplicationRecord
     self.table_name = 'm3_profile_classes'
@@ -11,6 +13,5 @@ module FlexibleMetadata
     accepts_nested_attributes_for :contexts, :class_texts
 
     validates :name, :display_label, presence: true
-
   end
 end

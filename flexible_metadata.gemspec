@@ -21,9 +21,13 @@ Gem::Specification.new do |s|
   s.files = Dir['{lib}/**/*', 'LICENSE', 'README.md']
 
   s.add_dependency 'rails', '>= 5.1.6'
+  s.add_dependency 'json_schemer'
 
   # TODO: ADD RUBOCOP AS DEPENDENCY? Might need to downgrade version for hyrax?
   s.add_development_dependency 'bixby'
   s.add_development_dependency 'rspec-rails', '~> 3.1'
   s.add_development_dependency 'engine_cart', '~> 2.2'
+  s.add_development_dependency 'factory_bot'
+  s.add_development_dependency 'shoulda-matchers', '~> 3.1'
+  s.add_development_dependency 'database_cleaner', '~> 1.3'
 end

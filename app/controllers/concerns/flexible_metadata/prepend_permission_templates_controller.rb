@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FlexibleMetadata
   module PrependPermissionTemplatesController
     include FlexibleMetadataHelper

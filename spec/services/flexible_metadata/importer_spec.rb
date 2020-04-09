@@ -1,8 +1,10 @@
-require 'rails_helper'
+# frozen_string_literal: true
+
+require 'spec_helper'
 
 RSpec.describe FlexibleMetadata::Importer do
   describe '#load_profile_from_path' do
-    let(:profile) { FlexibleMetadata::Importer.load_profile_from_path(path: File.join(RSpec.configuration.fixture_path, 'files/yaml_example.yaml')) }
+    let(:profile) { described_class.load_profile_from_path(path: File.join(RSpec.configuration.fixture_path, 'files/yaml_example.yaml')) }
 
     it 'returns valid with a valid path' do
       expect(profile)
@@ -10,12 +12,12 @@ RSpec.describe FlexibleMetadata::Importer do
     end
 
     it 'returns valid without a specified path' do
-      expect(FlexibleMetadata::Importer.load_profile_from_path)
+      expect(described_class.load_profile_from_path)
         .to be_valid
     end
 
     it 'raises an error with an invalid file' do
-      expect { FlexibleMetadata::Importer.load_profile_from_path(path: 'app/models/flexible_metadata/profile.rb') }
+      expect { described_class.load_profile_from_path(path: 'app/models/flexible_metadata/profile.rb') }
         .to raise_error(FlexibleMetadata::Importer::YamlSyntaxError)
     end
 
@@ -42,11 +44,11 @@ RSpec.describe FlexibleMetadata::Importer do
 
   describe 'class attributes' do
     it '#default_logger' do
-      FlexibleMetadata::Importer.default_logger == Rails.logger
+      described_class.default_logger == Rails.logger
     end
 
     it '#default_config_file' do
-      path_to_file = FlexibleMetadata::Importer.default_config_file
+      path_to_file = described_class.default_config_file
       expect(path_to_file).to include('config/metadata_profiles/')
     end
   end

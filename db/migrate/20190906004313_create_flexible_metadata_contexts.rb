@@ -1,4 +1,4 @@
-class CreateM3Contexts < ActiveRecord::Migration[5.1]
+class CreateFlexibleMetadataContexts < ActiveRecord::Migration[5.1]
   def change
     create_table :flexible_metadata_contexts, id: :integer do |t|
       t.string :name

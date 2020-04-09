@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 # override (from Hyrax 2.5.0) - new module
 module FlexibleMetadataHelper
-
   # Retrieve the selected context for the AdminSet
   def selected_context(admin_set)
     return '' if admin_set.metadata_context.blank?

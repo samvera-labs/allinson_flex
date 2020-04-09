@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FlexibleMetadata
   class ProfileText < ApplicationRecord
     self.table_name = 'm3_profile_texts'

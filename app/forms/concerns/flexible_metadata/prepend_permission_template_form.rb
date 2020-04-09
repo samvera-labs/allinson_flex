@@ -1,11 +1,10 @@
+# frozen_string_literal: true
 
 module FlexibleMetadata
   module PrependPermissionTemplateForm
     # override (from Hyrax 2.5.0) - new method to delegate to available_contexts
     # delegate :available_contexts, to: :metadata_context_class
-    def available_contexts
-      metadata_context_class.available_contexts
-    end
+    delegate :available_contexts, to: :metadata_context_class
 
     # override (from Hyrax 2.5.0) - new method to setup the metadata_context_class
     def metadata_context_class
@@ -50,32 +49,32 @@ module FlexibleMetadata
 
     private
 
-    # override (from Hyrax 2.5.0) - extend method to add metadata_context
-    # @return [String]
-    def tab_to_update
-      return 'metadata_context' if attributes.key?(:metadata_context_id)
-      super
-    end
-
-    # override (from Hyrax 2.5.0) - new method to add the admin_set_id to the FlexibleMetadata::Context
-    # @return [Nil]
-    def update_metadata_context
-      if attributes['metadata_context_id'].present?
-        remove_metadata_context
-        metadata_context = FlexibleMetadata::Context.find(attributes['metadata_context_id'])
-        metadata_context.admin_set_ids += [source_model.id] unless metadata_context.admin_set_ids.include?(source_model.id)
-        metadata_context.save
+      # override (from Hyrax 2.5.0) - extend method to add metadata_context
+      # @return [String]
+      def tab_to_update
+        return 'metadata_context' if attributes.key?(:metadata_context_id)
+        super
       end
-      nil
-    end
 
-    # override (from Hyrax 2.5.0) - new method to remove admin_set_id from any other FlexibleMetadata::Context
-    # Remove the metadata context if this is an update
-    def remove_metadata_context
-      FlexibleMetadata::Context.where.not(admin_set_ids: [nil, []], id: attributes['metadata_context_id']).each do | cxt |
-        cxt.admin_set_ids -= [source_model.id] if cxt.admin_set_ids.include?(source_model.id)
-        cxt.save
+      # override (from Hyrax 2.5.0) - new method to add the admin_set_id to the FlexibleMetadata::Context
+      # @return [Nil]
+      def update_metadata_context
+        if attributes['metadata_context_id'].present?
+          remove_metadata_context
+          metadata_context = FlexibleMetadata::Context.find(attributes['metadata_context_id'])
+          metadata_context.admin_set_ids += [source_model.id] unless metadata_context.admin_set_ids.include?(source_model.id)
+          metadata_context.save
+        end
+        nil
       end
-    end
+
+      # override (from Hyrax 2.5.0) - new method to remove admin_set_id from any other FlexibleMetadata::Context
+      # Remove the metadata context if this is an update
+      def remove_metadata_context
+        FlexibleMetadata::Context.where.not(admin_set_ids: [nil, []], id: attributes['metadata_context_id']).each do |cxt|
+          cxt.admin_set_ids -= [source_model.id] if cxt.admin_set_ids.include?(source_model.id)
+          cxt.save
+        end
+      end
   end
 end

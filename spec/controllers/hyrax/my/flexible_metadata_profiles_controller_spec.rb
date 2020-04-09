@@ -1,4 +1,6 @@
-require 'rails_helper'
+# frozen_string_literal: true
+
+require 'spec_helper'
 
 RSpec.describe Hyrax::My::FlexibleMetadataProfilesController, type: :controller do
   routes { Hyrax::Engine.routes }

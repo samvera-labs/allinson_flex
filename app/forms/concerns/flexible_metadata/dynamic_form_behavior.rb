@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 # override (from Hyrax 2.5.0) - new module
 module FlexibleMetadata
@@ -20,6 +21,5 @@ module FlexibleMetadata
       self.class.required_fields = controller.dynamic_schema_service.required_properties
       super(model, current_ability, controller)
     end
-
   end
 end

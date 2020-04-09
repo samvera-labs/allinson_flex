@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 # override (from Hyrax 2.5.0) - new module
 module FlexibleMetadata
   module DynamicIndexerBehavior
-
     # override (from Hyrax 2.5.0) - provide custom generate_solr_document
     # Use the dynamic schema for indexing
     def generate_solr_document
