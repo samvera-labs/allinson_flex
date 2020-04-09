@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe FlexibleMetadata::Profile, type: :model do
@@ -7,19 +9,19 @@ RSpec.describe FlexibleMetadata::Profile, type: :model do
     expect(profile).to be_valid
   end
   describe 'validations' do
-    it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:profile_version) }
-    it { should validate_presence_of(:responsibility) }
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:profile_version) }
+    it { is_expected.to validate_presence_of(:responsibility) }
   end
   describe 'associations' do
-    it { should have_many(:dynamic_schemas).class_name('FlexibleMetadata::DynamicSchema') }
-    it { should have_many(:flexible_metadata_contexts).class_name('FlexibleMetadata::Context') }
-    it { should have_many(:classes).class_name('FlexibleMetadata::ProfileClass') }
-    it { should have_many(:contexts).class_name('FlexibleMetadata::ProfileContext') }
-    it { should have_many(:properties).class_name('FlexibleMetadata::ProfileProperty') }
+    it { is_expected.to have_many(:dynamic_schemas).class_name('FlexibleMetadata::DynamicSchema') }
+    it { is_expected.to have_many(:flexible_metadata_contexts).class_name('FlexibleMetadata::Context') }
+    it { is_expected.to have_many(:classes).class_name('FlexibleMetadata::ProfileClass') }
+    it { is_expected.to have_many(:contexts).class_name('FlexibleMetadata::ProfileContext') }
+    it { is_expected.to have_many(:properties).class_name('FlexibleMetadata::ProfileProperty') }
   end
   describe 'serializations' do
-    it { should serialize(:profile) }
+    it { is_expected.to serialize(:profile) }
   end
   describe 'methods' do
     before do
@@ -74,7 +76,7 @@ RSpec.describe FlexibleMetadata::Profile, type: :model do
       )
     end
     it '#date_modified to be set' do
-      expect(profile.date_modified).to_not be_empty
+      expect(profile.date_modified).not_to be_empty
     end
   end
 end

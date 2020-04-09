@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'hyrax/my/flexible_metadata_profiles/index.html.erb', type: :view do

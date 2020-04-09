@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FlexibleMetadata
   class Context < ApplicationRecord
     self.table_name = 'flexible_metadata_contexts'

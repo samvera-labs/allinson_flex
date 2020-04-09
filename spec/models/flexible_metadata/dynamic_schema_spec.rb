@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe FlexibleMetadata::DynamicSchema, type: :model do
@@ -7,14 +9,14 @@ RSpec.describe FlexibleMetadata::DynamicSchema, type: :model do
     expect(dynamic_schema).to be_valid
   end
   describe 'validations' do
-    it { should validate_presence_of(:flexible_metadata_class) }
-    it { should validate_presence_of(:schema) }
+    it { is_expected.to validate_presence_of(:flexible_metadata_class) }
+    it { is_expected.to validate_presence_of(:schema) }
   end
   describe 'associations' do
-    it { should belong_to(:flexible_metadata_context).class_name('FlexibleMetadata::Context') }
-    it { should belong_to(:flexible_metadata_profile).class_name('FlexibleMetadata::Profile') }
+    it { is_expected.to belong_to(:flexible_metadata_context).class_name('FlexibleMetadata::Context') }
+    it { is_expected.to belong_to(:flexible_metadata_profile).class_name('FlexibleMetadata::Profile') }
   end
   describe 'serializations' do
-    it { should serialize(:schema) }
+    it { is_expected.to serialize(:schema) }
   end
 end

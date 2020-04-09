@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FlexibleMetadata
   class DynamicSchema < ApplicationRecord
     belongs_to :flexible_metadata_context, class_name: 'FlexibleMetadata::Context'
@@ -9,13 +11,13 @@ module FlexibleMetadata
 
     private
 
-    def check_for_works
-      return if self.flexible_metadata_class.constantize.where(dynamic_schema: "#{self.id}").blank?
+      def check_for_works
+        return if flexible_metadata_class.constantize.where(dynamic_schema: id.to_s).blank?
         errors.add(
           :base,
-          "There are works using #{self.name}. This dynamic_schema cannot be deleted."
+          "There are works using #{name}. This dynamic_schema cannot be deleted."
         )
         throw :abort
-    end
+      end
   end
 end
