@@ -1,0 +1,45 @@
+#-------------------
+# FlexibleMetadata Metadata Model
+#-------------------
+
+# ESSI Sample Profile (see https://github.com/samvera-labs/houndstooth/tree/context)
+
+flexible_metadata_version: "1.0.beta2"
+
+# Administrative information about the profile/model
+
+profile:
+  responsibility: https://indiana.edu/
+  responsibility_statement: Indiana University
+  date_modified: "2019-07-28"
+  type: concept
+  version: 0.1
+
+classes:
+  Image:
+    display_label: "Image Example"
+    contexts:
+      - "flexible_context"
+
+contexts:
+  flexible_context:
+    display_label: "Flexible Work Example"
+
+properties:
+  title:
+    display_label:
+      default: "Title"
+      Image: "Title for Work Type"
+      flexible_context: "Title in Context"
+    property_uri: http://purl.org/dc/terms/title
+    available_on:
+      class:
+        - Image
+      context:
+        - flexible_context
+    cardinality:
+      minimum: 1
+    index_documentation: "Title should be indexed as searchable and displayable."
+    indexing:
+      - "stored_searchable"
+      - "facetable"
