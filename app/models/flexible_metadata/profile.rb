@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FlexibleMetadata
   class Profile < ApplicationRecord
     self.table_name = 'm3_profiles'
@@ -59,7 +61,7 @@ module FlexibleMetadata
 
     # @todo make this configurable
     def add_m3_version
-      self.m3_version = '1.0.beta2'.freeze
+      self.m3_version = '1.0.beta2'
     end
 
     def add_profile_data
@@ -74,35 +76,34 @@ module FlexibleMetadata
     end
 
     def gather_errors
-      self.errors[:base] + properties_errors + contexts_errors + classes_errors
+      errors[:base] + properties_errors + contexts_errors + classes_errors
     end
 
     private
 
-    def properties_errors
-      self.properties.collect { |p| p.errors[:base] unless p.errors[:base].blank? }.compact.flatten
-    end
+      def properties_errors
+        properties.collect { |p| p.errors[:base] unless p.errors[:base].blank? }.compact.flatten
+      end
 
-    def contexts_errors
-      self.classes.collect { |cl| cl.errors[:base] unless cl.errors[:base].blank? }.compact.flatten
-    end
+      def contexts_errors
+        classes.collect { |cl| cl.errors[:base] unless cl.errors[:base].blank? }.compact.flatten
+      end
 
-    def classes_errors
-      self.contexts.collect { |cxt| cxt.errors[:base] unless cxt.errors[:base].blank? }.compact.flatten
-    end
+      def classes_errors
+        contexts.collect { |cxt| cxt.errors[:base] unless cxt.errors[:base].blank? }.compact.flatten
+      end
 
-    def check_for_works
-      flexible_metadata_contexts.each do |flexible_metadata_context|
-        flexible_metadata_context.admin_set_ids.each do |admin_set_id|
-          next unless AdminSet.find(admin_set_id).members.count > 0
-          errors.add(
-            :base,
-            'A Profile with associated works cannot be destroyed.'
-          )
-          throw :abort
+      def check_for_works
+        flexible_metadata_contexts.each do |flexible_metadata_context|
+          flexible_metadata_context.admin_set_ids.each do |admin_set_id|
+            next unless AdminSet.find(admin_set_id).members.count > 0
+            errors.add(
+              :base,
+              'A Profile with associated works cannot be destroyed.'
+            )
+            throw :abort
+          end
         end
       end
-    end
-
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FlexibleMetadata
   class ProfileContext < ApplicationRecord
     self.table_name = 'm3_profile_contexts'

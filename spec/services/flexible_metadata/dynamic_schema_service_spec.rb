@@ -1,4 +1,6 @@
-require 'rails_helper'
+# frozen_string_literal: true
+
+require 'spec_helper'
 
 RSpec.describe FlexibleMetadata::DynamicSchemaService do
   let(:admin_set_id) { AdminSet.find_or_create_default_admin_set_id }
@@ -40,7 +42,6 @@ RSpec.describe FlexibleMetadata::DynamicSchemaService do
   end
 
   describe 'class methods' do
-
     before do
       allow(described_class).to receive(:schema).with(work_class_name: Image).and_return(default_dynamic_schema.schema)
     end
@@ -62,10 +63,9 @@ RSpec.describe FlexibleMetadata::DynamicSchemaService do
   end
 
   describe 'instance methods' do
-
     context 'for indexers' do
       it 'returns the fields to index' do
-        expect(service.indexing_properties).to eq({:dynamic_schema=>["dynamic_schema_tesim"], :title=>["title_tesim", "title_ssm"]})
+        expect(service.indexing_properties).to eq(dynamic_schema: ["dynamic_schema_tesim"], title: ["title_tesim", "title_ssm"])
       end
     end
 
@@ -80,7 +80,7 @@ RSpec.describe FlexibleMetadata::DynamicSchemaService do
 
     context 'for views' do
       it 'returns the view properties for drawing on _attributes.html.erb' do
-        expect(service.view_properties).to eq({ title: { label: 'Title in Context'}})
+        expect(service.view_properties).to eq(title: { label: 'Title in Context' })
       end
     end
 

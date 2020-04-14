@@ -1,5 +1,6 @@
-FactoryBot.define do
+# frozen_string_literal: true
 
+FactoryBot.define do
   factory :flexible_metadata_profile, class: FlexibleMetadata::Profile do
     name { "Indiana University" }
     sequence(:profile_version) { |n| n }
@@ -26,17 +27,20 @@ FactoryBot.define do
   factory :flexible_metadata_profile_property, class: FlexibleMetadata::ProfileProperty do
     name            { "title" }
     indexing        { ['stored_searchable'] }
-    available_on_classes { [ FactoryBot.build(:flexible_metadata_profile_class) ] }
-    available_on_contexts { [ FactoryBot.build(:flexible_metadata_profile_context) ] }
-    texts {[
-      FactoryBot.build(:flexible_metadata_profile_text),
-      FactoryBot.build(:flexible_metadata_profile_text_for_class),
-      FactoryBot.build(:flexible_metadata_profile_text_for_context)]}
+    available_on_classes { [FactoryBot.build(:flexible_metadata_profile_class)] }
+    available_on_contexts { [FactoryBot.build(:flexible_metadata_profile_context)] }
+    texts do
+      [
+        FactoryBot.build(:flexible_metadata_profile_text),
+        FactoryBot.build(:flexible_metadata_profile_text_for_class),
+        FactoryBot.build(:flexible_metadata_profile_text_for_context)
+      ]
+    end
   end
 
   factory :flexible_metadata_profile_text, class: FlexibleMetadata::ProfileText do
-    name            { "display_label" }
-    value            { "Title" }
+    name { "display_label" }
+    value { "Title" }
   end
 
   factory :flexible_metadata_profile_text_for_class, class: FlexibleMetadata::ProfileText do
@@ -46,6 +50,6 @@ FactoryBot.define do
 
   factory :flexible_metadata_profile_text_for_context, class: FlexibleMetadata::ProfileText do
     name            { "display_label" }
-    value            { "Title in Context" }
+    value { "Title in Context" }
   end
 end
