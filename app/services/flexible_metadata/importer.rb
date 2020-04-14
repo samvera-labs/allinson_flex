@@ -9,7 +9,7 @@ module FlexibleMetadata
     class_attribute :default_logger
     self.default_logger = Rails.logger
     class_attribute :default_config_file
-    self.default_config_file = Dir[File.join(Rails.root, 'config', 'metadata_profiles', '*.ya*ml').to_s].first # TODO: better solution that .first?
+    self.default_config_file = Dir[File.join(Rails.root, 'config', 'metadata_profile', '*.ya*ml').to_s].first # TODO: better solution that .first?
 
     def self.load_profile_from_path(path: '', logger: default_logger)
       profile_config_filename = File.exist?(path) ? path : default_config_file
@@ -61,7 +61,7 @@ module FlexibleMetadata
       end
 
       def default_schema
-        @schema_path    = Pathname.new('flexible_metadata_profile_schema.json')
+        @schema_path    = Pathname.new(FlexibleMetadata.m3_schema_path)
         @default_schema = JSONSchemer.schema(@schema_path)
         @default_schema
       end

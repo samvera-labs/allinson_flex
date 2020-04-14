@@ -1,0 +1,9 @@
+en:
+  flexible_metadata:
+    index:
+      profiles: Flexible Metadata Profiles
+    dashboard:
+      profiles: Flexible Metadata Profiles
+    admin:
+      sidebar:
+        profiles: Metadata Profiles

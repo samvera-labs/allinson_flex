@@ -1,20 +1,14 @@
-<% provide :page_title, t("hyrax.admin.sidebar.flexible_metadata_profiles") %>
-
-<% provide :head do %>
-  <%= rss_feed_link_tag route_set: hyrax %>
-  <%= atom_feed_link_tag route_set: hyrax %>
-<% end %>
+<% provide :page_title, t(:'flexible_metadata.dashboard.profiles') %>
 
 <% provide :page_header do %>
-  <h1><span class="fa fa-table" aria-hidden="true"></span> FlexibleMetadata Profiles</h1>
+  <h1><span class="fa fa-table" aria-hidden="true"></span> <%= t(:'flexible_metadata.index.profiles') %></h1>
   <div class="pull-right">
-    <%#= link_to hyrax.my_import_flexible_metadata_profiles_path, class: 'btn btn-primary' do %>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
       <span class="fa fa-upload" aria-hidden="true"></span>
       <%= t(:'helpers.action.flexible_metadata_profile.import_profile') %>
     </button>
     <% if @flexible_metadata_profiles.blank? %>
-      <%= link_to hyrax.new_my_flexible_metadata_profile_path, class: 'btn btn-primary' do %>
+      <%= link_to flexible_metadata.new_profile_path, class: 'btn btn-primary' do %>
         <span aria-hidden="true"></span> <%= t(:'helpers.action.flexible_metadata_profile.create') %>
       <% end %>
     <% end %>
@@ -45,9 +39,9 @@
                 <td><%= flexible_metadata_profile.created_at.strftime("%b %d, %Y") %></td>
                 <td><%= flexible_metadata_profile.updated_at.strftime("%b %d, %Y") if flexible_metadata_profile.updated_at %></td>
                 <% if flexible_metadata_profile == FlexibleMetadata::Profile.current_version %>
-                  <td><%= link_to raw('<span class="glyphicon glyphicon-pencil"></span>'), hyrax.edit_my_flexible_metadata_profile_path(flexible_metadata_profile) %></td>
-                  <td><%= link_to raw('<span class="glyphicon glyphicon-download-alt"></span>'), hyrax.my_flexible_metadata_profile_export_path(flexible_metadata_profile), tagert: "_blank" %></td>
-                  <td><%= link_to raw('<span class="glyphicon glyphicon-remove"></span>'), hyrax.my_flexible_metadata_profile_path(flexible_metadata_profile), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  <td><%= link_to raw('<span class="glyphicon glyphicon-pencil"></span>'), flexible_metadata.edit_profile_path(flexible_metadata_profile) %></td>
+                  <td><%= link_to raw('<span class="glyphicon glyphicon-download-alt"></span>'), flexible_metadata.profile_export_path(flexible_metadata_profile), tagert: "_blank" %></td>
+                  <td><%= link_to raw('<span class="glyphicon glyphicon-remove"></span>'), flexible_metadata.profile_path(flexible_metadata_profile), method: :delete, data: { confirm: 'Are you sure?' } %></td>
                 <% else %>
                   <td></td>
                   <td></td>

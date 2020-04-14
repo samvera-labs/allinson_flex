@@ -49,7 +49,7 @@ RSpec.describe FlexibleMetadata::Importer do
 
     it '#default_config_file' do
       path_to_file = described_class.default_config_file
-      expect(path_to_file).to include('config/metadata_profiles/')
+      expect(path_to_file).to include('config/metadata_profile/')
     end
   end
 end

@@ -4,7 +4,7 @@
 
 # ESSI Sample Profile (see https://github.com/samvera-labs/houndstooth/tree/context)
 
-flexible_metadata_version: "1.0.beta2"
+m3_version: "1.0.beta2"
 
 # Administrative information about the profile/model
 

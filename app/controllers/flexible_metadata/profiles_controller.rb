@@ -2,7 +2,7 @@
 
 module Hyrax
   module My
-    class FlexibleMetadataProfilesController < Hyrax::MyController
+    class FlexibleMetadata::ProfilesController < ApplicationController
       include Hyrax::ThemedLayoutController
       require 'yaml'
 
@@ -14,28 +14,21 @@ module Hyrax
 
       # GET /flexible_metadata_profiles
       def index
-        add_breadcrumb t(:'hyrax.controls.home'), main_app.root_path
-        add_breadcrumb t(:'hyrax.dashboard.breadcrumbs.admin'), hyrax.dashboard_path
-        add_breadcrumb t(:'hyrax.admin.sidebar.flexible_metadata_profiles'), hyrax.my_flexible_metadata_profiles_path
+        add_breadcrumbs
         @flexible_metadata_profiles = FlexibleMetadata::Profile.all
-        super
       end
 
       # GET /flexible_metadata_profiles/1
       def show
-        add_breadcrumb t(:'hyrax.controls.home'), main_app.root_path
-        add_breadcrumb t(:'hyrax.dashboard.breadcrumbs.admin'), hyrax.dashboard_path
-        add_breadcrumb 'FlexibleMetadataProfiles', hyrax.my_flexible_Metadata_profiles_path
+        add_breadcrumbs
         add_breadcrumb 'Show'
       end
 
       # GET /flexible_metadata_profiles/new
       def new
-        redirect_to my_flexible_metadata_profiles_path, alert: 'Edit an Existing Profile or Upload a New One' if FlexibleMetadata::Profile.count > 0
+        redirect_to profiles_path, alert: 'Edit an Existing Profile or Upload a New One' if FlexibleMetadata::Profile.count > 0
 
-        add_breadcrumb t(:'hyrax.controls.home'), main_app.root_path
-        add_breadcrumb t(:'hyrax.dashboard.breadcrumbs.admin'), hyrax.dashboard_path
-        add_breadcrumb 'FlexibleMetadataProfiles', hyrax.my_flexible_metadata_profiles_path
+        add_breadcrumbs
         add_breadcrumb 'New'
         @flexible_metadata_profile = FlexibleMetadata::Profile.new
         @flexible_metadata_profile.classes.build
@@ -45,9 +38,7 @@ module Hyrax
 
       # GET /flexible_metadata_profiles/1/edit
       def edit
-        add_breadcrumb t(:'hyrax.controls.home'), main_app.root_path
-        add_breadcrumb t(:'hyrax.dashboard.breadcrumbs.admin'), hyrax.dashboard_path
-        add_breadcrumb 'FlexibleMetadataProfiles', hyrax.my_flexible_metadata_profiles_path
+        add_breadcrumbs
         add_breadcrumb 'Edit'
 
         @flexible_metadata_profile = FlexibleMetadata::Profile.last
@@ -59,7 +50,7 @@ module Hyrax
         @flexible_metadata_profile.set_profile_version
         FlexibleMetadata::FlexibleMetadataConstructor.create_dynamic_schemas(profile: @flexible_metadata_profile)
         if @flexible_metadata_profile.save
-          redirect_to my_flexible_metadata_profiles_path, notice: 'FlexibleMetadataProfile was successfully created.'
+          redirect_to profiles_path, notice: 'FlexibleMetadataProfile was successfully created.'
         else
           render :new
         end
@@ -70,9 +61,9 @@ module Hyrax
         @flexible_metadata_profile = FlexibleMetadata::Importer.load_profile_from_path(path: uploaded_io.path)
 
         if @flexible_metadata_profile.save
-          redirect_to my_flexible_metadata_profiles_path, notice: 'FlexibleMetadataProfile was successfully created.'
+          redirect_to profiles_path, notice: 'FlexibleMetadataProfile was successfully created.'
         else
-          redirect_to my_flexible_metadata_profiles_path, alert: @flexible_metadata_profile.errors.messages.to_s
+          redirect_to profiles_path, alert: @flexible_metadata_profile.errors.messages.to_s
         end
       end
 
@@ -92,6 +83,12 @@ module Hyrax
       end
 
       private
+
+        def add_breadcrumbs
+          add_breadcrumb t(:'hyrax.controls.home'), main_app.root_path
+          add_breadcrumb t(:'hyrax.dashboard.breadcrumbs.admin'), hyrax.dashboard_path
+          add_breadcrumb t(:'flexible_metadata.dashboard.profiles'), flexible_metadata.profiles_path
+        end
 
         # Use callbacks to share common setup or constraints between actions.
         def set_flexible_metadata_profile
