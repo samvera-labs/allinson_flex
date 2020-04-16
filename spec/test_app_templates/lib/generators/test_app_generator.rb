@@ -9,7 +9,7 @@ class TestAppGenerator < Rails::Generators::Base
     generate 'hyrax:install', '-f'
   end
 
-  # def install_engine
-  #   generate 'flexible_metadata:install'
-  # end
+  def install_engine
+    generate 'flexible_metadata:install'
+  end
 end
