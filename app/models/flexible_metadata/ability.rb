@@ -9,7 +9,7 @@ module FlexibleMetadata
     end
 
     def flexible_metadata_profile_abilities
-      can :manage, FlexibleMetadata::Profile if current_user.admin?
+      can :manage, FlexibleMetadata::Profile if admin?
     end
   end
 end
