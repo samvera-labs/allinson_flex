@@ -1,25 +1,29 @@
-<% provide :page_header do %>
-  <h1><span class="fa fa-edit" aria-hidden="true"></span> Add New Flexible Metadata Profile </h1>
-<% end %>
+<% unless FlexibleMetadata::Profile.any? %>
+  <% provide :page_header do %>
+    <h1><span class="fa fa-edit" aria-hidden="true"></span> Add New Flexible Metadata Profile </h1>
+  <% end %>
 
-<div class="row">
-  <div class="col-md-12">
-    <div class="panel panel-default tabs">
-      <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-          <a href="#description" role="tab" data-toggle="tab"><%= t('.tabs.description') %></a>
-        </li>
-      </ul>
-      <%= simple_form_for @flexible_metadata_profile, url: hyrax.profiles_path, method: :post do |form| %>
-        <%= render 'form', flexible_metadata_profile: @flexible_metadata_profile, form: form %>
-        <div class="panel-footer">
-          <div class='pull-right'>
-            <%= form.button :submit, 'Save', class: 'btn btn-primary' %>
-           <% cancel_path = form.object.persisted? ? hyrax.myflexible_metadata_profile_path(form.object) : hyrax.profiles_path %>
-            | <%= link_to t('.cancel'), cancel_path, class: 'btn btn-default ' %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default tabs">
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="active">
+            <a href="#description" role="tab" data-toggle="tab"><%= t('.tabs.description') %></a>
+          </li>
+        </ul>
+        <%= simple_form_for @flexible_metadata_profile, url: flexible_metadata.profiles_path, method: :post do |form| %>
+          <%= render 'form', flexible_metadata_profile: @flexible_metadata_profile, form: form %>
+          <div class="panel-footer">
+            <div class='pull-right'>
+            <!--
+              <%# <%= form.button :submit, 'Save', class: 'btn btn-primary' %> %>
+              <%# <% cancel_path = form.object.persisted? ? hyrax.myflexible_metadata_profile_path(form.object) : flexible_metadata.profiles_path %> %>
+                <%# | <%= link_to t('.cancel'), cancel_path, class: 'btn btn-default ' %> %>
+            -->
+            </div>
           </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
-</div>
+<% end %>

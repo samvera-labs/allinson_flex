@@ -11,4 +11,6 @@
 // about supported directives.
 //
 
+//= require react
+
 //= require_tree .

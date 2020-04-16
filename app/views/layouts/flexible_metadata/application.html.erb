@@ -4,11 +4,11 @@
   <title>Flexible Metadata</title>
   <%= stylesheet_link_tag    "flexible_metadata/application", media: "all" %>
   <%= javascript_include_tag "flexible_metadata/application" %>
+  <%= javascript_pack_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
-<body>
 
-<%= yield %>
-
+<body class="application.html.erb">
+  <%= yield %>
 </body>
 </html>

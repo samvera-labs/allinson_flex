@@ -3,7 +3,7 @@
 module FlexibleMetadata
   class Context < ApplicationRecord
     self.table_name = 'flexible_metadata_contexts'
-    
+
     belongs_to :m3_profile, class_name: 'FlexibleMetadata::Profile'
     belongs_to :m3_profile_context, class_name: 'FlexibleMetadata::ProfileContext'
     has_many :dynamic_schemas, foreign_key: 'flexible_metadata_context_id', dependent: :destroy
