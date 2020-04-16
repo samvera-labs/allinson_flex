@@ -2,8 +2,8 @@
 
 require 'spec_helper'
 
-RSpec.describe Hyrax::My::FlexibleMetadataProfilesController, type: :controller do
-  routes { Hyrax::Engine.routes }
+RSpec.describe FlexibleMetadata::ProfilesController, type: :controller do
+  routes { FlexibleMetadata::Engine.routes }
 
   context "when user is unauthenticated" do
     describe "GET #index" do
@@ -16,7 +16,7 @@ RSpec.describe Hyrax::My::FlexibleMetadataProfilesController, type: :controller 
   end
 
   context "when logged in as an admin user" do
-    let(:user) { create(:user, :admin) }
+    let(:user) { create(:user) }
     let!(:flexible_metadata_profile) { create(:flexible_metadata_profile) }
     let(:valid_session) { {} }
 
