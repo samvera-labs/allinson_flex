@@ -197,8 +197,8 @@ module FlexibleMetadata
 
         profile.classes.each do |cl|
           profile.dynamic_schemas.build(
-            m3_class: cl.name,
-            m3_context: profile.m3_contexts.build(
+            flexible_metadata_class: cl.name,
+            flexible_metadata_context: profile.flexible_metadata_contexts.build(
               name: 'default',
               m3_profile_context: cxt
             ),
@@ -212,8 +212,8 @@ module FlexibleMetadata
         profile.classes.each do |cl|
           cl.contexts.each do |cl_cxt|
             profile.dynamic_schemas.build(
-              m3_class: cl.name,
-              m3_context: profile.m3_contexts.build(
+              flexible_metadata_class: cl.name,
+              flexible_metadata_context: profile.flexible_metadata_contexts.build(
                 name: cl_cxt.name,
                 m3_profile_context: cl_cxt
               ),

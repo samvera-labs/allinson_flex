@@ -3,13 +3,14 @@
 module FlexibleMetadata
   class Context < ApplicationRecord
     self.table_name = 'flexible_metadata_contexts'
-    belongs_to :flexible_metadata_profile, class_name: 'FlexibleMetadata::Profile'
-    belongs_to :flexible_metadata_profile_context, class_name: 'FlexibleMetadata::ProfileContext'
+    
+    belongs_to :m3_profile, class_name: 'FlexibleMetadata::Profile'
+    belongs_to :m3_profile_context, class_name: 'FlexibleMetadata::ProfileContext'
     has_many :dynamic_schemas, foreign_key: 'flexible_metadata_context_id', dependent: :destroy
     serialize :admin_set_ids, Array
     validates :name, presence: true
 
-    delegate :display_label, to: :flexible_metadata_profile_context
+    delegate :display_label, to: :m3_profile_context
 
     # @api public
     # @param admin_set_id [#to_s] the admin set to which we will scope our query.

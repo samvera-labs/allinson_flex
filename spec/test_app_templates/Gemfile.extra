@@ -1,1 +1,2 @@
-gem 'hyrax'
+# Hyrax 3 has not been tested as yet
+gem 'hyrax', '~> 2.7'
