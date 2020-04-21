@@ -22,6 +22,8 @@ module FlexibleMetadata
         )
 
         construct_profile_contexts(profile: profile)
+        require 'pry'
+        binding.pry
         profile.save!
         logger.info(%(LoadedFlexibleMetadata::Profile "#{profile.name}" ID=#{profile.id}))
 
