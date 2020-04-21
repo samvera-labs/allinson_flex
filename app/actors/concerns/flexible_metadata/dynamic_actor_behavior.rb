@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module FlexibleMetadata
-  module DynamicSchemaActorBehavior
+  module DynamicActorBehavior
     # @param [Hyrax::Actors::Environment] env
     def add_dynamic_schema(env)
       env.curation_concern.dynamic_schema = env.curation_concern.base_dynamic_schema(

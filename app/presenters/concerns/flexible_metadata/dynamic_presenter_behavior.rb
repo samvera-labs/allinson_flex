@@ -5,15 +5,14 @@ module FlexibleMetadata
     extend ActiveSupport::Concern
 
     included do
-      class_attribute :model_class_name
+      class_attribute :model_class
       extend ClassMethods
-      delegate(*delegated_properties, to: :solr_document)
     end
 
     module ClassMethods
       def delegated_properties
         FlexibleMetadata::DynamicSchemaService.default_properties(
-          work_class_name: model_class_name
+          work_class_name: model_class.to_s
         )
       end
     end

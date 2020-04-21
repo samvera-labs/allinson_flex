@@ -10,7 +10,7 @@ class FlexibleMetadata::WorksGenerator < Rails::Generators::Base
   end
 
   def gather_work_types
-    @work_types = FlexibleMetadata::DynamicSchema.all.map { |c| c.flexible_metadata_class }.uniq
+    @work_types = FlexibleMetadata::DynamicSchema.all.map(&:flexible_metadata_class).uniq
     @curation_concerns = Hyrax.config.curation_concerns.map(&:to_s)
     if @work_types.blank?
       say_status("error", "No FlexibleMetadata Classes have been defined. Please load or create a Profile.", :red)
@@ -30,21 +30,26 @@ class FlexibleMetadata::WorksGenerator < Rails::Generators::Base
     @work_types.each do |work_type|
       file = "app/actors/hyrax/actors/#{work_type.downcase}_actor.rb"
       file_text = File.read(file)
-      insert_1 = '      include FlexibleMetadata::DynamicSchemaActorBehavior'
+      insert_1 = '      include FlexibleMetadata::DynamicActorBehavior'
       insert_2 = "      def create(env)\n        super\n      end"
       insert_3 = '        add_dynamic_schema(env)'
 
-      insert_into_file file, after: /Hyrax::Actors::BaseActor/ do
-        "\n#{insert_1}"
-      end unless file_text.include?(insert_1)
+      unless file_text.include?(insert_1)
+        insert_into_file file, after: /Hyrax::Actors::BaseActor/ do
+          "\n#{insert_1}"
+        end
+      end
 
-      insert_into_file file, before: /\n    end\n  end\nend/ do
-        "\n#{insert_2}"
-      end unless file_text.include?('def create(env)')
+      unless file_text.include?('def create(env)')
+        insert_into_file file, before: /\n    end\n  end\nend/ do
+          "\n#{insert_2}"
+        end
+      end
 
+      next if file_text.include?(insert_3)
       insert_into_file file, after: /def create\(env\)/ do
         "\n#{insert_3}"
-      end unless file_text.include?(insert_3)
+      end
     end
   end
 
@@ -60,7 +65,7 @@ class FlexibleMetadata::WorksGenerator < Rails::Generators::Base
     end
   end
 
-  # @todo - sometimes all the fields go after the 'Additional Fields' button
+  # @todo - all the fields go after the 'Additional Fields' button
   # @todo - contextual form labels
   def configure_forms
     @work_types.each do |work_type|
@@ -78,7 +83,7 @@ class FlexibleMetadata::WorksGenerator < Rails::Generators::Base
     @work_types.each do |work_type|
       file = "app/indexers/#{work_type.downcase}_indexer.rb"
       file_text = File.read(file)
-      insert = '  include FlexibleMetadata::DynamicIndexerBehavior'
+      insert = "  include FlexibleMetadata::DynamicIndexerBehavior\n  self.model_class = ::#{work_type}"
       next if file_text.include?(insert)
       insert_into_file file, before: /\nend/ do
         "#{insert}\n"
@@ -113,7 +118,7 @@ class FlexibleMetadata::WorksGenerator < Rails::Generators::Base
     @work_types.each do |work_type|
       file = "app/presenters/hyrax/#{work_type.downcase}_presenter.rb"
       file_text = File.read(file)
-      insert = "    include FlexibleMetadata::DynamicPresenterBehavior\n    self.model_class_name = '#{work_type}'"
+      insert = "    include FlexibleMetadata::DynamicPresenterBehavior\n    self.model_class = ::#{work_type}\n    delegate(*delegated_properties, to: :solr_document)"
       next if file_text.include?(insert)
       insert_into_file file, before: /\n  end\nend/ do
         "\n#{insert}"
