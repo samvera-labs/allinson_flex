@@ -8,4 +8,3 @@ Please run the following if they are not already installed in your application:
 rails webpacker:install
 rails webpacker:install:react
 rails generate react:install
-
