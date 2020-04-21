@@ -70,8 +70,8 @@ module FlexibleMetadata
     end
 
     def export
-      @flexible_metadata_profile = FlexibleMetadata::Profile.find(params[:flexible_metadata_profile_id])
-      filename = "#{@flexible_metadata_profile.name}-v.#{@flexible_metadata_profile.success}.yml"
+      @flexible_metadata_profile = FlexibleMetadata::Profile.find(params[:profile_id])
+      filename = "#{@flexible_metadata_profile.name}-v.#{@flexible_metadata_profile.profile_version}.yml"
       File.open(filename, "w") { |file| file.write(@flexible_metadata_profile.profile.to_yaml) }
       send_file filename, type: "application/yaml", x_sendfile: true
     end
