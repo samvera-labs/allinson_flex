@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 # override (from Hyrax 2.5.0) - new module
 module FlexibleMetadata
@@ -14,7 +15,7 @@ module FlexibleMetadata
 
     # Retrieve the dynamic schema
     def base_dynamic_schema(admin_set_id)
-      self.respond_to?(:dynamic_schema) ? (self.dynamic_schema || dynamic_schema_service(admin_set_id).dynamic_schema.id) : dynamic_schema_service(admin_set_id).dynamic_schema.id
+      respond_to?(:dynamic_schema) ? (dynamic_schema || dynamic_schema_service(admin_set_id).dynamic_schema.id) : dynamic_schema_service(admin_set_id).dynamic_schema.id
     end
 
     # Setup dynamic schema service
@@ -24,6 +25,5 @@ module FlexibleMetadata
         work_class_name: self.class.to_s
       )
     end
-
   end
 end

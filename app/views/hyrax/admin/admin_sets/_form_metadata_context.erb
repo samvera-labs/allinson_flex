@@ -1,0 +1,27 @@
+<%# # override (from Hyrax 2.5.0) - flexible_metadata tab %>
+<div id="metadata_context" class="tab-pane">
+  <div class="panel panel-default labels">
+    <%= simple_form_for @form.permission_template,
+        url: [hyrax, :admin, @form, :permission_template],
+        html: { id: 'form_metadata_context' } do |f| %>
+      <% if f.object.available_contexts.any? %>
+        <div class="panel-body">
+          <p><%= t('.page_description') %></p>
+            <%= f.input :metadata_context_id, 
+              collection: f.object.metadata_context_options, 
+              selected: selected_context(f.object.source_model),
+              prompt: 'Select a Metadata Context',
+              required: false %>
+        </div>
+        <div class="panel-footer">
+          <%= link_to t('.cancel'), hyrax.admin_admin_sets_path, class: 'btn btn-default pull-right'%>
+          <%= f.button :submit, class: 'btn btn-primary pull-right'%>
+        </div>
+      <% else %>
+        <div class="panel-body">
+          <p><%= t('.no_metadata_contexts') %></p>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
