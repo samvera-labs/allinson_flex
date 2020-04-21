@@ -48,8 +48,7 @@ module FlexibleMetadata
 
     # POST /flexible_metadata_profiles
     def create
-      require 'pry'
-      binding.pry
+
       @flexible_metadata_profile = FlexibleMetadata::Profile.new(profile: flexible_metadata_profile_params[:data])
       FlexibleMetadata::FlexibleMetadataConstructor.create_dynamic_schemas(profile: @flexible_metadata_profile)
       if @flexible_metadata_profile.save
