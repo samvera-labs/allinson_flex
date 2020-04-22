@@ -10,6 +10,7 @@ function processForm(schema, uiSchema, formData) {
 
   if ( formData.classes !== undefined ) {
     newSchema.properties.properties.additionalProperties.properties.available_on.properties.class.items.enum = Object.getOwnPropertyNames(formData.classes)
+    newSchema.properties.classes.additionalProperties.properties.contexts.items.enum = Object.getOwnPropertyNames(formData.contexts)
   }
   if ( formData.contexts !== undefined ) {
     newSchema.properties.properties.additionalProperties.properties.available_on.properties.context.items.enum = Object.getOwnPropertyNames(formData.contexts)
