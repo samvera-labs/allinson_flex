@@ -105,7 +105,6 @@ module FlexibleMetadata
       end
 
       def flexible_metadata_profile_params
-        byebug
         params.require(:flexible_metadata_profile).permit!
       end
   end
