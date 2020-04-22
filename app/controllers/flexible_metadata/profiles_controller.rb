@@ -72,7 +72,7 @@ module FlexibleMetadata
     def export
       @flexible_metadata_profile = FlexibleMetadata::Profile.find(params[:profile_id])
       filename = "#{@flexible_metadata_profile.name}-v.#{@flexible_metadata_profile.profile_version}.yml"
-      File.open(filename, "w") { |file| file.write(@flexible_metadata_profile.profile.to_yaml) }
+      File.open(filename, "w") { |file| file.write(@flexible_metadata_profile.profile.to_hash.to_yaml(indentation: 8)) }
       send_file filename, type: "application/yaml", x_sendfile: true
     end
 
@@ -81,7 +81,7 @@ module FlexibleMetadata
       @flexible_metadata_profile.destroy
       message = 'FlexibleMetadataProfile was successfully destroyed.'
       message = @flexible_metadata_profile.errors[:base] if @flexible_metadata_profile.errors[:base]
-      redirect_to my_flexible_metadata_profiles_url, notice: message
+      redirect_to flexible_metadata_profiles_url, notice: message
     end
 
     private
@@ -105,6 +105,7 @@ module FlexibleMetadata
       end
 
       def flexible_metadata_profile_params
+        byebug
         params.require(:flexible_metadata_profile).permit!
       end
   end
