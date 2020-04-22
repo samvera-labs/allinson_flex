@@ -81,7 +81,7 @@ module FlexibleMetadata
       @flexible_metadata_profile.destroy
       message = 'FlexibleMetadataProfile was successfully destroyed.'
       message = @flexible_metadata_profile.errors[:base] if @flexible_metadata_profile.errors[:base]
-      redirect_to profiles_url, notice: message
+      redirect_to profiles_path, notice: message
     end
 
     private
