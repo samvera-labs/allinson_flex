@@ -55,11 +55,15 @@ module FlexibleMetadata
       if FlexibleMetadata::Profile.any?
         version = FlexibleMetadata::Profile.last.profile_version + 1.0
         self.profile_version = version
-        profile[:profile][:version] = version
+        if profile[:profile] && profile[:profile][:version]
+          profile[:profile][:version] = version 
+        end
       else
         version = 1.0
         self.profile_version = version
-        profile[:profile][:version] = version
+        if profile[:profile] && profile[:profile][:version]
+          profile[:profile][:version] = version 
+        end
       end
     end
 
