@@ -22,22 +22,20 @@
         <table class="table table-striped datatable">
           <thead>
             <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Version</th>
+              <th scope="col">Schema Version</th>
+              <th scope="col">Profile Version</th>
               <th scope="col">Profile Type</th>
               <th scope="col">Created At</th>
-              <th scope="col">Updated At</th>
             </tr>
           </thead>
           <tbody>
             <% @flexible_metadata_profiles.order("updated_at DESC").each do |flexible_metadata_profile| %>
               <tr>
                 <!-- TODO: fix show pgs --> 
-                <td><%= flexible_metadata_profile.name %></td>
+                <td><%= flexible_metadata_profile.schema_version %></td>
                 <td><%= flexible_metadata_profile.profile_version.to_f %></td>
                 <td><%= flexible_metadata_profile.profile_type %></td>
                 <td><%= flexible_metadata_profile.created_at.strftime("%b %d, %Y") %></td>
-                <td><%= flexible_metadata_profile.updated_at.strftime("%b %d, %Y") if flexible_metadata_profile.updated_at %></td>
                 <% if flexible_metadata_profile == FlexibleMetadata::Profile.current_version %>
                   <td><%= link_to raw('<span class="glyphicon glyphicon-pencil"></span>'), flexible_metadata.edit_profile_path(flexible_metadata_profile) %></td>
                   <td><%= link_to raw('<span class="glyphicon glyphicon-download-alt"></span>'), flexible_metadata.profile_export_path(flexible_metadata_profile), tagert: "_blank" %></td>
@@ -53,7 +51,7 @@
         </table>
       </div>
       <% else %>
-        <p>No FLexibleMetadata Profiles have been created.</p>
+        <p>No Flexible Metadata Profiles have been created.</p>
       <% end %>
   </div>
 </div>

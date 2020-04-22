@@ -10,16 +10,19 @@
           <a href="#description" role="tab" data-toggle="tab"><%= t('.tabs.description') %></a>
         </li>
       </ul>
-      <%= simple_form_for @flexible_metadata_profile, url: hyrax.profiles_path, method: :post do |form| %>
+      <%= simple_form_for @flexible_metadata_profile, url: flexible_metadata.profiles_path, method: :post do |form| %>
         <%= render 'form', flexible_metadata_profile: @flexible_metadata_profile, form: form %>
         <div class="panel-footer">
           <div class='pull-right'>
-            <%= form.button :submit, 'Save Changes', class: 'btn btn-primary' %>
-           <% cancel_path = form.object.persisted? ? flexible_metadata.profile_path(form.object) : hyrax.profiles_path %>
-            | <%= link_to t('.cancel'), cancel_path, class: 'btn btn-default ' %>
+            <!--
+            <%# <%= form.button :submit, 'Save Changes', class: 'btn btn-primary' %> %>
+            <%# <% cancel_path = form.object.persisted? ? flexible_metadata.profile_path(form.object) : flexible_metadata.profiles_path %> %>
+              <%# | <%= link_to t('.cancel'), cancel_path, class: 'btn btn-default ' %> %>
+            -->
           </div>
         </div>
       <% end %>
     </div>
   </div>
 </div>
+

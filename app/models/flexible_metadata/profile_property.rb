@@ -9,7 +9,7 @@ module FlexibleMetadata
     has_many :available_on_classes, through: :available_properties, source: :available_on, source_type: 'FlexibleMetadata::ProfileClass'
     has_many :available_on_contexts, through: :available_properties, source: :available_on, source_type: 'FlexibleMetadata::ProfileContext'
     has_many :texts, class_name: 'FlexibleMetadata::ProfileText', foreign_key: 'm3_profile_property_id', dependent: :destroy
-    accepts_nested_attributes_for :texts
+    accepts_nested_attributes_for :texts, allow_destroy: true
 
     serialize :indexing, Array
     validates :name, presence: true

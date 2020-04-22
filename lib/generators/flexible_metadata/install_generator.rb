@@ -9,6 +9,15 @@ class FlexibleMetadata::InstallGenerator < Rails::Generators::Base
     say_status("info", "Generating FlexibleMetadata installation", :blue)
   end
 
+  def add_gems
+    gem 'webpacker'
+    gem 'react-rails'
+
+    Bundler.with_clean_env do
+      run "bundle install"
+    end
+  end
+
   def mount_route
     route "mount FlexibleMetadata::Engine, at: '/'"
   end
@@ -44,6 +53,79 @@ class FlexibleMetadata::InstallGenerator < Rails::Generators::Base
 
   def create_default_schema
     FlexibleMetadata.retrieve_schema
+  end
+
+  def create_gitignore
+    file = '.gitignore'
+    File.write('.gitignore', "# ignore these files\n") unless File.exist?(file)
+  end
+
+  def create_react_javascript
+    directory 'app/javascript', 'app/javascript'
+  end
+
+  def create_react_flash_messages
+    file = 'app/views/_flash_msg.html.erb'
+    return if File.exist? file
+    copy_file File.join(Hyrax::Engine.root, file), file
+  end
+
+  def add_react_flash_messages
+    file = 'app/views/_flash_msg.html.erb'
+    file_text = File.read(file)
+    flash = "\n<%= react_component 'flash_messages', messages: flash_messages %>\n"
+    unless file_text.include?(flash)
+      append_to_file file do
+        flash
+      end
+    end
+  end
+
+  def add_javascript_pack_tag
+    file = 'app/views/layouts/application.html.erb'
+    file_text = File.read(file)
+    pack = "    <%= javascript_pack_tag 'application' %>"
+
+    return if file_text.include?(pack)
+    insert_into_file file, before: /  <\/head>/ do
+      "#{pack}\n"
+    end
+  end
+
+  def add_helpers
+    file = 'app/helpers/hyrax_helper.rb'
+    file_text = File.read(file)
+    helper = '  include FlexibleMetadata::FlexibleMetadataHelper'
+
+    return if file_text.include?(helper)
+    insert_into_file file, after: /HyraxHelperBehavior/ do
+      "\n#{helper}"
+    end
+  end
+
+  def add_gitignore
+    lines = [
+      '/public/packs',
+      '/public/packs-test',
+      '/node_modules',
+      '/yarn-error.log',
+      'yarn-debug.log*',
+      '.yarn-integrity'
+    ]
+    file = '.gitignore'
+    file_text = File.read(file)
+
+    lines.each do |ignore|
+      next if file_text.include?(ignore)
+      append_to_file file do
+        "#{ignore}\n"
+      end
+    end
+  end
+
+  def yarn_add_packages
+    system 'yarn add @rjsf/core react-dom react-jsonschema-form react-jsonschema-form-bs4 react-spinners react-transition-group react_ujs immutability-helper'
+    system 'yarn install'
   end
 
   def display_readme

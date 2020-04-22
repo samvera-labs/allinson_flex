@@ -37,6 +37,7 @@ module FlexibleMetadata
     mk_m3_schema_path
     require 'open-uri'
     open(m3_schema_full_path, 'wb') { |f| f << open(m3_schema_uri).read }
+  rescue
   end
 
   def self.mk_m3_schema_path

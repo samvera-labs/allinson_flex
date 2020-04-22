@@ -10,22 +10,32 @@ module FlexibleMetadata
     has_many :dynamic_schemas, class_name: 'FlexibleMetadata::DynamicSchema', foreign_key: 'm3_profile_id', dependent: :destroy
     # profile elements
     has_many :classes, class_name: 'FlexibleMetadata::ProfileClass', foreign_key: 'm3_profile_id', dependent: :destroy
+    accepts_nested_attributes_for :classes, allow_destroy: true
+
     has_many :contexts, class_name: 'FlexibleMetadata::ProfileContext', foreign_key: 'm3_profile_id', dependent: :destroy
+    accepts_nested_attributes_for :contexts, allow_destroy: true
+
     has_many :properties, class_name: 'FlexibleMetadata::ProfileProperty', foreign_key: 'm3_profile_id', dependent: :destroy
-    accepts_nested_attributes_for :classes, :contexts, :properties
+    accepts_nested_attributes_for :properties, allow_destroy: true
+
     # serlializations
     serialize :profile
     # validations
-    validates :name, :profile_version, :responsibility, presence: true
+    # validates :name, :profile_version, :responsibility, presence: true
+    validates :profile, presence: true
     validates :profile_version, uniqueness: true
     # callbacks
-    before_create :add_date_modified, :add_m3_version
-    after_create :add_profile_data
+    before_create :add_date_modified, :add_m3_version, :set_profile_version
+    # after_create :add_profile_data
 
     attr_accessor :profile_data
 
     def self.current_version
       FlexibleMetadata::Profile.order("created_at asc").last
+    end
+
+    def schema_version
+      profile[:m3_version]
     end
 
     def available_classes
@@ -42,17 +52,19 @@ module FlexibleMetadata
 
     # @todo - don't save unchanged profiles as new records
     def set_profile_version
-      profile_version ? self.profile_version += 1 : self.profile_version = 1
-      # if we already have this version,
-      #    compare the data,
-      #    if it's the same,
-      #      do nothing;
-      #    if it's different
-      #      return an error "This version already exists,
-      #        please increment the version number"
-      # else
-      #  update version attribute by 1
-      # end
+      if FlexibleMetadata::Profile.any?
+        version = FlexibleMetadata::Profile.last.profile_version + 1.0
+        self.profile_version = version
+        if profile[:profile] && profile[:profile][:version]
+          profile[:profile][:version] = version 
+        end
+      else
+        version = 1.0
+        self.profile_version = version
+        if profile[:profile] && profile[:profile][:version]
+          profile[:profile][:version] = version 
+        end
+      end
     end
 
     def add_date_modified

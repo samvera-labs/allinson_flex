@@ -1,2 +1,10 @@
 
-Congratulations, you have just configured your application to use FlexibleMetadata.
+Congratulations, You have configured your application to use FlexibleMetadata.
+
+FlexibleMetadata uses webpacker and React JS (via the react-rails gem). 
+
+Please run the following if they are not already installed in your application:
+
+rails webpacker:install
+rails webpacker:install:react
+rails generate react:install
