@@ -16,6 +16,8 @@ module FlexibleMetadata
     def index
       add_breadcrumbs
       @flexible_metadata_profiles = FlexibleMetadata::Profile.all
+
+      @profiles = @flexible_metadata_profiles.order("updated_at DESC").page(params[:page])
     end
 
     # GET /flexible_metadata_profiles/1
