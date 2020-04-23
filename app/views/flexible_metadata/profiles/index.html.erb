@@ -49,6 +49,9 @@
             <% end %>
           </tbody>
         </table>
+        <%= page_entries_info @profiles %><br />
+        <%= paginate(@profiles, param_name: :page) %>
+        
       </div>
       <% else %>
         <p>No Flexible Metadata Profiles have been created.</p>
