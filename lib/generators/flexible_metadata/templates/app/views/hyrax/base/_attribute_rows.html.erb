@@ -1,0 +1,10 @@
+<%# @todo - labels, renderers, see base/_attribute_rows %>
+
+<% dynamic_schema_service = dynamic_schema_helper(AdminSet.where(title: presenter.admin_set).first.id, 
+presenter.class.model_class.to_s,
+presenter.dynamic_schema )%>
+
+<% dynamic_schema_service.view_properties.each_pair do | prop_key, prop_value | %>
+  <%# @todo internationalisation %>
+  <%= presenter.attribute_to_html(prop_key, label: prop_value[:label] ,html_dl: true) %>  
+<% end %>

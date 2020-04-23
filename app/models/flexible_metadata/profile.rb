@@ -51,19 +51,17 @@ module FlexibleMetadata
     end
 
     # @todo - don't save unchanged profiles as new records
+    # @todo - check if that todo is still relevant
+    # @todo - check this doesn't mess up the form
     def set_profile_version
       if FlexibleMetadata::Profile.any?
         version = FlexibleMetadata::Profile.last.profile_version + 1.0
         self.profile_version = version
-        if profile[:profile] && profile[:profile][:version]
-          profile[:profile][:version] = version 
-        end
+        profile['profile']['version'] = version
       else
         version = 1.0
         self.profile_version = version
-        if profile[:profile] && profile[:profile][:version]
-          profile[:profile][:version] = version 
-        end
+        profile['profile']['version'] = version
       end
     end
 
