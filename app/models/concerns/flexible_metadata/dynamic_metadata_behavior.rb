@@ -7,10 +7,10 @@ module FlexibleMetadata
 
     included do
       # Dynamically set up the metadata properties
-      FlexibleMetadata::DynamicSchemaService.model_properties(work_class_name: to_s).each_pair do |prop, value|
+      FlexibleMetadata::DynamicSchemaService.model_properties(work_class_name: self.class.to_s).each_pair do |prop, value|
         property prop, predicate: value[:predicate], multiple: value[:multiple]
       end
-      type(FlexibleMetadata::DynamicSchemaService.rdf_type(work_class_name: to_s))
+      type(FlexibleMetadata::DynamicSchemaService.rdf_type(work_class_name: self.class.to_s))
     end
 
     # Retrieve the dynamic schema

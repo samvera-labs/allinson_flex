@@ -15,36 +15,43 @@ module FlexibleMetadata
       profile_config_filename = File.exist?(path) ? path : default_config_file
       raise ProfileNotFoundError, "No profiles were found in #{path}" if profile_config_filename.blank?
 
-      logger.info("Loading with profile config #{profile_config_filename}")
+      logger.info("Loading with profile from config/metadata_profile #{profile_config_filename}")
       generate_from_yaml_file(path: profile_config_filename, logger: default_logger)
+    end
+
+    def self.load_profile_from_data(profile_id: nil, data:, logger: default_logger)
+      logger.info("Loading with form data")
+      generate_from_hash(profile_id: profile_id, data: data)
     end
 
     # One profile per yaml file upload
     def construct
-      FlexibleMetadata::FlexibleMetadataConstructor.find_or_create_from(name: name, data: data)
+      FlexibleMetadata::FlexibleMetadataConstructor.find_or_create_from(
+        profile_id: profile_id, 
+        data: ActiveSupport::HashWithIndifferentAccess.new(data)
+      )
     end
 
     private
 
       def self.generate_from_yaml_file(path:, logger: default_logger)
-        name = File.basename(path, '.*')
         data = YAML.load_file(path) if path =~ /.*\.ya*ml/
         raise YamlSyntaxError, "Invalid YAML syntax found in #{path}!" if data.nil?
 
-        generate_from_hash(name: name, data: data)
+        generate_from_hash(data: data)
       rescue Psych::SyntaxError => e
         logger.error("Invalid YAML syntax found in #{path}!")
         raise YamlSyntaxError, e.message
       end
 
-      def self.generate_from_hash(name:, data:)
-        importer = new(name: name, data: data)
+      def self.generate_from_hash(profile_id: nil, data:)
+        importer = new(profile_id: profile_id, data: data)
         profiles = importer.construct
         profiles
       end
 
-      def initialize(name:, data:, schema: default_schema, validator: default_validator, logger: default_logger)
-        self.name = name
+      def initialize(profile_id:, data:, schema: default_schema, validator: default_validator, logger: default_logger)
+        self.profile_id = profile_id
         self.data = data
         self.schema = schema
         self.validator = validator
@@ -54,7 +61,7 @@ module FlexibleMetadata
 
       attr_reader :data, :logger
 
-      attr_accessor :name, :data, :validator, :schema
+      attr_accessor :data, :validator, :schema, :profile_id
 
       def default_validator
         FlexibleMetadata::Validator

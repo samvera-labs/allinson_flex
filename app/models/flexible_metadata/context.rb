@@ -19,7 +19,7 @@ module FlexibleMetadata
     #   because the field is an array, using .where(admin_set_ids: ["#{query_term}"])
     #   will only work on exact matches
     def self.find_metadata_context_for(admin_set_id:)
-      FlexibleMetadata::Context.select { |c| c.admin_set_ids.include?(admin_set_id) }.first || FlexibleMetadata::Context.where(name: 'default').first
+      FlexibleMetadata::Context.select { |c| c.admin_set_ids.include?(admin_set_id) }.first || FlexibleMetadata::Context.where(name: 'default').order('created_at').last
     end
 
     # @api public

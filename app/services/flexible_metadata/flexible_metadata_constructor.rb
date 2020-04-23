@@ -5,47 +5,35 @@ module FlexibleMetadata
     class_attribute :default_logger
     self.default_logger = Rails.logger
 
-    def self.find_or_create_from(name:, data:, logger: default_logger)
-      profile_name = data.dig('name') || name
-      profile_match = FlexibleMetadata::Profile.where(name: profile_name, profile_version: data.dig('profile', 'version')).first
-
-      if profile_match.blank?
+    def self.find_or_create_from(profile_id:, data:, logger: default_logger)
+      profile = FlexibleMetadata::Profile.find(profile_id) unless profile_id.nil?
+  
+      # when loading from path, we need to create the profile
+      # when loading from form data, we already have the profile
+      if profile.blank?
         profile = FlexibleMetadata::Profile.new(
-          name: profile_name,
-          m3_version: data.dig('m3_version'),
+          profile: data,
           profile_version: data.dig('profile', 'version'),
-          responsibility: data.dig('profile', 'responsibility'),
-          responsibility_statement: data.dig('profile', 'responsibility_statement'),
-          date_modified: data.dig('profile', 'date_modified'),
-          profile_type: data.dig('profile', 'type'),
-          profile: data
+          m3_version: data.dig('m3_version')
         )
-
-        construct_profile_contexts(profile: profile)
-        require 'pry'
-        binding.pry
-        profile.save!
-        logger.info(%(LoadedFlexibleMetadata::Profile "#{profile.name}" ID=#{profile.id}))
-
-        create_dynamic_schemas(profile: profile)
-
-        profile
-      else
-        if profile_match.profile != data
-          logger.error(%(\nFlexibleMetadata::Profile version #{profile_match.profile_version} found, but the content has changed))
-          raise ProfileVersionError, "This FlexibleMetadata::Profile version (#{profile_match.profile_version}) already exists, please increment the version number"
-        else
-          logger.info(%(Loaded FlexibleMetadata::Profile "#{profile_match.name}" ID=#{profile_match.id}))
-          profile_match
-        end
       end
+      profile.responsibility = data.dig('profile', 'responsibility')
+      profile.responsibility_statement = data.dig('profile', 'responsibility_statement')
+      profile.date_modified = data.dig('profile', 'date_modified')
+      profile.profile_type = data.dig('profile', 'type')
+      
+      construct_profile_contexts(profile: profile)
+      profile.save!
+      logger.info(%(LoadedFlexibleMetadata::Profile ID=#{profile.id}))
+      create_dynamic_schemas(profile: profile)
+      profile
     end
 
     def self.create_dynamic_schemas(profile:, logger: default_logger)
       profile = construct_default_dynamic_schemas(profile: profile)
       profile = construct_dynamic_schemas(profile: profile)
       profile.save!
-      logger.info(%(Created FlexibleMetadata::Context and FlexibleMetadata::DynamicSchema objects for "#{profile.name}" ID=#{profile.id}))
+      logger.info(%(Created FlexibleMetadata::Context and FlexibleMetadata::DynamicSchema objects for ID=#{profile.id}))
     end
 
     def self.build_profile_data(profile:)

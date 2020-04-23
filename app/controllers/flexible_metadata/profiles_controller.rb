@@ -32,7 +32,6 @@ module FlexibleMetadata
       add_breadcrumb 'New'
       @flexible_metadata_profile = FlexibleMetadata::Profile.new
 
-      # JA query these?
       @flexible_metadata_profile.classes.build
       @flexible_metadata_profile.contexts.build
       @flexible_metadata_profile.properties.build.texts.build
@@ -43,14 +42,20 @@ module FlexibleMetadata
       add_breadcrumbs
       add_breadcrumb 'Edit'
 
-      @flexible_metadata_profile = FlexibleMetadata::Profile.last
+      @flexible_metadata_profile = FlexibleMetadata::Profile.current_version
     end
 
     # POST /flexible_metadata_profiles
     def create
-      @flexible_metadata_profile = FlexibleMetadata::Profile.new(profile: flexible_metadata_profile_params[:data])
-      FlexibleMetadata::FlexibleMetadataConstructor.create_dynamic_schemas(profile: @flexible_metadata_profile)
+      @flexible_metadata_profile = FlexibleMetadata::Profile.new(
+        name: (flexible_metadata_profile_params[:name] || "Profile #{Time.now.utc.iso8601}"),
+        profile: flexible_metadata_profile_params[:data].to_h
+      )
+
+      # if FlexibleMetadata::Profile.current_version.profile == flexible_metadata_profile_params[:data].to_h
+
       if @flexible_metadata_profile.save
+        FlexibleMetadata::Importer.load_profile_from_data(profile_id: @flexible_metadata_profile.id, data: @flexible_metadata_profile.profile)
         redirect_to profiles_path, notice: 'Flexible Metadata Profile was successfully created.'
       else
         render :new
@@ -87,7 +92,7 @@ module FlexibleMetadata
 
       def set_default_schema
         # File.open FlexibleMetadata.m3_schema_path
-        new_json_schema = File.open "config/metadata_profile/default_schema.json"
+        new_json_schema = File.open "config/m3_json_schemas/default_schema.json"
         @default_schema = JSON.load new_json_schema
         new_json_schema.close
       end

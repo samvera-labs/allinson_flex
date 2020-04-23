@@ -28,14 +28,12 @@ module FlexibleMetadata
     before_create :add_date_modified, :add_m3_version, :set_profile_version
     # after_create :add_profile_data
 
-    attr_accessor :profile_data
-
     def self.current_version
       FlexibleMetadata::Profile.order("created_at asc").last
     end
 
     def schema_version
-      profile[:m3_version]
+      profile['m3_version']
     end
 
     def available_classes
@@ -55,9 +53,11 @@ module FlexibleMetadata
     # @todo - check this doesn't mess up the form
     def set_profile_version
       if FlexibleMetadata::Profile.any?
-        version = FlexibleMetadata::Profile.last.profile_version + 1.0
-        self.profile_version = version
-        profile['profile']['version'] = version
+        version = FlexibleMetadata::Profile.current_version.profile_version + 1.0
+        unless self.profile_version && self.profile_version > version
+          self.profile_version = version
+          profile['profile']['version'] = version
+        end
       else
         version = 1.0
         self.profile_version = version
@@ -72,17 +72,6 @@ module FlexibleMetadata
     # @todo make this configurable
     def add_m3_version
       self.m3_version = '1.0.beta2'
-    end
-
-    def add_profile_data
-      data = profile_data
-      self.profile = data unless profile == data
-    end
-
-    def profile_data
-      @profile_data ||= FlexibleMetadata::FlexibleMetadataConstructor.build_profile_data(
-        profile: self
-      )
     end
 
     def gather_errors
