@@ -12,7 +12,7 @@ module FlexibleMetadata
       @dynamic_schema_service ||= dynamic_schema_helper(
         curation_concern.admin_set_id,
         self.class.curation_concern_type.to_s,
-        curation_concern.respond_to?(:dynamic_schema) ? curation_concern.dynamic_schema : nil
+        curation_concern.dynamic_schema
       )
     end
   end
