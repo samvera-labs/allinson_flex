@@ -183,15 +183,23 @@ module FlexibleMetadata
       end
 
       def self.construct_default_dynamic_schemas(profile:, logger: default_logger)
-        cxt = profile.contexts.build(name: 'default', display_label: 'Default Metadata Context')
+      
+        cxt = FlexibleMetadata::ProfileContext.where(
+          name: 'default',
+          display_label: "Flexible Metadata Example",
+          m3_profile_id: profile.id
+        ).first_or_create
+
+        fm_cxt = FlexibleMetadata::Context.where(
+          name: 'default',
+          m3_profile_context: cxt,
+          m3_profile_id: profile.id
+        ).first_or_create
 
         profile.classes.each do |cl|
           profile.dynamic_schemas.build(
             flexible_metadata_class: cl.name,
-            flexible_metadata_context: profile.flexible_metadata_contexts.build(
-              name: 'default',
-              m3_profile_context: cxt
-            ),
+            flexible_metadata_context: fm_cxt,
             schema: build_schema(cl)
           )
         end
@@ -201,12 +209,15 @@ module FlexibleMetadata
       def self.construct_dynamic_schemas(profile:, logger: default_logger)
         profile.classes.each do |cl|
           cl.contexts.each do |cl_cxt|
+            fm_cxt = FlexibleMetadata::Context.where(
+              name: cl_cxt.name,
+              m3_profile_context: cl_cxt,
+              m3_profile_id: profile.id
+            ).first_or_create
+
             profile.dynamic_schemas.build(
               flexible_metadata_class: cl.name,
-              flexible_metadata_context: profile.flexible_metadata_contexts.build(
-                name: cl_cxt.name,
-                m3_profile_context: cl_cxt
-              ),
+              flexible_metadata_context: fm_cxt,
               schema: build_schema(cl, cl_cxt)
             )
           end

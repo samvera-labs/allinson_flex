@@ -75,7 +75,7 @@ module FlexibleMetadata
 
     def export
       @flexible_metadata_profile = FlexibleMetadata::Profile.find(params[:profile_id])
-      filename = "#{@flexible_metadata_profile.name}-v.#{@flexible_metadata_profile.profile_version}.yml"
+      filename = "metadata-profile-v.#{@flexible_metadata_profile.profile_version}.yml"
       File.open(filename, "w") { |file| file.write(@flexible_metadata_profile.profile.to_hash.to_yaml(indentation: 8)) }
       send_file filename, type: "application/yaml", x_sendfile: true
     end
@@ -91,8 +91,7 @@ module FlexibleMetadata
     private
 
       def set_default_schema
-        # File.open FlexibleMetadata.m3_schema_path
-        new_json_schema = File.open "config/m3_json_schemas/default_schema.json"
+        new_json_schema = File.open FlexibleMetadata.m3_schema_path
         @default_schema = JSON.load new_json_schema
         new_json_schema.close
       end
