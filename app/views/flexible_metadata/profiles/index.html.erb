@@ -29,7 +29,7 @@
             </tr>
           </thead>
           <tbody>
-            <% @flexible_metadata_profiles.order("updated_at DESC").each do |flexible_metadata_profile| %>
+            <% @profiles.order("updated_at DESC").each do |flexible_metadata_profile| %>
               <tr>
                 <!-- TODO: fix show pgs --> 
                 <td><%= flexible_metadata_profile.schema_version %></td>
@@ -49,8 +49,9 @@
             <% end %>
           </tbody>
         </table>
+      
         <%= page_entries_info @profiles %><br />
-        <%= paginate(@profiles, param_name: :page) %>
+        <%= paginate(@profiles, param_name: :profile_entries_page) %>
         
       </div>
       <% else %>
