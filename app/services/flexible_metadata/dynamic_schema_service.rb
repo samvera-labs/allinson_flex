@@ -23,7 +23,7 @@ module FlexibleMetadata
         unless sch.blank?
           model_props = sch.map do |prop_name, prop_value|
             { prop_name.to_sym => {
-              predicate: predicate_for(predicate_uri: prop_value['predicate']),
+              predicate: predicate_for(predicate_uri: prop_value['predicate'] || "http://example.com/#{prop_name}"),
               multiple: prop_value['singular'] == false
             } }
           end.inject(:merge)

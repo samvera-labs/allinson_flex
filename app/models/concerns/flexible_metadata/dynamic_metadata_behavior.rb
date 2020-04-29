@@ -7,15 +7,15 @@ module FlexibleMetadata
 
     included do
       # Dynamically set up the metadata properties
-      FlexibleMetadata::DynamicSchemaService.model_properties(work_class_name: to_s).each_pair do |prop, value|
+      FlexibleMetadata::DynamicSchemaService.model_properties(work_class_name: self.to_s).each_pair do |prop, value|
         property prop, predicate: value[:predicate], multiple: value[:multiple]
       end
-      type(FlexibleMetadata::DynamicSchemaService.rdf_type(work_class_name: to_s))
+      type(FlexibleMetadata::DynamicSchemaService.rdf_type(work_class_name: self.to_s))
     end
 
     # Retrieve the dynamic schema
     def base_dynamic_schema(admin_set_id)
-      respond_to?(:dynamic_schema) ? (dynamic_schema || dynamic_schema_service(admin_set_id).dynamic_schema.id) : dynamic_schema_service(admin_set_id).dynamic_schema.id
+      dynamic_schema || dynamic_schema_service(admin_set_id).dynamic_schema.id
     end
 
     # Setup dynamic schema service

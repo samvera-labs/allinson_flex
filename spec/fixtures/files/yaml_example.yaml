@@ -35,6 +35,9 @@ properties:
     available_on:
       class:
         - Image
+        - BibRecord
+        - PagedResource
+        - Scientific
       context:
         - flexible_context
     cardinality:

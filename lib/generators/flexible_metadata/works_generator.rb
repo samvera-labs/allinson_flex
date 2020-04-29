@@ -28,7 +28,7 @@ class FlexibleMetadata::WorksGenerator < Rails::Generators::Base
 
   def configure_actors
     @work_types.each do |work_type|
-      file = "app/actors/hyrax/actors/#{work_type.downcase}_actor.rb"
+      file = "app/actors/hyrax/actors/#{work_type.underscore}_actor.rb"
       file_text = File.read(file)
       insert_1 = '      include FlexibleMetadata::DynamicActorBehavior'
       insert_2 = "      def create(env)\n        super\n      end"
@@ -55,7 +55,7 @@ class FlexibleMetadata::WorksGenerator < Rails::Generators::Base
 
   def configure_controllers
     @work_types.each do |work_type|
-      file = "app/controllers/hyrax/#{work_type.pluralize.downcase}_controller.rb"
+      file = "app/controllers/hyrax/#{work_type.pluralize.underscore}_controller.rb"
       file_text = File.read(file)
       insert = '    include FlexibleMetadata::DynamicControllerBehavior'
       next if file_text.include?(insert)
@@ -69,7 +69,7 @@ class FlexibleMetadata::WorksGenerator < Rails::Generators::Base
   # @todo - contextual form labels
   def configure_forms
     @work_types.each do |work_type|
-      file = "app/forms/hyrax/#{work_type.downcase}_form.rb"
+      file = "app/forms/hyrax/#{work_type.underscore}_form.rb"
       file_text = File.read(file)
       insert = '    include FlexibleMetadata::DynamicFormBehavior'
       next if file_text.include?(insert)
@@ -81,26 +81,31 @@ class FlexibleMetadata::WorksGenerator < Rails::Generators::Base
 
   def configure_indexers
     @work_types.each do |work_type|
-      file = "app/indexers/#{work_type.downcase}_indexer.rb"
+      file = "app/indexers/#{work_type.underscore}_indexer.rb"
       file_text = File.read(file)
       insert = "  include FlexibleMetadata::DynamicIndexerBehavior\n  self.model_class = ::#{work_type}"
       next if file_text.include?(insert)
       insert_into_file file, before: /\nend/ do
-        "#{insert}\n"
+        "\n#{insert}\n"
       end
     end
   end
 
   def configure_models
     @work_types.each do |work_type|
-      file = "app/models/#{work_type.downcase}.rb"
+      file = "app/models/#{work_type.underscore}.rb"
       file_text = File.read(file)
       insert = '  include FlexibleMetadata::DynamicMetadataBehavior'
       next if file_text.include?(insert)
-      insert_into_file file, before: /\nend/ do
-        "\n#{insert}"
+      if file_text.include?('  include ::Hyrax::BasicMetadata')
+        insert_into_file file, before: /  include ::Hyrax::BasicMetadata/ do
+          "\n#{insert}\n"
+        end
+      else
+        insert_into_file file, before: /\nend/ do
+          "\n#{insert}"
+        end
       end
-      gsub_file file, /\n  include ::Hyrax::BasicMetadata/, "\n  # include ::Hyrax::BasicMetadata"
     end
   end
 
@@ -116,7 +121,7 @@ class FlexibleMetadata::WorksGenerator < Rails::Generators::Base
 
   def configure_presenters
     @work_types.each do |work_type|
-      file = "app/presenters/hyrax/#{work_type.downcase}_presenter.rb"
+      file = "app/presenters/hyrax/#{work_type.underscore}_presenter.rb"
       file_text = File.read(file)
       insert = "    include FlexibleMetadata::DynamicPresenterBehavior\n    self.model_class = ::#{work_type}\n    delegate(*delegated_properties, to: :solr_document)"
       next if file_text.include?(insert)
