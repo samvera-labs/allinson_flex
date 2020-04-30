@@ -251,8 +251,8 @@ module FlexibleMetadata
       end
 
       def self.singular?(cardinality_maximum)
-        return false if cardinality_maximum.blank?
-        cardinality_maximum > 1
+        return false if cardinality_maximum.blank? || cardinality_maximum > 1
+        return true if cardinality_maximum == 1
       end
 
       def self.display_label(property, flexible_metadata_class, flexible_metadata_context = nil)
