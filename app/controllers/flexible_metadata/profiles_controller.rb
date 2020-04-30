@@ -20,6 +20,8 @@ module FlexibleMetadata
 
     # GET /flexible_metadata_profiles/1
     def show
+      @profile = FlexibleMetadata::Profile.find(params[:id])
+    
       add_breadcrumbs
       add_breadcrumb 'Show'
     end

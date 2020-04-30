@@ -32,7 +32,7 @@
             <% @flexible_metadata_profiles.order("updated_at DESC").each do |flexible_metadata_profile| %>
               <tr>
                 <!-- TODO: fix show pgs --> 
-                <td><%= flexible_metadata_profile.schema_version %></td>
+                <td><%= link_to flexible_metadata_profile.schema_version, flexible_metadata.profile_entry_path(@profile.id) %></td>
                 <td><%= flexible_metadata_profile.profile_version.to_f %></td>
                 <td><%= flexible_metadata_profile.profile_type %></td>
                 <td><%= flexible_metadata_profile.created_at.strftime("%b %d, %Y") %></td>
