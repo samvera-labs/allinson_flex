@@ -13,7 +13,7 @@ module FlexibleMetadataHelper
   # If it is not set, pass the DEFAULT_ID
   def dynamic_schema_helper(admin_set_id, work_class_name, dynamic_schema_id = nil)
     FlexibleMetadata::DynamicSchemaService.new(
-      admin_set_id: admin_set_id || AdminSet.DEFAULT_ID,
+      admin_set_id: admin_set_id || AdminSet::DEFAULT_ID,
       work_class_name: work_class_name,
       dynamic_schema_id: dynamic_schema_id
     )
