@@ -95,7 +95,7 @@ module FlexibleMetadata
       def check_for_works
         flexible_metadata_contexts.each do |flexible_metadata_context|
           flexible_metadata_context.admin_set_ids.each do |admin_set_id|
-            next unless AdminSet.find(admin_set_id).members.count > 0
+            next unless check_admin_set(admin_set_id)
             errors.add(
               :base,
               'A Profile with associated works cannot be destroyed.'
@@ -103,6 +103,13 @@ module FlexibleMetadata
             throw :abort
           end
         end
+      end
+
+      def check_admin_set(admin_set_id)
+        a = AdminSet.find(admin_set_id)
+        return a.members.count > 0
+      rescue 
+        true
       end
   end
 end
