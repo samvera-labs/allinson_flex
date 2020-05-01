@@ -22,7 +22,6 @@ module FlexibleMetadata
     def show
       add_breadcrumbs
       add_breadcrumb 'Show'
-      # render json: JSON.pretty_generate(@flexible_metadata_profile.profile)
     end
 
     # GET /flexible_metadata_profiles/new
