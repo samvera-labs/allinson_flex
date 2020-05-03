@@ -4,7 +4,6 @@ require 'active_support/core_ext/hash/keys'
 module FlexibleMetadata
   # @todo move custom error classes to a single location
   class NoFlexibleMetadataContextError < StandardError; end
-  class NoFlexibleMetadataAdminSetError < StandardError; end
 
   class DynamicSchemaService
     attr_accessor :dynamic_schema, :flexible_metadata_context, :flexible_metadata_context_id, :model
@@ -94,9 +93,7 @@ module FlexibleMetadata
     end
 
     def initialize(admin_set_id:, work_class_name:, dynamic_schema_id: nil)
-      raise FlexibleMetadata::NoFlexibleMetadataAdminSetError('The Admin Set ID is blank') if admin_set_id.blank?
-
-      context_for(admin_set_id: admin_set_id)
+      context_for(admin_set_id: (admin_set_id || AdminSet::DEFAULT_ID))
       dynamic_schema_for(
         flexible_metadata_context_id: flexible_metadata_context_id,
         work_class_name: work_class_name,
