@@ -20,7 +20,7 @@ module FlexibleMetadata
 
     # Setup dynamic schema service
     def dynamic_schema_service(admin_set_id)
-      @dynamic_schema_service ||= FlexibleMetadata::DynamicSchemaService.new(
+      FlexibleMetadata::DynamicSchemaService.new(
         admin_set_id: admin_set_id,
         work_class_name: self.class.to_s
       )
