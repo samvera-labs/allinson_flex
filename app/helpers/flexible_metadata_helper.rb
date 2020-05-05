@@ -1,7 +1,14 @@
 # frozen_string_literal: true
 
+require "webpacker/helper"
 # override (from Hyrax 2.5.0) - new module
 module FlexibleMetadataHelper
+
+  include ::Webpacker::Helper
+  def current_webpacker_instance
+    FlexibleMetadata.webpacker
+  end
+
   # Retrieve the selected context for the AdminSet
   def selected_context(admin_set)
     return '' if admin_set.metadata_context.blank?

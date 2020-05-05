@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import Form from './form'
+import CollapsibleFieldTemplate from "./collapsible_field_template"
 import { saveData } from '../shared/save_data'
 import { css } from "@emotion/core";
 import RotateLoader from "react-spinners/RotateLoader";
@@ -10,6 +11,7 @@ function processForm(schema, uiSchema, formData) {
 
   if ( formData.classes !== undefined ) {
     newSchema.properties.properties.additionalProperties.properties.available_on.properties.class.items.enum = Object.getOwnPropertyNames(formData.classes)
+    newSchema.properties.classes.additionalProperties.properties.contexts.items.enum = Object.getOwnPropertyNames(formData.contexts)
   }
   if ( formData.contexts !== undefined ) {
     newSchema.properties.properties.additionalProperties.properties.available_on.properties.context.items.enum = Object.getOwnPropertyNames(formData.contexts)
@@ -92,18 +94,18 @@ class FlexibleMetadataProfileForm extends Component {
           window.scrollTo({ top: 0, behavior: 'smooth' })
           window.location.href = index_path
         } else {
-          window.flash_messages.addMessage({ id: 'id', text: 'There was an error saving your information', type: 'danger' });
+          window.flash_messages.addMessage({ id: 'id', text: 'There was an error saving your information', type: 'error' });
           window.scrollTo({ top: 0, behavior: 'smooth' })
-          //safeStopTurbolinksProgress()
-          //this.setState({ isLoading: false })
+          safeStopTurbolinksProgress()
+          this.setState({ isLoading: false })
         }
       },
       fail: (res) => {
         let message = res.message ? res.message : 'There was an error saving your information'
-        window.flash_messages.addMessage({ id: 'id', text: message, type: 'danger' });
+        window.flash_messages.addMessage({ id: 'id', text: message, type: 'error' });
         window.scrollTo({ top: 0, behavior: 'smooth' })
-        //safeStopTurbolinksProgress()
-        //this.setState({ isLoading: false })
+        safeStopTurbolinksProgress()
+        this.setState({ isLoading: false })
       }
     })
   }
@@ -129,14 +131,15 @@ class FlexibleMetadataProfileForm extends Component {
   render() {
     return (
       <div>
-        <Form key={ this.state.flexible_metadata_profile.id }
-          schema={ this.state.schema }
+        <Form key={this.state.flexible_metadata_profile.id}
+          schema={this.state.schema}
           formData={this.state.formData}
+          FieldTemplate={CollapsibleFieldTemplate}
           uiSchema= {this.state.uiSchema}
           onChange={this.handleChange}
-          onSubmit={ this.onFormSubmit }
+          onSubmit={this.onFormSubmit}
           onFormError={this.onFormError}
-          showErrorList={ false }
+          showErrorList={false}
         />
         {this.loadSpinner()}
       </div>
