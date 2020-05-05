@@ -1,0 +1,24 @@
+{
+  "name": "flexible_metadata",
+  "private": true,
+  "dependencies": {
+    "@babel/preset-react": "^7.9.4",
+    "@rails/webpacker": "4.2.2",
+    "@rjsf/core": "^2.0.0",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "immutability-helper": "^3.0.2",
+    "lodash": "^4.17.15",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-bootstrap": "^1.0.1",
+    "react-dom": "^16.13.1",
+    "react-jsonschema-form": "^1.8.1",
+    "react-jsonschema-form-bs4": "^1.7.1",
+    "react-spinners": "^0.8.1",
+    "react-transition-group": "^4.3.0",
+    "react_ujs": "^2.6.1"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.10.3"
+  }
+}
