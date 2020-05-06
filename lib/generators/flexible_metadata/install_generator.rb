@@ -55,17 +55,6 @@ class FlexibleMetadata::InstallGenerator < Rails::Generators::Base
     end
   end
 
-  def add_javascripts
-    file = 'app/assets/javascripts/application.js'
-    file_text = File.read(file)
-    js = '//= require flexible_metadata/application'
-
-    return if file_text.include?(js)
-    insert_into_file file, before: /\/\/= require_tree ./ do
-      "#{js}\n"
-    end
-  end
-
   def create_metadata_profile_dir
     directory 'config/metadata_profile', 'config/metadata_profile'
   end
@@ -77,10 +66,6 @@ class FlexibleMetadata::InstallGenerator < Rails::Generators::Base
   def create_gitignore
     file = '.gitignore'
     File.write('.gitignore', "# ignore these files\n") unless File.exist?(file)
-  end
-
-  def create_react_javascript
-    directory 'app/javascript', 'app/javascript'
   end
 
   def create_react_flash_messages
@@ -97,17 +82,6 @@ class FlexibleMetadata::InstallGenerator < Rails::Generators::Base
       append_to_file file do
         flash
       end
-    end
-  end
-
-  def add_javascript_pack_tag
-    file = 'app/views/layouts/application.html.erb'
-    file_text = File.read(file)
-    pack = "    <%= javascript_pack_tag 'application' %>"
-
-    return if file_text.include?(pack)
-    insert_into_file file, before: /  <\/head>/ do
-      "#{pack}\n"
     end
   end
 
@@ -140,11 +114,6 @@ class FlexibleMetadata::InstallGenerator < Rails::Generators::Base
         "#{ignore}\n"
       end
     end
-  end
-
-  def yarn_add_packages
-    system 'yarn add @rjsf/core react-dom react-jsonschema-form react-jsonschema-form-bs4 react-spinners react-transition-group react_ujs immutability-helper'
-    system 'yarn install'
   end
 
   def display_readme

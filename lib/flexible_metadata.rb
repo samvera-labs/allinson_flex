@@ -4,12 +4,21 @@ require "flexible_metadata/engine"
 require 'active_support/all'
 
 module FlexibleMetadata
+  ROOT_PATH = Pathname.new(File.join(__dir__, ".."))
+
   class << self
     mattr_accessor  :m3_schema_repository_raw,
                     :m3_schema_version_tag
 
     self.m3_schema_repository_raw = 'https://raw.githubusercontent.com/samvera-labs/houndstooth'
     self.m3_schema_version_tag = 'f753864727a0ba743cb5ec47e88797435a0a596a'
+
+    def webpacker
+      @webpacker ||= ::Webpacker::Instance.new(
+        root_path: ROOT_PATH,
+        config_path: ROOT_PATH.join("config/webpacker.yml")
+      )
+    end
   end
 
   def self.m3_schema_path

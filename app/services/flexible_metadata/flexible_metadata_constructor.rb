@@ -36,68 +36,68 @@ module FlexibleMetadata
       logger.info(%(Created FlexibleMetadata::Context and FlexibleMetadata::DynamicSchema objects for ID=#{profile.id}))
     end
 
-    def self.build_profile_data(profile:)
-      {
-        'm3_version' => profile.m3_version,
-        'profile' => {
-          'responsibility' => profile.responsibility,
-          'responsibility_statement' => profile.responsibility_statement,
-          'date_modified' => profile.date_modified,
-          'type' => profile.profile_type,
-          'version' => profile.profile_version
-        }.compact,
-        'classes' =>
-          profile.classes.map do |cl|
-            {
-              cl.name.strip => {
-                'display_label' => cl.display_label,
-                'schema_uri' => cl.schema_uri,
-                'contexts' => cl.contexts.map(&:name)
-              }.compact
-            }
-          end.inject(:merge),
-        'contexts' =>
-          profile.contexts.map do |cxt|
-            {
-              cxt.name.strip => {
-                'display_label' => cxt.display_label
-              }.compact
-            }
-          end.inject(:merge),
-        'properties' =>
-          profile.properties.map do |prop|
-            class_text = prop.texts.map { |text| text if text.name == 'display_label' && text.textable_type == 'FlexibleMetadata::ProfileClass' }.compact
-            context_text = prop.texts.map { |text| text if text.name == 'display_label' && text.textable_type == 'FlexibleMetadata::ProfileContext' }.compact
-            display_labels = []
-            display_labels << { 'default' => prop.texts.map { |text| text.value if text.name == 'display_label' && text.textable_type.nil? }.compact.first }
-            class_text.each do |clt|
-              display_labels << { clt.textable.name => clt.value }.compact
-            end
-            context_text.each do |cxtt|
-              display_labels << { cxtt.textable.name => cxtt.value }.compact
-            end
+    # def self.build_profile_data(profile:)
+    #   {
+    #     'm3_version' => profile.m3_version,
+    #     'profile' => {
+    #       'responsibility' => profile.responsibility,
+    #       'responsibility_statement' => profile.responsibility_statement,
+    #       'date_modified' => profile.date_modified,
+    #       'type' => profile.profile_type,
+    #       'version' => profile.profile_version
+    #     }.compact,
+    #     'classes' =>
+    #       profile.classes.map do |cl|
+    #         {
+    #           cl.name.strip => {
+    #             'display_label' => cl.display_label,
+    #             'schema_uri' => cl.schema_uri,
+    #             'contexts' => cl.contexts.map(&:name)
+    #           }.compact
+    #         }
+    #       end.inject(:merge),
+    #     'contexts' =>
+    #       profile.contexts.map do |cxt|
+    #         {
+    #           cxt.name.strip => {
+    #             'display_label' => cxt.display_label
+    #           }.compact
+    #         }
+    #       end.inject(:merge),
+    #     'properties' =>
+    #       profile.properties.map do |prop|
+    #         class_text = prop.texts.map { |text| text if text.name == 'display_label' && text.textable_type == 'FlexibleMetadata::ProfileClass' }.compact
+    #         context_text = prop.texts.map { |text| text if text.name == 'display_label' && text.textable_type == 'FlexibleMetadata::ProfileContext' }.compact
+    #         display_labels = []
+    #         display_labels << { 'default' => prop.texts.map { |text| text.value if text.name == 'display_label' && text.textable_type.nil? }.compact.first }
+    #         class_text.each do |clt|
+    #           display_labels << { clt.textable.name => clt.value }.compact
+    #         end
+    #         context_text.each do |cxtt|
+    #           display_labels << { cxtt.textable.name => cxtt.value }.compact
+    #         end
 
-            {
-              prop.name.strip => {
-                'display_label' => display_labels.inject(:merge),
-                'property_uri' => build_property_uri(
-                  property_name: prop.name,
-                  property_uri: prop.property_uri
-                ),
-                'available_on' => {
-                  'class' => prop.available_on_classes.map(&:name),
-                  'context' => prop.available_on_contexts.map(&:name)
-                }.compact,
-                'cardinality' => {
-                  'minimum' => prop.cardinality_minimum,
-                  'maximum' => prop.cardinality_maximum
-                }.compact,
-                'indexing' => prop.indexing
-              }.compact
-            }
-          end.inject(:merge)
-      }
-    end
+    #         {
+    #           prop.name.strip => {
+    #             'display_label' => display_labels.inject(:merge),
+    #             'property_uri' => build_property_uri(
+    #               property_name: prop.name,
+    #               property_uri: prop.property_uri
+    #             ),
+    #             'available_on' => {
+    #               'class' => prop.available_on_classes.map(&:name),
+    #               'context' => prop.available_on_contexts.map(&:name)
+    #             }.compact,
+    #             'cardinality' => {
+    #               'minimum' => prop.cardinality_minimum,
+    #               'maximum' => prop.cardinality_maximum
+    #             }.compact,
+    #             'indexing' => prop.indexing
+    #           }.compact
+    #         }
+    #       end.inject(:merge)
+    #   }
+    # end
 
     private
 
