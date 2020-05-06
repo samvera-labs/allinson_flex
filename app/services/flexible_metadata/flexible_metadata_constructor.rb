@@ -26,9 +26,6 @@ module FlexibleMetadata
       profile.save!
       logger.info(%(LoadedFlexibleMetadata::Profile ID=#{profile.id}))
       create_dynamic_schemas(profile: profile)
-      # @todo - this is not the right way to do this, and won't work across multiple servers
-      #  and it may well cause other problems
-      reload_models(profile: profile)
       profile
     end
 
@@ -101,13 +98,6 @@ module FlexibleMetadata
     #       end.inject(:merge)
     #   }
     # end
-
-    def self.reload_models(profile:)
-      profile.classes.each do |cl|
-        Object.send(:remove_const, cl.name) if Object.const_defined?(:Image)
-        load "app/models/#{cl.name.underscore}.rb"
-      end
-    end
 
     private
 
