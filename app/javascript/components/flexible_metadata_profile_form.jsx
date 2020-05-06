@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import Form from './form'
-import CollapsibleFieldTemplate from "./collapsible_field_template"
 import { saveData } from '../shared/save_data'
 import { css } from "@emotion/core";
 import RotateLoader from "react-spinners/RotateLoader";
@@ -98,6 +97,8 @@ class FlexibleMetadataProfileForm extends Component {
           window.scrollTo({ top: 0, behavior: 'smooth' })
           safeStopTurbolinksProgress()
           this.setState({ isLoading: false })
+          $(":submit").attr("disabled", false)
+          $("#root").attr("disabled", false)
         }
       },
       fail: (res) => {
@@ -106,6 +107,8 @@ class FlexibleMetadataProfileForm extends Component {
         window.scrollTo({ top: 0, behavior: 'smooth' })
         safeStopTurbolinksProgress()
         this.setState({ isLoading: false })
+        $(":submit").attr("disabled", false)
+        $("#root").attr("disabled", false)
       }
     })
   }
@@ -134,7 +137,6 @@ class FlexibleMetadataProfileForm extends Component {
         <Form key={this.state.flexible_metadata_profile.id}
           schema={this.state.schema}
           formData={this.state.formData}
-          FieldTemplate={CollapsibleFieldTemplate}
           uiSchema= {this.state.uiSchema}
           onChange={this.handleChange}
           onSubmit={this.onFormSubmit}
