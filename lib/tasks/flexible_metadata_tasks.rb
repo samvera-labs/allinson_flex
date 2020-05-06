@@ -6,11 +6,23 @@ ensure
   Webpacker.logger = old_logger
 end
 
+namespace :yarn do
+  task :install do
+    Dir.chdir(File.join(__dir__, "../..")) do
+      ensure_log_goes_to_stdout do
+        Webpacker.logger.info 'starting flexible metadata yarn install'
+        system "yarn install --no-progress --production"
+      end
+    end
+  end
+end
+
 namespace :flexible_metadata do
   namespace :webpacker do
     desc "Install deps with yarn"
     task :yarn_install do
       Dir.chdir(File.join(__dir__, "../..")) do
+        Webpacker.logger.info 'starting flexible metadata yarn install'
         system "yarn install --no-progress --production"
       end
     end
@@ -19,10 +31,12 @@ namespace :flexible_metadata do
     task compile: [:yarn_install, :environment] do
       Webpacker.with_node_env("production") do
         ensure_log_goes_to_stdout do
-          if MyEngine.webpacker.commands.compile
+          if FlexibleMetadata.webpacker.commands.compile
+            Webpacker.logger.info 'compiled packs for flexible metadata'
             # Successful compilation!
           else
             # Failed compilation
+            Webpacker.logger.error 'packs for flexible metadata failed'
             exit!
           end
         end
