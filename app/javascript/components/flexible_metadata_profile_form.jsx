@@ -97,6 +97,8 @@ class FlexibleMetadataProfileForm extends Component {
           window.scrollTo({ top: 0, behavior: 'smooth' })
           safeStopTurbolinksProgress()
           this.setState({ isLoading: false })
+          $(":submit").attr("disabled", false)
+          $("#root").attr("disabled", false)
         }
       },
       fail: (res) => {
@@ -105,6 +107,8 @@ class FlexibleMetadataProfileForm extends Component {
         window.scrollTo({ top: 0, behavior: 'smooth' })
         safeStopTurbolinksProgress()
         this.setState({ isLoading: false })
+        $(":submit").attr("disabled", false)
+        $("#root").attr("disabled", false)
       }
     })
   }
