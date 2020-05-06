@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+ROOT_PATH = Pathname.new(File.join(__dir__, "..", ".."))
 
 module FlexibleMetadata
   class Engine < ::Rails::Engine
@@ -27,7 +28,7 @@ module FlexibleMetadata
 
     config.app_middleware.use(
       Rack::Static,
-      urls: ["/flexible-packs"], root: "/public"
+      urls: ["/flexible-packs"], root: File.join(ROOT_PATH, 'public')
     )
 
     config.after_initialize do
