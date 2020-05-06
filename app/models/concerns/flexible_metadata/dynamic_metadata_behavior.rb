@@ -5,11 +5,6 @@ module FlexibleMetadata
   module DynamicMetadataBehavior
     extend ActiveSupport::Concern
 
-    included do
-      # Dynamically set up the metadata properties
-      type(FlexibleMetadata::DynamicSchemaService.rdf_type(work_class_name: self.to_s))
-    end
-
     class_methods do
       # It appears to be safe to add w/o removing first
       # Index blocks are not supported here
@@ -70,6 +65,7 @@ module FlexibleMetadata
       FlexibleMetadata::DynamicSchemaService.model_properties(work_class_name: self.class.to_s).each do |prop, value|
         self.class.late_add_property prop, predicate: value[:predicate], multiple: value[:multiple]
       end
+      self.class.type(FlexibleMetadata::DynamicSchemaService.rdf_type(work_class_name: self.class.to_s))
     end
 
     # Retrieve the dynamic schema
