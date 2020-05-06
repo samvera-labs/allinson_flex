@@ -68,22 +68,22 @@ class FlexibleMetadata::InstallGenerator < Rails::Generators::Base
     File.write('.gitignore', "# ignore these files\n") unless File.exist?(file)
   end
 
-  def create_react_flash_messages
-    file = 'app/views/_flash_msg.html.erb'
-    return if File.exist? file
-    copy_file File.join(Hyrax::Engine.root, file), file
-  end
+  # def create_react_flash_messages
+  #   file = 'app/views/_flash_msg.html.erb'
+  #   return if File.exist? file
+  #   copy_file File.join(Hyrax::Engine.root, file), file
+  # end
 
-  def add_react_flash_messages
-    file = 'app/views/_flash_msg.html.erb'
-    file_text = File.read(file)
-    flash = "\n<%= react_component 'flash_messages', messages: flash_messages %>\n"
-    unless file_text.include?(flash)
-      append_to_file file do
-        flash
-      end
-    end
-  end
+  # def add_react_flash_messages
+  #   file = 'app/views/_flash_msg.html.erb'
+  #   file_text = File.read(file)
+  #   flash = "\n<%= react_component 'flash_messages', messages: flash_messages %>\n"
+  #   unless file_text.include?(flash)
+  #     append_to_file file do
+  #       flash
+  #     end
+  #   end
+  # end
 
   def add_helpers
     file = 'app/helpers/hyrax_helper.rb'
