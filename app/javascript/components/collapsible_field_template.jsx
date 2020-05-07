@@ -12,26 +12,14 @@ class CollapsibleFieldTemplate extends PureComponent {
     const { formContext } = props;
 
     const topmostElement = this.isThisTheTopmostElement();
+    const sectionElement = this.isThisASectionElement();
 
     this.state = {
-      collapsed: topmostElement ? false : formContext.hideAll,
+      collapsed: sectionElement,
       topmostElement,
+      sectionElement,
       hideAll: formContext.hideAll
     };
-  }
-
-  static getDerivedStateFromProps(nextProps, state) {
-    const { formContext } = nextProps;
-    const { hideAll, topmostElement } = state;
-
-    if (hideAll !== formContext.hideAll) {
-      return {
-        collapsed: topmostElement ? false : formContext.hideAll,
-        hideAll: formContext.hideAll
-      };
-    }
-
-    return null;
   }
 
   isThisTheTopmostElement = () => {
@@ -39,6 +27,13 @@ class CollapsibleFieldTemplate extends PureComponent {
 
     return id === "root";
   };
+  
+  isThisASectionElement = () => {
+    const { id } = this.props;
+    const section_ids = ['root_classes', 'root_contexts', 'root_properties', 'root_mappings']
+
+    return section_ids.includes(id);
+  }
 
   render() {
     const {
@@ -87,7 +82,7 @@ class CollapsibleFieldTemplate extends PureComponent {
         {hidden ? null : (
           <div className={classNames}>
             <React.Fragment>
-              {!this.isThisTheTopmostElement() ? (
+              {(!this.isThisTheTopmostElement() && this.isThisASectionElement()) ? (
                 <OverlayTrigger
                   placement="top"
                   delay={{ show: 300, hide: 100 }}
@@ -140,3 +135,9 @@ class CollapsibleFieldTemplate extends PureComponent {
 }
 
 export default CollapsibleFieldTemplate
+
+
+//detect when sections nodes happen
+//  render button and know the state
+//    based on  state of button, render children of the section
+    
