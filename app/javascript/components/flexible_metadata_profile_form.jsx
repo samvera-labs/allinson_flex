@@ -143,6 +143,8 @@ class FlexibleMetadataProfileForm extends Component {
           onFormError={this.onFormError}
           showErrorList={false}
         />
+        <br />
+        <button type="button" href="/profiles/" class="btn btn-danger">Cancel</button>
         {this.loadSpinner()}
       </div>
     )
