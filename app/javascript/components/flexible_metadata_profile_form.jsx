@@ -1,26 +1,28 @@
 import React, { Component } from "react"
-import Form from './form'
+import Form from "@rjsf/core"
 import { saveData } from '../shared/save_data'
-import { css } from "@emotion/core";
-import RotateLoader from "react-spinners/RotateLoader";
+import { css } from "@emotion/core"
 
 function processForm(schema, uiSchema, formData) {
   let newSchema = JSON.parse(JSON.stringify(schema))
   let newFormData = JSON.parse(JSON.stringify(formData))
 
-  if ( formData.classes !== undefined ) {
-    newSchema.properties.properties.additionalProperties.properties.available_on.properties.class.items.enum = Object.getOwnPropertyNames(formData.classes)
-    newSchema.properties.classes.additionalProperties.properties.contexts.items.enum = Object.getOwnPropertyNames(formData.contexts)
-  }
-  if ( formData.contexts !== undefined ) {
-    newSchema.properties.properties.additionalProperties.properties.available_on.properties.context.items.enum = Object.getOwnPropertyNames(formData.contexts)
+
+  if(newSchema.properties && newSchema.properties.additionalProperties) {
+    if ( formData.classes !== undefined ) {
+      newSchema.properties.properties.additionalProperties.properties.available_on.properties.class.items.enum = Object.getOwnPropertyNames(formData.classes)
+      newSchema.properties.classes.additionalProperties.properties.contexts.items.enum = Object.getOwnPropertyNames(formData.contexts)
+    }
+    if ( formData.contexts !== undefined ) {
+      newSchema.properties.properties.additionalProperties.properties.available_on.properties.context.items.enum = Object.getOwnPropertyNames(formData.contexts)
+    }
   }
 
   return {
     schema: newSchema,
     uiSchema: uiSchema,
     formData: newFormData
-  };
+  }
 }
 
 function safeStartTurbolinksProgress() {
@@ -31,44 +33,47 @@ function safeStartTurbolinksProgress() {
 
 function safeStopTurbolinksProgress() {
   if(!Turbolinks.supported) { return; }
-  Turbolinks.controller.adapter.progressBar.hide();
-  Turbolinks.controller.adapter.progressBar.setValue(100);
+  Turbolinks.controller.adapter.progressBar.hide()
+  Turbolinks.controller.adapter.progressBar.setValue(100)
 }
-
-const override = css`
-  display: block;
-  position: fixed;
-  top: 50%;
-  left: 60%;
-  margin-top: -50px;
-  margin-left: -100px;
-`;
 
 class FlexibleMetadataProfileForm extends Component {
   constructor(props) {
-
     super(props)
-    let values = processForm(props.schema, {}, ( props.flexible_metadata_profile.profile ||  {} ))
+
     this.state = {
+      flexible_metadata_profile: {},
+      formData: {},
+      schema: {},
+      uiSchema: {}
+    }
+
+    this.handleChange = this.handleChange.bind(this)
+    this.onFormSubmit = this.onFormSubmit.bind(this)
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    let values = processForm(props.schema, {}, ( props.flexible_metadata_profile.profile ||  {} ))
+    return {
       flexible_metadata_profile: props.flexible_metadata_profile,
       formData: values.formData,
       schema: values.schema,
-      uiSchema: values.uiSchema,
-      isLoading: false,
+      uiSchema: values.uiSchema
     }
-    this.handleChange = this.handleChange.bind(this)
-    this.onFormSubmit = this.onFormSubmit.bind(this)
-    this.loadSpinner = this.loadSpinner.bind(this)
+  }
+
+  componentDidMount() {
+    this.props.setLoading(false)
   }
 
   handleChange = (data) => {
-    const schema = { ...this.state.schema };
-    const uiSchema = { ...this.state.uiSchema };
-    const { formData } = data;
+    const schema = { ...this.state.schema }
+    const uiSchema = { ...this.state.uiSchema }
+    const { formData } = data
 
-    const newState = processForm( schema, uiSchema, formData);
+    const newState = processForm( schema, uiSchema, formData)
 
-    this.setState(newState);
+    this.setState(newState)
   }
 
   onFormSubmit = ({formData}) => {
@@ -76,9 +81,9 @@ class FlexibleMetadataProfileForm extends Component {
     $(":submit").attr("disabled", true)
     $("#root").attr("disabled", true)
 
-    this.setState({ isLoading: true })
+    this.props.setLoading(true)
     safeStartTurbolinksProgress()
-    
+
     const index_path = "/profiles/"
 
     saveData({
@@ -89,23 +94,25 @@ class FlexibleMetadataProfileForm extends Component {
       success: (res) => {
         let statusCode = res.status
         if (statusCode == 200) {
-          window.flash_messages.addMessage({ id: 'id', text: 'A new profile version has been saved!', type: 'success' });
+          window.flash_messages.addMessage({ id: 'id', text: 'A new profile version has been saved!', type: 'success' })
           window.scrollTo({ top: 0, behavior: 'smooth' })
           window.location.href = index_path
         } else {
-          window.flash_messages.addMessage({ id: 'id', text: 'There was an error saving your information', type: 'error' });
+          window.flash_messages.addMessage({ id: 'id', text: 'There was an error saving your information', type: 'error' })
           window.scrollTo({ top: 0, behavior: 'smooth' })
           safeStopTurbolinksProgress()
-          this.setState({ isLoading: false })
+
+          this.props.setLoading(false)
           $(":submit").attr("disabled", false)
           $("#root").attr("disabled", false)
         }
       },
       fail: (res) => {
         let message = res.message ? res.message : 'There was an error saving your information'
-        window.flash_messages.addMessage({ id: 'id', text: message, type: 'error' });
+        window.flash_messages.addMessage({ id: 'id', text: message, type: 'error' })
         window.scrollTo({ top: 0, behavior: 'smooth' })
         safeStopTurbolinksProgress()
+        this.props.setLoading(false)
         this.setState({ isLoading: false })
         $(":submit").attr("disabled", false)
         $("#root").attr("disabled", false)
@@ -113,22 +120,12 @@ class FlexibleMetadataProfileForm extends Component {
     })
   }
 
-  loadSpinner = () => {
-    return(
-      <div className="sweet-loading">
-        <RotateLoader
-          css={override}
-          size={35}
-          margin={20}
-          color={"#4A90E2"}
-          loading={this.state.isLoading}
-        />
-      </div>
-    );
-  }
-
   onFormError = (data) => {
     console.log('Error', data)
+  }
+
+  handleCancel = () => {
+    window.location = '/profiles/'
   }
 
   render() {
@@ -142,10 +139,12 @@ class FlexibleMetadataProfileForm extends Component {
           onSubmit={this.onFormSubmit}
           onFormError={this.onFormError}
           showErrorList={false}
-        />
-        <br />
-        <button type="button" href="/profiles/" class="btn btn-danger">Cancel</button>
-        {this.loadSpinner()}
+        >
+          <div>
+            <button type="submit" className="btn btn-primary" style={{marginRight: '5px'}}>Submit</button>
+            <button type="button" onClick={this.handleCancel} className="btn btn-danger">Cancel</button>
+          </div>
+        </Form>
       </div>
     )
   }

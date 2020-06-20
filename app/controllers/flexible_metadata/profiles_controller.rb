@@ -15,8 +15,7 @@ module FlexibleMetadata
     # GET /flexible_metadata_profiles
     def index
       add_breadcrumbs
-      @flexible_metadata_profiles = FlexibleMetadata::Profile.all
-      @profiles = @flexible_metadata_profiles.page(params[:profile_entries_page])
+      @profiles = FlexibleMetadata::Profile.page(params[:profile_entries_page])
     end
 
     # GET /flexible_metadata_profiles/1
@@ -92,9 +91,9 @@ module FlexibleMetadata
     private
 
       def set_default_schema
-        new_json_schema = File.open FlexibleMetadata.m3_schema_path
-        @default_schema = JSON.load new_json_schema
-        new_json_schema.close
+        File.open(FlexibleMetadata.m3_schema_path) do |f|
+          @default_schema = JSON.load f
+        end
       end
 
       def add_breadcrumbs

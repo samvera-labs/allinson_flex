@@ -7,23 +7,7 @@
 <div class="row">
   <div class="col-md-12">
     <div class="panel panel-default tabs">
-      <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-          <a href="#description" role="tab" data-toggle="tab"><%= t('.tabs.description') %></a>
-        </li>
-      </ul>
-      <%= simple_form_for @flexible_metadata_profile, url: flexible_metadata.profiles_path, method: :post do |form| %>
-        <%= render 'form', flexible_metadata_profile: @flexible_metadata_profile, form: form %>
-        <div class="panel-footer">
-          <div class='pull-right'>
-            <!--
-            <%# <%= form.button :submit, 'Save Changes', class: 'btn btn-primary' %> %>
-            <%# <% cancel_path = form.object.persisted? ? flexible_metadata.profile_path(form.object) : flexible_metadata.profiles_path %> %>
-              <%# | <%= link_to t('.cancel'), cancel_path, class: 'btn btn-default ' %> %>
-            -->
-          </div>
-        </div>
-      <% end %>
+      <%= react_component("flexible_metadata", { schema: @default_schema, flexible_metadata_profile: @flexible_metadata_profile }) %>
     </div>
   </div>
 </div>
