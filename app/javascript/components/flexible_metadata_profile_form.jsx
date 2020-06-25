@@ -4,18 +4,15 @@ import { saveData } from '../shared/save_data'
 import { css } from "@emotion/core"
 
 function processForm(schema, uiSchema, formData) {
-  let newSchema = JSON.parse(JSON.stringify(schema))
-  let newFormData = JSON.parse(JSON.stringify(formData))
+  let newSchema = { ...schema }
+  let newFormData = { ...formData }
 
-
-  if(newSchema.properties && newSchema.properties.additionalProperties) {
-    if ( formData.classes !== undefined ) {
-      newSchema.properties.properties.additionalProperties.properties.available_on.properties.class.items.enum = Object.getOwnPropertyNames(formData.classes)
-      newSchema.properties.classes.additionalProperties.properties.contexts.items.enum = Object.getOwnPropertyNames(formData.contexts)
-    }
-    if ( formData.contexts !== undefined ) {
-      newSchema.properties.properties.additionalProperties.properties.available_on.properties.context.items.enum = Object.getOwnPropertyNames(formData.contexts)
-    }
+  if ( formData.classes !== undefined ) {
+    newSchema.properties.properties.additionalProperties.properties.available_on.properties.class.items.enum = Object.getOwnPropertyNames(formData.classes)
+    newSchema.properties.classes.additionalProperties.properties.contexts.items.enum = Object.getOwnPropertyNames(formData.contexts)
+  }
+  if ( formData.contexts !== undefined ) {
+    newSchema.properties.properties.additionalProperties.properties.available_on.properties.context.items.enum = Object.getOwnPropertyNames(formData.contexts)
   }
 
   return {
@@ -27,8 +24,8 @@ function processForm(schema, uiSchema, formData) {
 
 function safeStartTurbolinksProgress() {
   if(!Turbolinks.supported) { return; }
-  Turbolinks.controller.adapter.progressBar.setValue(0);
-  Turbolinks.controller.adapter.progressBar.show();
+  Turbolinks.controller.adapter.progressBar.setValue(0)
+  Turbolinks.controller.adapter.progressBar.show()
 }
 
 function safeStopTurbolinksProgress() {
@@ -41,18 +38,18 @@ class FlexibleMetadataProfileForm extends Component {
   constructor(props) {
     super(props)
 
+    let values = processForm(props.schema, {}, ( props.flexible_metadata_profile.profile ||  {} ))
     this.state = {
-      flexible_metadata_profile: {},
-      formData: {},
-      schema: {},
-      uiSchema: {}
+      flexible_metadata_profile: props.flexible_metadata_profile,
+      formData: values.formData,
+      schema: values.schema,
+      uiSchema: values.uiSchema
     }
-
     this.handleChange = this.handleChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
   }
 
-  static getDerivedStateFromProps(props, state) {
+  componentWillReceiveProps(props) {
     let values = processForm(props.schema, {}, ( props.flexible_metadata_profile.profile ||  {} ))
     return {
       flexible_metadata_profile: props.flexible_metadata_profile,
@@ -69,10 +66,10 @@ class FlexibleMetadataProfileForm extends Component {
   handleChange = (data) => {
     const schema = { ...this.state.schema }
     const uiSchema = { ...this.state.uiSchema }
-    const { formData } = data
-
+    const formData = { ...this.state.formData }
+    formData[this.props.tab] = data.formData
     const newState = processForm( schema, uiSchema, formData)
-
+    /* const newState = { schema, uiSchema, formData } */
     this.setState(newState)
   }
 
@@ -80,16 +77,16 @@ class FlexibleMetadataProfileForm extends Component {
     console.log("SUBMITTED")
     $(":submit").attr("disabled", true)
     $("#root").attr("disabled", true)
-
     this.props.setLoading(true)
     safeStartTurbolinksProgress()
-
+    const newFormData = { ...this.state.formData }
+    newFormData[this.props.tab] = formData
     const index_path = "/profiles/"
 
     saveData({
       path: index_path,
       method: "POST",
-      data: formData,
+      data: newFormData,
       schema: this.state.schema,
       success: (res) => {
         let statusCode = res.status
@@ -101,7 +98,6 @@ class FlexibleMetadataProfileForm extends Component {
           window.flash_messages.addMessage({ id: 'id', text: 'There was an error saving your information', type: 'error' })
           window.scrollTo({ top: 0, behavior: 'smooth' })
           safeStopTurbolinksProgress()
-
           this.props.setLoading(false)
           $(":submit").attr("disabled", false)
           $("#root").attr("disabled", false)
@@ -113,7 +109,6 @@ class FlexibleMetadataProfileForm extends Component {
         window.scrollTo({ top: 0, behavior: 'smooth' })
         safeStopTurbolinksProgress()
         this.props.setLoading(false)
-        this.setState({ isLoading: false })
         $(":submit").attr("disabled", false)
         $("#root").attr("disabled", false)
       }
@@ -132,8 +127,8 @@ class FlexibleMetadataProfileForm extends Component {
     return (
       <div>
         <Form key={this.state.flexible_metadata_profile.id}
-          schema={this.state.schema}
-          formData={this.state.formData}
+          schema={this.state.schema.properties[this.props.tab]}
+          formData={this.state.formData[this.props.tab]}
           uiSchema= {this.state.uiSchema}
           onChange={this.handleChange}
           onSubmit={this.onFormSubmit}

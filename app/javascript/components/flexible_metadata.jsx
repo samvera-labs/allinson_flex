@@ -92,7 +92,7 @@ class FlexibleMetadata extends Component {
 
         <div className='panel-body'>
           { this.loadSpinner() }
-          <FlexibleMetadataProfileForm schema={schema.properties[tab]} flexible_metadata_profile={flexible_metadata_profile} setLoading={this.setLoading} ></FlexibleMetadataProfileForm>
+          <FlexibleMetadataProfileForm schema={schema} tab={tab} flexible_metadata_profile={flexible_metadata_profile} setLoading={this.setLoading} ></FlexibleMetadataProfileForm>
         </div>
       </div>
     )
