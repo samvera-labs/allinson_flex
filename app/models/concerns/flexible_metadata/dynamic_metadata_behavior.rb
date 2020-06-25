@@ -62,7 +62,7 @@ module FlexibleMetadata
     end
 
     def load_flexible_metadata
-      FlexibleMetadata::DynamicSchemaService.model_properties(work_class_name: self.class.to_s).each do |prop, value|
+      FlexibleMetadata::DynamicSchemaService.model_properties(concern: self).each do |prop, value|
         self.class.late_add_property prop, predicate: value[:predicate], multiple: value[:multiple]
       end
       self.class.type(FlexibleMetadata::DynamicSchemaService.rdf_type(work_class_name: self.class.to_s))
