@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import Form from "@rjsf/core"
+import CollapsibleFieldTemplate from "./collapsible_field_template"
 import { saveData } from '../shared/save_data'
 import { css } from "@emotion/core"
 
@@ -130,6 +131,8 @@ class FlexibleMetadataProfileForm extends Component {
           schema={this.state.schema.properties[this.props.tab]}
           formData={this.state.formData[this.props.tab]}
           uiSchema= {this.state.uiSchema}
+          FieldTemplate={CollapsibleFieldTemplate}
+          formContext={{ hideAll: true}}
           onChange={this.handleChange}
           onSubmit={this.onFormSubmit}
           onFormError={this.onFormError}
