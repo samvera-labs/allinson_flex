@@ -3,7 +3,7 @@ import { Nav, NavItem } from 'react-bootstrap';
 
 import { css } from "@emotion/core";
 import RotateLoader from "react-spinners/RotateLoader";
-import FlexibleMetadataProfileForm from './flexible_metadata_profile_form'
+import PropertySelector from './property_selector'
 
 // This React warning (each child in a list should have unique key prop) doesnt apply
 // to our use case. However, React's dev team is very insistant about not providing a
@@ -63,10 +63,9 @@ class FlexibleMetadata extends Component {
     this.setState({tab: eventKey})
   }
 
-
   render() {
     const { schema, flexible_metadata_profile } = this.props
-    const { tab } = this.state
+    const { tab, selectedProperty } = this.state
     return (
       <div>
         <Nav bsStyle="tabs" activeKey={tab} onSelect={this.handleSelect.bind(this)}>
@@ -92,7 +91,7 @@ class FlexibleMetadata extends Component {
 
         <div className='panel-body'>
           { this.loadSpinner() }
-          <FlexibleMetadataProfileForm schema={schema} tab={tab} flexible_metadata_profile={flexible_metadata_profile} setLoading={this.setLoading} ></FlexibleMetadataProfileForm>
+          <PropertySelector schema={schema} tab={tab} flexible_metadata_profile={flexible_metadata_profile} setLoading={this.setLoading} ></PropertySelector>
         </div>
       </div>
     )

@@ -38,38 +38,60 @@ class FlexibleMetadataProfileForm extends Component {
   constructor(props) {
     super(props)
 
-    let values = processForm(props.schema, {}, ( props.flexible_metadata_profile.profile ||  {} ))
+    let values = processForm(props.schema, (props.uiSchema || {}), ( props.flexible_metadata_profile.profile ||  {} ))
     this.state = {
       flexible_metadata_profile: props.flexible_metadata_profile,
       formData: values.formData,
       schema: values.schema,
-      uiSchema: values.uiSchema
+      uiSchema: values.uiSchema,
+      selectedProperty: props.selectedProperty
     }
     this.handleChange = this.handleChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
   }
 
   componentWillReceiveProps(props) {
-    let values = processForm(props.schema, {}, ( props.flexible_metadata_profile.profile ||  {} ))
+    let values = processForm(props.schema, (props.uiSchema || {}), ( props.flexible_metadata_profile.profile ||  {} ))
     return {
       flexible_metadata_profile: props.flexible_metadata_profile,
       formData: values.formData,
       schema: values.schema,
-      uiSchema: values.uiSchema
+      uiSchema: values.uiSchema,
+      selectedProperty: props.selectedProperty
     }
   }
 
   componentDidMount() {
     this.props.setLoading(false)
+    window.scrollTo(0, 0)
+  }
+
+  getNewFormData = (originalFormData, newFormData) => {
+    const finalFormData = { ...originalFormData}
+    if(this.state.selectedProperty){
+      // remove the old version
+      delete finalFormData[this.props.tab][this.state.selectedProperty]
+      // add the new version (since key and or other props may change)
+      for (const property in newFormData) {
+        finalFormData[this.props.tab][property] = newFormData[property]
+      }
+    } else {
+      finalFormData[this.props.tab] = newFormData
+    }
+    return finalFormData
   }
 
   handleChange = (data) => {
     const schema = { ...this.state.schema }
     const uiSchema = { ...this.state.uiSchema }
-    const formData = { ...this.state.formData }
-    formData[this.props.tab] = data.formData
+    const formData = this.getNewFormData(this.state.formData, data.formData)
+    // TODO selectedProperty
     const newState = processForm( schema, uiSchema, formData)
-    /* const newState = { schema, uiSchema, formData } */
+    const dataKeys = Object.keys(data.formData)
+    const lastKey = dataKeys[dataKeys.length - 1]
+    if(lastKey !== this.state.selectedProperty) {
+      newState.selectedProperty = lastKey
+    }
     this.setState(newState)
   }
 
@@ -79,8 +101,8 @@ class FlexibleMetadataProfileForm extends Component {
     $("#root").attr("disabled", true)
     this.props.setLoading(true)
     safeStartTurbolinksProgress()
-    const newFormData = { ...this.state.formData }
-    newFormData[this.props.tab] = formData
+    const newFormData = this.getNewFormData(this.state.formData, formData)
+    // TODO selectedProperty
     const index_path = "/profiles/"
 
     saveData({
@@ -123,12 +145,24 @@ class FlexibleMetadataProfileForm extends Component {
     window.location = '/profiles/'
   }
 
+  filteredFormData(formData) {
+    const { tab } = this.props
+    const { selectedProperty } = this.state
+    if(selectedProperty && tab) {
+      let result = {}
+      result[selectedProperty] = formData[tab][selectedProperty]
+      return result
+    } else if(tab) {
+      return formData[tab]
+    }
+  }
+
   render() {
     return (
       <div>
         <Form key={this.state.flexible_metadata_profile.id}
           schema={this.state.schema.properties[this.props.tab]}
-          formData={this.state.formData[this.props.tab]}
+          formData={this.filteredFormData(this.state.formData)}
           uiSchema= {this.state.uiSchema}
           onChange={this.handleChange}
           onSubmit={this.onFormSubmit}
