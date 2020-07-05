@@ -47,9 +47,6 @@ RSpec.describe FlexibleMetadata::DynamicSchemaService do
     end
 
     context 'for models' do
-      it 'returns the properties for the model' do
-        expect(described_class.model_properties(work_class_name: Image)[:title]).to be_a(Hash)
-      end
       it 'returns the rdf-type for the model' do
         expect(described_class.rdf_type(work_class_name: Image).to_s).to eq('http://example.com/classes/Image')
       end

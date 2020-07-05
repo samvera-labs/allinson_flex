@@ -10,25 +10,6 @@ module FlexibleMetadata
 
     class << self
       # Retrieve the properties for the model / work type
-      # this takes in to account an admin_set and or context
-      # if one is available.
-      # @return [Hash] property => opts
-      def model_properties(concern:)
-        sch = schema(work_class_name: concern.class.to_s, context: concern.admin_set&.metadata_context)['properties']
-        model_props = {}
-        unless sch.blank?
-          model_props = sch.map do |prop_name, prop_value|
-            { prop_name.to_sym => {
-              predicate: predicate_for(predicate_uri: prop_value['predicate'] || "http://example.com/#{prop_name}"),
-              multiple: prop_value['singular'] == false
-            } }
-          end.inject(:merge)
-          model_props[:dynamic_schema] = dynamic_schema_property
-        end
-        model_props
-      end
-
-      # Retrieve the properties for the model / work type
       # This is a class method called by the model at class load
       #   meaning AdminSet is not available and we cannot get the
       #   contextual dynamic_schema
