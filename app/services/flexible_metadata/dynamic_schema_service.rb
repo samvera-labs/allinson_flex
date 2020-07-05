@@ -10,14 +10,11 @@ module FlexibleMetadata
 
     class << self
       # Retrieve the properties for the model / work type
-      # This is a class method called by the model at class load
-      #   meaning AdminSet is not available and we cannot get the
-      #   contextual dynamic_schema
-      # Instead we use the default (contextless) dynamic_schema
-      #   which will add all properties available for that class
+      # this takes in to account an admin_set and or context
+      # if one is available.
       # @return [Hash] property => opts
-      def model_properties(work_class_name:)
-        sch = schema(work_class_name: work_class_name)['properties']
+      def model_properties(concern:)
+        sch = schema(work_class_name: concern.class.to_s, context: concern.admin_set&.metadata_context)['properties']
         model_props = {}
         unless sch.blank?
           model_props = sch.map do |prop_name, prop_value|
@@ -49,10 +46,11 @@ module FlexibleMetadata
       end
 
       # Retrieve the latest default dynamic_schema
-      def schema(work_class_name:)
+      def schema(work_class_name:, context: nil)
+        context ||= FlexibleMetadata::Context.where(name: 'default')
         FlexibleMetadata::DynamicSchema.where(
           flexible_metadata_class: work_class_name,
-          flexible_metadata_context: FlexibleMetadata::Context.where(name: 'default')
+          flexible_metadata_context: context
         ).order('created_at').last.schema
       rescue StandardError
         {}
