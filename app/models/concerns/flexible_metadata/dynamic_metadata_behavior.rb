@@ -5,6 +5,10 @@ module FlexibleMetadata
   module DynamicMetadataBehavior
     extend ActiveSupport::Concern
 
+    included do
+      property :dynamic_schema, predicate: ::RDF::URI("https://github.com/samvera-labs/houndstooth"), multiple: false
+    end
+
     class_methods do
       # It appears to be safe to add w/o removing first
       # Index blocks are not supported here
@@ -62,21 +66,23 @@ module FlexibleMetadata
     end
 
     def load_flexible_metadata
-      FlexibleMetadata::DynamicSchemaService.model_properties(work_class_name: self.class.to_s).each do |prop, value|
-        self.class.late_add_property prop, predicate: value[:predicate], multiple: value[:multiple]
+      base_dynamic_schema.schema['properties'].each do |prop, value|
+        predicate = value['predicate'].presence || "https://localhost/#{prop}"
+        self.class.late_add_property prop.to_sym, predicate: predicate, multiple: !value['singular']
       end
       self.class.type(FlexibleMetadata::DynamicSchemaService.rdf_type(work_class_name: self.class.to_s))
     end
 
     # Retrieve the dynamic schema
-    def base_dynamic_schema(admin_set_id)
-      dynamic_schema || dynamic_schema_service(admin_set_id).dynamic_schema.id
+    def base_dynamic_schema(as_id=nil)
+      @base_dynamic_schema ||= (dynamic_schema ? FlexibleMetadata::DynamicSchema.find(dynamic_schema) : dynamic_schema_service(as_id).dynamic_schema)
     end
 
     # Setup dynamic schema service
-    def dynamic_schema_service(admin_set_id)
+    def dynamic_schema_service(as_id=nil)
+      as_id = as_id || admin_set_id || AdminSet::DEFAULT_ID
       FlexibleMetadata::DynamicSchemaService.new(
-        admin_set_id: admin_set_id,
+        admin_set_id: as_id,
         work_class_name: self.class.to_s
       )
     end

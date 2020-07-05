@@ -150,8 +150,11 @@ module FlexibleMetadata
           logger.info(%(Constructed FlexibleMetadata::ProfileProperty "#{property.name}"))
 
           context = properties_hash.dig(name, 'available_on', 'context')
-          property.available_on_contexts << profile_context if context.present? && context.include?(profile_context.name)
-          property.available_on_classes << profile_class if properties_hash.dig(name, 'available_on', 'class').include?(profile_class.name)
+          # TODO ALL goes here?
+          property.available_on_contexts << profile_context if context.blank? || context.include?(profile_context.name)
+
+          classes = properties_hash.dig(name, 'available_on', 'class')
+          property.available_on_classes << profile_class if (context.blank? && classes.blank?) || (classes.present? && classes.include?(profile_class.name))
 
           property_text = property.texts.build(
             name: 'display_label',

@@ -9,7 +9,7 @@ module FlexibleMetadata
     has_many :dynamic_schemas, foreign_key: 'flexible_metadata_context_id', dependent: :destroy
     serialize :admin_set_ids, Array
     validates :name, presence: true
-    after_create :update_admin_sets
+    before_save :update_admin_sets
 
     delegate :display_label, to: :m3_profile_context
 
