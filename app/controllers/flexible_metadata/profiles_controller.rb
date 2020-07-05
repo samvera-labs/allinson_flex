@@ -64,6 +64,11 @@ module FlexibleMetadata
 
     def import
       uploaded_io = params[:file]
+      if uploaded_io.blank?
+        redirect_to profiles_path, alert: 'Please select a file to upload'
+        return
+      end
+
       @flexible_metadata_profile = FlexibleMetadata::Importer.load_profile_from_path(path: uploaded_io.path)
 
       if @flexible_metadata_profile.save

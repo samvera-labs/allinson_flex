@@ -18,7 +18,7 @@ module FlexibleMetadata
     has_many :properties, class_name: 'FlexibleMetadata::ProfileProperty', foreign_key: 'm3_profile_id', dependent: :destroy
     accepts_nested_attributes_for :properties, allow_destroy: true
 
-    paginates_per 5
+    paginates_per 20
     
     # serlializations
     serialize :profile
