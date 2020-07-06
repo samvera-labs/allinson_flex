@@ -31,9 +31,9 @@ class PropertySelector extends Component {
     return null
   }
 
-  collectProperties() {
+  collectProperties(tab) {
     const output = []
-    for (const property in this.props.flexible_metadata_profile.profile.properties) {
+    for (const property in this.props.flexible_metadata_profile.profile[`${tab}`]) {
       output.push(
         <div className='col-sm-4'>
           <a className='btn btn-info col-xs-12' style={{marginBottom: '15px'}}  onClick={this.handlePropertySelect.bind(this)} href='#'>{property}</a>
@@ -60,17 +60,18 @@ class PropertySelector extends Component {
             setLoading
     } = this.props
     const { selectedProperty } = this.state
+    const tabsWithPropertyBtns = ['classes', 'contexts', 'mappings', 'properties']
 
-    if(tab === 'properties' && !selectedProperty) {
+    if(tabsWithPropertyBtns.includes(tab) && !selectedProperty) {
       return (
         <div className='row'>
           <div className='col-sm-12'>
             <h3>Select a Property Or Add New</h3>
           </div>
-          { this.collectProperties() }
+          { this.collectProperties(tab) }
         </div>
       )
-    } else if(tab === 'properties') {
+    } else if(tabsWithPropertyBtns.includes(tab)) {
       return (
         <React.Fragment>
           <a id='back-arrow' onClick={this.handlePropertyClear.bind(this)}><span className='glyphicon glyphicon-menu-left' aria-hidden="true"></span>Back</a>
