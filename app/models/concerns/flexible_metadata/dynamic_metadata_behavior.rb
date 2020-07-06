@@ -75,15 +75,19 @@ module FlexibleMetadata
 
     # Retrieve the dynamic schema
     def base_dynamic_schema(as_id=nil)
-      @base_dynamic_schema ||= (dynamic_schema ? FlexibleMetadata::DynamicSchema.find(dynamic_schema) : dynamic_schema_service(as_id).dynamic_schema)
+      dynamic_schema_service(as_id).dynamic_schema
     end
 
     # Setup dynamic schema service
     def dynamic_schema_service(as_id=nil)
-      as_id = as_id || admin_set_id || AdminSet::DEFAULT_ID
-      FlexibleMetadata::DynamicSchemaService.new(
+      # clear memoizaiton when as_id changes
+      @dynamic_schema_service = nil if as_id && as_id != @as_id
+
+      @as_id = as_id || admin_set_id || AdminSet::DEFAULT_ID
+      @dynamic_schema_services ||= FlexibleMetadata::DynamicSchemaService.new(
         admin_set_id: as_id,
-        work_class_name: self.class.to_s
+        work_class_name: self.class.to_s,
+        dynamic_schema_id: self.dynamic_schema
       )
     end
   end
