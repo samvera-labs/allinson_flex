@@ -81,11 +81,12 @@ module FlexibleMetadata
     # Setup dynamic schema service
     def dynamic_schema_service(as_id=nil)
       # clear memoizaiton when as_id changes
-      @dynamic_schema_service = nil if as_id && as_id != @as_id
-
+      old_as_id = @as_id
       @as_id = as_id || admin_set_id || AdminSet::DEFAULT_ID
-      @dynamic_schema_services ||= FlexibleMetadata::DynamicSchemaService.new(
-        admin_set_id: as_id,
+      @dynamic_schema_service = nil if old_as_id != @as_id
+
+      @dynamic_schema_service ||= FlexibleMetadata::DynamicSchemaService.new(
+        admin_set_id: @as_id,
         work_class_name: self.class.to_s,
         dynamic_schema_id: self.dynamic_schema
       )
