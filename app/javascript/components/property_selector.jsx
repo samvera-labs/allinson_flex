@@ -95,7 +95,7 @@ class PropertySelector extends Component {
     } else if(tabsWithPropertyBtns.includes(tab)) {
       return (
         <React.Fragment>
-          <a id='back-arrow' className="btn btn-info" onClick={this.handlePropertyClear.bind(this)}><span className='glyphicon glyphicon-menu-left' aria-hidden="true"></span>Back</a>
+          <a id='back-arrow' className="btn btn-info" style={{marginBottom: '15px'}} onClick={this.handlePropertyClear.bind(this)}><span className='glyphicon glyphicon-menu-left' aria-hidden="true"></span>Back</a>
           <FlexibleMetadataProfileForm schema={schema} tab={tab} selectedProperty={selectedProperty} flexible_metadata_profile={flexible_metadata_profile} uiSchema={uiSchema} setLoading={setLoading} ></FlexibleMetadataProfileForm>
         </React.Fragment>
       )
