@@ -53,6 +53,12 @@ class PropertySelector extends Component {
     this.setState({selectedProperty: false})
   }
 
+  addNewProperty = (event) => {
+    event.preventDefault()
+    const newFormData = { newKey: {} }
+    this.setState({selectedProperty: 'newKey'})
+  }
+
   pickRender() {
     const { schema,
             tab,
@@ -66,7 +72,8 @@ class PropertySelector extends Component {
       return (
         <div className='row'>
           <div className='col-sm-12'>
-            <h3>Select a Property Or Add New</h3>
+            <h3 class="col-sm-8">Select a Property Or Add New</h3>
+            <button type="button" className="btn btn-info btn-add col-sm-4" tabindex="0" style={{margin: '20px 0px 10px'}} onClick={this.addNewProperty}><i class="glyphicon glyphicon-plus"></i></button>
           </div>
           { this.collectProperties(tab) }
         </div>
