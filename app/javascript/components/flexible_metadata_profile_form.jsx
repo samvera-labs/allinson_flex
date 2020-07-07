@@ -165,8 +165,7 @@ class FlexibleMetadataProfileForm extends Component {
             display: none
           }
 
-          #root > div:nth-child(4) > p:nth-child(1) > button:nth-child(1) {
-
+          #root > .row {
             display: none
           }
         `}
