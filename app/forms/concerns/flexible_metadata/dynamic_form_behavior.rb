@@ -16,11 +16,7 @@ module FlexibleMetadata
                          :visibility, :ordered_member_ids, :source, :in_works_ids,
                          :member_of_collection_ids, :admin_set_id]
 
-      # Set the terms at class level to the full default set - this will be used to determine permitted parameters
-      self.terms = FlexibleMetadata::DynamicSchemaService.default_properties(
-        work_class_name: model_class.to_s
-      )
-      self.required_fields = []
+     self.required_fields = []
     end
 
     # override (from Hyrax 2.5.0) - override the initializer:

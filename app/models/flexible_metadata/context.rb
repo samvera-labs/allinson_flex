@@ -9,7 +9,7 @@ module FlexibleMetadata
     has_many :dynamic_schemas, foreign_key: 'flexible_metadata_context_id', dependent: :destroy
     serialize :admin_set_ids, Array
     validates :name, presence: true
-    before_save :update_admin_sets
+    before_create :update_admin_sets
 
     delegate :display_label, to: :m3_profile_context
 
@@ -33,11 +33,11 @@ module FlexibleMetadata
     # Add the admin_set id to the new context so that when we grab the contexts for the admin set
     #  the most recent gets returned
     def update_admin_sets
-      existing_contexts = self.class.where(name: self.name).where.not(admin_set_ids: [nil, []])
-      existing_admin_set_ids = existing_contexts.map {|a|a.admin_set_ids}.flatten.uniq
+      existing_contexts = FlexibleMetadata::Context.unscoped.where(name: self.name)
+      existing_admin_set_ids = existing_contexts.map {|a| a.admin_set_ids}.flatten.uniq
       if existing_admin_set_ids.present?
         self.admin_set_ids ||= []
-        self.admin_set_ids += existing_admin_set_ids
+        self.admin_set_ids = (self.admin_set_ids + existing_admin_set_ids).uniq
       end
     end
   end

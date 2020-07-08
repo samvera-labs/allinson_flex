@@ -7,7 +7,7 @@ module FlexibleMetadata
 
     def self.find_or_create_from(profile_id:, data:, logger: default_logger)
       profile = FlexibleMetadata::Profile.find(profile_id) unless profile_id.nil?
-  
+
       # when loading from path, we need to create the profile
       # when loading from form data, we already have the profile
       if profile.blank?
@@ -21,7 +21,7 @@ module FlexibleMetadata
       profile.responsibility_statement = data.dig('profile', 'responsibility_statement')
       profile.date_modified = data.dig('profile', 'date_modified')
       profile.profile_type = data.dig('profile', 'type')
-      
+
       construct_profile_contexts(profile: profile)
       profile.save!
       logger.info(%(LoadedFlexibleMetadata::Profile ID=#{profile.id}))
@@ -154,7 +154,7 @@ module FlexibleMetadata
           property.available_on_contexts << profile_context if context.blank? || context.include?(profile_context.name)
 
           classes = properties_hash.dig(name, 'available_on', 'class')
-          property.available_on_classes << profile_class if (context.blank? && classes.blank?) || (classes.present? && classes.include?(profile_class.name))
+          property.available_on_classes << profile_class if classes.blank? || classes.include?(profile_class.name)
 
           property_text = property.texts.build(
             name: 'display_label',
@@ -186,7 +186,7 @@ module FlexibleMetadata
       end
 
       def self.construct_default_dynamic_schemas(profile:, logger: default_logger)
-      
+
         cxt = FlexibleMetadata::ProfileContext.where(
           name: 'default',
           display_label: "Flexible Metadata Example",
@@ -228,13 +228,20 @@ module FlexibleMetadata
         profile
       end
 
+      def self.intersection_properties(flexible_metadata_class, flexible_metadata_context = nil)
+        if flexible_metadata_class && flexible_metadata_context
+          flexible_metadata_context.available_properties.map(&:m3_profile_property) & flexible_metadata_class.available_properties.map(&:m3_profile_property)
+        else
+          flexible_metadata_class.available_properties.map(&:m3_profile_property)
+        end
+      end
+
       def self.build_schema(flexible_metadata_class, flexible_metadata_context = nil)
         {
           'type' => flexible_metadata_class.schema_uri || "http://example.com/#{flexible_metadata_class.name}",
           'display_label' => flexible_metadata_class.display_label,
           'properties' =>
-            (flexible_metadata_context || flexible_metadata_class).available_properties.map do |prop|
-              property = prop.m3_profile_property
+            intersection_properties(flexible_metadata_class, flexible_metadata_context).map do |property|
               {
                 property.name => {
                   'predicate' => property.property_uri,
