@@ -160,6 +160,16 @@ class FlexibleMetadataProfileForm extends Component {
   render() {
     return (
       <div>
+        <style>{` 
+          button.btn-danger:nth-child(1) {
+            display: none
+          }
+
+          #root > .row {
+            display: none
+          }
+        `}
+        </style>
         <Form key={this.state.flexible_metadata_profile.id}
           schema={this.state.schema.properties[this.props.tab]}
           formData={this.filteredFormData(this.state.formData)}
