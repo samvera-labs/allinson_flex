@@ -36,7 +36,7 @@ module FlexibleMetadata
       existing_contexts = self.class.where(name: self.name).where.not(admin_set_ids: [nil, []])
       existing_admin_set_ids = existing_contexts.map {|a|a.admin_set_ids}.flatten.uniq
       if existing_admin_set_ids.present?
-        self.admin_set_id ||= []
+        self.admin_set_ids ||= []
         self.admin_set_ids += existing_admin_set_ids
       end
     end

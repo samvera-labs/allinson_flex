@@ -4,7 +4,6 @@ module Extensions
   module FlexibleMetadata
     module PrependPermissionTemplateForm
       # override (from Hyrax 2.5.0) - new method to delegate to available_contexts
-      # delegate :available_contexts, to: :metadata_context_class
       delegate :available_contexts, to: :metadata_context_class
 
       # override (from Hyrax 2.5.0) - new method to setup the metadata_context_class
