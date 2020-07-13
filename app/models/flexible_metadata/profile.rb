@@ -80,6 +80,13 @@ module FlexibleMetadata
       errors[:base] + properties_errors + contexts_errors + classes_errors
     end
 
+    def lock_statement
+      user = User.find(locked_by_id)
+      "locked by #{user.email} at #{locked_at.to_s(:short)}"
+    rescue
+      "locked at #{locked_at.to_s(:short)}"
+    end
+
     private
 
       def properties_errors

@@ -9,8 +9,8 @@ require 'flexible_metadata/version'
 Gem::Specification.new do |s|
   s.name        = 'flexible_metadata'
   s.version     = FlexibleMetadata::VERSION
-  s.authors     = ['Julie Allinson', 'JP Engstrom']
-  s.email       = ['julie@notch8.com']
+  s.authors     = ['Julie Allinson', 'JP Engstrom', 'Rob Kaufman']
+  s.email       = ['support@notch8.com']
   s.homepage    = 'https://github.com/notch8/flexible_metadata'
   s.summary     = 'Summary of Flexible Metadata.'
   s.description = 'Description of Flexible Metadata.'

@@ -8,7 +8,7 @@ module FlexibleMetadata
     before_action do
       authorize! :manage, FlexibleMetadata::Profile
     end
-    before_action :set_flexible_metadata_profile, only: [:show, :destroy]
+    before_action :set_flexible_metadata_profile, only: [:show, :destroy, :unlock]
     before_action :set_default_schema, only: [:new, :edit]
     with_themed_layout 'dashboard'
 
@@ -43,6 +43,7 @@ module FlexibleMetadata
       add_breadcrumb 'Edit'
 
       @flexible_metadata_profile = FlexibleMetadata::Profile.current_version
+      @flexible_metadata_profile.update(locked_by_id: current_user.id, locked_at: Time.now)
     end
 
     # POST /flexible_metadata_profiles
@@ -91,6 +92,14 @@ module FlexibleMetadata
       message = 'FlexibleMetadataProfile was successfully destroyed.'
       message = @flexible_metadata_profile.errors[:base] if @flexible_metadata_profile.errors[:base]
       redirect_to profiles_path, notice: message
+    end
+
+    def unlock
+      if @flexible_metadata_profile.update(locked_by_id: nil, locked_at: nil)
+        redirect_to profiles_path, notice: 'FlexibleMetadataProfile was successfully unlocked.'
+      else
+        redirect_to profiles_path, alert: @flexible_metadata_profile.errors.messages.to_s
+      end
     end
 
     private
