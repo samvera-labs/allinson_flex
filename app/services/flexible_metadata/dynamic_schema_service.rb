@@ -165,11 +165,11 @@ module FlexibleMetadata
       end
 
       def label_for(property)
-        property_hash_for(property)[:display_label]
+        property_hash_for(property)&.[](:display_label)
       end
 
       def help_text_for(property)
-        property_hash_for(property)[:usage_guidelines]
+        property_hash_for(property)&.[](:usage_guidelines)
       end
 
       def property_hash_for(property)
