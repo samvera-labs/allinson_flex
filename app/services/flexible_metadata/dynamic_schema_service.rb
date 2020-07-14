@@ -4,34 +4,11 @@ require 'active_support/core_ext/hash/keys'
 module FlexibleMetadata
   # @todo move custom error classes to a single location
   class NoFlexibleMetadataContextError < StandardError; end
-  class NoFlexibleMetadataAdminSetError < StandardError; end
 
   class DynamicSchemaService
     attr_accessor :dynamic_schema, :flexible_metadata_context, :flexible_metadata_context_id, :model
 
     class << self
-      # Retrieve the properties for the model / work type
-      # This is a class method called by the model at class load
-      #   meaning AdminSet is not available and we cannot get the
-      #   contextual dynamic_schema
-      # Instead we use the default (contextless) dynamic_schema
-      #   which will add all properties available for that class
-      # @return [Hash] property => opts
-      def model_properties(work_class_name:)
-        sch = schema(work_class_name: work_class_name)['properties']
-        model_props = {}
-        unless sch.blank?
-          model_props = sch.map do |prop_name, prop_value|
-            { prop_name.to_sym => {
-              predicate: predicate_for(predicate_uri: prop_value['predicate']),
-              multiple: prop_value['singular'] == false
-            } }
-          end.inject(:merge)
-          model_props[:dynamic_schema] = dynamic_schema_property
-        end
-        model_props
-      end
-
       # Retrieve the properties for the model / work type
       # This is a class method called by the model at class load
       #   meaning AdminSet is not available and we cannot get the
@@ -50,10 +27,11 @@ module FlexibleMetadata
       end
 
       # Retrieve the latest default dynamic_schema
-      def schema(work_class_name:)
+      def schema(work_class_name:, context: nil)
+        context ||= FlexibleMetadata::Context.where(name: 'default')
         FlexibleMetadata::DynamicSchema.where(
           flexible_metadata_class: work_class_name,
-          flexible_metadata_context: FlexibleMetadata::Context.where(name: 'default')
+          flexible_metadata_context: context
         ).order('created_at').last.schema
       rescue StandardError
         {}
@@ -94,9 +72,7 @@ module FlexibleMetadata
     end
 
     def initialize(admin_set_id:, work_class_name:, dynamic_schema_id: nil)
-      raise FlexibleMetadata::NoFlexibleMetadataAdminSetError('The Admin Set ID is blank') if admin_set_id.blank?
-
-      context_for(admin_set_id: admin_set_id)
+      context_for(admin_set_id: (admin_set_id || AdminSet::DEFAULT_ID))
       dynamic_schema_for(
         flexible_metadata_context_id: flexible_metadata_context_id,
         work_class_name: work_class_name,

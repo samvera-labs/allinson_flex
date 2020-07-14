@@ -3,6 +3,12 @@
 # override (from Hyrax 2.5.0) - new module
 module FlexibleMetadata
   module DynamicIndexerBehavior
+    extend ActiveSupport::Concern
+
+    included do
+      class_attribute :model_class
+    end
+
     # override (from Hyrax 2.5.0) - provide custom generate_solr_document
     # Use the dynamic schema for indexing
     def generate_solr_document

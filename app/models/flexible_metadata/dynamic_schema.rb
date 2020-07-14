@@ -14,7 +14,7 @@ module FlexibleMetadata
     private
 
       def check_for_works
-        return if flexible_metadata_class.constantize.where(dynamic_schema: id.to_s).blank?
+        return if flexible_metadata_class.constantize.where(dynamic_schema_tesim: id.to_s).blank?
         errors.add(
           :base,
           "There are works using #{name}. This dynamic_schema cannot be deleted."

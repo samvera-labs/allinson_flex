@@ -22,6 +22,8 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rails', '>= 5.1.6'
   s.add_dependency 'json_schemer'
+  s.add_dependency 'webpacker'
+  s.add_dependency 'react-rails'
 
   # TODO: ADD RUBOCOP AS DEPENDENCY? Might need to downgrade version for hyrax?
   s.add_development_dependency 'bixby'

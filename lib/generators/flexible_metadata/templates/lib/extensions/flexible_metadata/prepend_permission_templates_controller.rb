@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+
 module FlexibleMetadata
   module PrependPermissionTemplatesController
     include FlexibleMetadataHelper
@@ -20,14 +21,14 @@ module FlexibleMetadata
       else
         pt = params[:permission_template]
         @current_tab ||= if pt[:access_grants_attributes].present?
-                           'participants'
-                         elsif pt[:workflow_id].present?
-                           'workflow'
-                         elsif pt[:metadata_context_id].present?
-                           'metadata_context'
-                         else
-                           'visibility'
-                         end
+                          'participants'
+                        elsif pt[:workflow_id].present?
+                          'workflow'
+                        elsif pt[:metadata_context_id].present?
+                          'metadata_context'
+                        else
+                          'visibility'
+                        end
       end
     end
   end

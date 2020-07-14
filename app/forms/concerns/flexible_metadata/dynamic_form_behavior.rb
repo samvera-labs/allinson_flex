@@ -23,12 +23,14 @@ module FlexibleMetadata
       self.required_fields = []
     end
 
-    # @todo - add to m3 generator
     # override (from Hyrax 2.5.0) - override the initializer:
     #   set the terms and required terms to those from the contextual schema
     def initialize(model, current_ability, controller)
-      self.class.terms = (controller.dynamic_schema_service.property_keys + self.class.base_terms).uniq
-      self.class.required_fields = controller.dynamic_schema_service.required_properties
+      model.admin_set_id = controller.params['admin_set_id'] if controller.params['admin_set_id'].present?
+
+      self.class.terms = (model.dynamic_schema_service.property_keys + self.class.base_terms).uniq
+      self.class.required_fields = model.dynamic_schema_service.required_properties
+
       super(model, current_ability, controller)
     end
   end

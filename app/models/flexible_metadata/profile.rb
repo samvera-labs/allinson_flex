@@ -10,22 +10,32 @@ module FlexibleMetadata
     has_many :dynamic_schemas, class_name: 'FlexibleMetadata::DynamicSchema', foreign_key: 'm3_profile_id', dependent: :destroy
     # profile elements
     has_many :classes, class_name: 'FlexibleMetadata::ProfileClass', foreign_key: 'm3_profile_id', dependent: :destroy
+    accepts_nested_attributes_for :classes, allow_destroy: true
+
     has_many :contexts, class_name: 'FlexibleMetadata::ProfileContext', foreign_key: 'm3_profile_id', dependent: :destroy
+    accepts_nested_attributes_for :contexts, allow_destroy: true
+
     has_many :properties, class_name: 'FlexibleMetadata::ProfileProperty', foreign_key: 'm3_profile_id', dependent: :destroy
-    accepts_nested_attributes_for :classes, :contexts, :properties
+    accepts_nested_attributes_for :properties, allow_destroy: true
+
+    paginates_per 20
+    
     # serlializations
     serialize :profile
     # validations
-    validates :name, :profile_version, :responsibility, presence: true
+    # validates :name, :profile_version, :responsibility, presence: true
+    validates :profile, presence: true
     validates :profile_version, uniqueness: true
     # callbacks
-    before_create :add_date_modified, :add_m3_version
-    after_create :add_profile_data
-
-    attr_accessor :profile_data
+    before_create :add_date_modified, :add_m3_version, :set_profile_version
+    # after_create :add_profile_data
 
     def self.current_version
       FlexibleMetadata::Profile.order("created_at asc").last
+    end
+
+    def schema_version
+      profile['m3_version']
     end
 
     def available_classes
@@ -41,18 +51,20 @@ module FlexibleMetadata
     end
 
     # @todo - don't save unchanged profiles as new records
+    # @todo - check if that todo is still relevant
+    # @todo - check this doesn't mess up the form
     def set_profile_version
-      profile_version ? self.profile_version += 1 : self.profile_version = 1
-      # if we already have this version,
-      #    compare the data,
-      #    if it's the same,
-      #      do nothing;
-      #    if it's different
-      #      return an error "This version already exists,
-      #        please increment the version number"
-      # else
-      #  update version attribute by 1
-      # end
+      if FlexibleMetadata::Profile.any?
+        version = FlexibleMetadata::Profile.current_version.profile_version + 1.0
+        unless self.profile_version && self.profile_version > version
+          self.profile_version = version
+          profile['profile']['version'] = version
+        end
+      else
+        version = 1.0
+        self.profile_version = version
+        profile['profile']['version'] = version
+      end
     end
 
     def add_date_modified
@@ -62,17 +74,6 @@ module FlexibleMetadata
     # @todo make this configurable
     def add_m3_version
       self.m3_version = '1.0.beta2'
-    end
-
-    def add_profile_data
-      data = profile_data
-      self.profile = data unless profile == data
-    end
-
-    def profile_data
-      @profile_data ||= FlexibleMetadata::FlexibleMetadataConstructor.build_profile_data(
-        profile: self
-      )
     end
 
     def gather_errors
@@ -96,7 +97,7 @@ module FlexibleMetadata
       def check_for_works
         flexible_metadata_contexts.each do |flexible_metadata_context|
           flexible_metadata_context.admin_set_ids.each do |admin_set_id|
-            next unless AdminSet.find(admin_set_id).members.count > 0
+            next unless check_admin_set(admin_set_id)
             errors.add(
               :base,
               'A Profile with associated works cannot be destroyed.'
@@ -104,6 +105,13 @@ module FlexibleMetadata
             throw :abort
           end
         end
+      end
+
+      def check_admin_set(admin_set_id)
+        a = AdminSet.find(admin_set_id)
+        return a.members.count > 0
+      rescue 
+        true
       end
   end
 end
