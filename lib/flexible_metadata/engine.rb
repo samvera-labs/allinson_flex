@@ -31,6 +31,10 @@ module FlexibleMetadata
       urls: ["/flexible-packs"], root: File.join(ROOT_PATH, 'public')
     )
 
+    config.before_initialize do
+      config.i18n.load_path += Dir["#{config.root}/config/locales/**/*.yml"]
+    end
+
     config.after_initialize do
       my_engine_root = FlexibleMetadata::Engine.root.to_s
       paths = ActionController::Base.view_paths.collect(&:to_s)

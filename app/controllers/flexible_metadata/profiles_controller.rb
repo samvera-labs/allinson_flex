@@ -43,6 +43,8 @@ module FlexibleMetadata
       add_breadcrumb 'Edit'
 
       @flexible_metadata_profile = FlexibleMetadata::Profile.current_version
+      # auto update date on save
+      @flexible_metadata_profile.profile['profile']['date_modified'] = Date.today.strftime('%Y-%m-%d')
       @flexible_metadata_profile.update(locked_by_id: current_user.id, locked_at: Time.now)
     end
 

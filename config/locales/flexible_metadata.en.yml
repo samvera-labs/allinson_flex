@@ -7,3 +7,10 @@ en:
     admin:
       sidebar:
         profiles: Metadata Profiles
+
+  hyrax:
+    admin:
+      admin_sets:
+        form:
+          permission_update_notices:
+            metadata_context: The collection's metadata context has been updated.

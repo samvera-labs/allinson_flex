@@ -85,11 +85,10 @@ class FlexibleMetadataProfileForm extends Component {
     const schema = { ...this.state.schema }
     const uiSchema = { ...this.state.uiSchema }
     const formData = this.getNewFormData(this.state.formData, data.formData)
-    // TODO selectedProperty
     const newState = processForm( schema, uiSchema, formData)
     const dataKeys = Object.keys(data.formData)
     const lastKey = dataKeys[dataKeys.length - 1]
-    if(lastKey !== this.state.selectedProperty) {
+    if(this.state.selectedProperty && lastKey !== this.state.selectedProperty) {
       newState.selectedProperty = lastKey
     }
     this.setState(newState)
@@ -102,7 +101,6 @@ class FlexibleMetadataProfileForm extends Component {
     this.props.setLoading(true)
     safeStartTurbolinksProgress()
     const newFormData = this.getNewFormData(this.state.formData, formData)
-    // TODO selectedProperty
     const index_path = "/profiles/"
 
     saveData({
@@ -142,7 +140,17 @@ class FlexibleMetadataProfileForm extends Component {
   }
 
   handleCancel = () => {
-    window.location = '/profiles/'
+    saveData({
+      path: `/profiles/${this.state.flexible_metadata_profile.id}/unlock`,
+      method: "POST",
+      success: (res) => {
+        window.location = '/profiles/'
+      },
+      fail: (res) => {
+        console.log('error', res)
+        window.location = '/profiles/'
+      }
+    })
   }
 
   filteredFormData(formData) {
