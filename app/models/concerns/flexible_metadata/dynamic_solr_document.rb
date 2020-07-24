@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FlexibleMetadata
+module AllinsonFlex
   module DynamicSolrDocument
     extend ActiveSupport::Concern
 
@@ -14,7 +14,7 @@ module FlexibleMetadata
         # Gather all properties from the latest profile and setup the attributes
         # The SolrDocument is independent of the Model and Context, hence we use
         # profile directly.
-        profile = FlexibleMetadata::Profile.current_version
+        profile = AllinsonFlex::Profile.current_version
         unless profile.blank?
           profile.properties.each do |prop|
             attribute(

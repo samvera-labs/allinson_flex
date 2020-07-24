@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 
-module FlexibleMetadata
+module AllinsonFlex
   module PrependPermissionTemplatesController
     include FlexibleMetadataHelper
 

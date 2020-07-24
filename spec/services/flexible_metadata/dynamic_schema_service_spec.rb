@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe FlexibleMetadata::DynamicSchemaService do
+RSpec.describe AllinsonFlex::DynamicSchemaService do
   let(:admin_set_id) { AdminSet.find_or_create_default_admin_set_id }
   let(:service) do
     described_class.new(
@@ -17,7 +17,7 @@ RSpec.describe FlexibleMetadata::DynamicSchemaService do
 
   before do
     allow(AdminSet).to receive_message_chain(:find, :metadata_context).and_return(flexible_metadata_context)
-    allow(FlexibleMetadata::DynamicSchema).to receive(:where).and_return([dynamic_schema])
+    allow(AllinsonFlex::DynamicSchema).to receive(:where).and_return([dynamic_schema])
   end
 
   describe '#new' do
@@ -29,14 +29,14 @@ RSpec.describe FlexibleMetadata::DynamicSchemaService do
           described_class.new(
             admin_set_id: admin_set_id,
             work_class_name: 'Image'
-          ).to raise(FlexibleMetadata::NoFlexibleMetadataContextError)
+          ).to raise(AllinsonFlex::NoFlexibleMetadataContextError)
         end
       end
     end
 
     context 'admin_set has a metadata_context' do
       it 'returns the dynamic_schema' do
-        expect(service.dynamic_schema).to be_a(FlexibleMetadata::DynamicSchema)
+        expect(service.dynamic_schema).to be_a(AllinsonFlex::DynamicSchema)
       end
     end
   end

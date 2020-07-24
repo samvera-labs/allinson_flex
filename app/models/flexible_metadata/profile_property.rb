@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FlexibleMetadata
+module AllinsonFlex
   class ProfileProperty < ApplicationRecord
     self.table_name = 'flexible_metadata_profile_properties'
 

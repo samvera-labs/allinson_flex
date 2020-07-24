@@ -31,7 +31,7 @@ namespace :flexible_metadata do
     task compile: [:yarn_install, :environment] do
       Webpacker.with_node_env("production") do
         ensure_log_goes_to_stdout do
-          if FlexibleMetadata.webpacker.commands.compile
+          if AllinsonFlex.webpacker.commands.compile
             Webpacker.logger.info 'compiled packs for flexible metadata'
             # Successful compilation!
           else

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe FlexibleMetadata::Importer do
+RSpec.describe AllinsonFlex::Importer do
   describe '#load_profile_from_path' do
     let(:profile) { described_class.load_profile_from_path(path: File.join(RSpec.configuration.fixture_path, 'files/yaml_example.yaml')) }
 
@@ -18,17 +18,17 @@ RSpec.describe FlexibleMetadata::Importer do
 
     it 'raises an error with an invalid file' do
       expect { described_class.load_profile_from_path(path: 'app/models/flexible_metadata/profile.rb') }
-        .to raise_error(FlexibleMetadata::Importer::YamlSyntaxError)
+        .to raise_error(AllinsonFlex::Importer::YamlSyntaxError)
     end
 
     it 'uses default config file when path is not a file' do
       expect(profile)
-        .to be_an_instance_of(FlexibleMetadata::Profile)
+        .to be_an_instance_of(AllinsonFlex::Profile)
     end
 
     it 'returns an FlexibleMetadata::Profile instance' do
       expect(profile)
-        .to be_an_instance_of(FlexibleMetadata::Profile)
+        .to be_an_instance_of(AllinsonFlex::Profile)
     end
 
     it 'creates associated dynamic_schema objects, including defualt' do

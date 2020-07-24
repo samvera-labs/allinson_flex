@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe FlexibleMetadata::DynamicSchema, type: :model do
+RSpec.describe AllinsonFlex::DynamicSchema, type: :model do
   let(:dynamic_schema) { FactoryBot.build(:dynamic_schema) }
 
   it 'is valid' do

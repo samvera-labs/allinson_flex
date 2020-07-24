@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # override (from Hyrax 2.5.0) - new module
-module FlexibleMetadata
+module AllinsonFlex
   module DynamicFormBehavior
     extend ActiveSupport::Concern
 
@@ -29,7 +29,7 @@ module FlexibleMetadata
       end
 
       def build_dynamic_permitted_params(admin_set_id)
-        dynamic_schema_service = FlexibleMetadata::DynamicSchemaService.new(
+        dynamic_schema_service = AllinsonFlex::DynamicSchemaService.new(
           admin_set_id: admin_set_id,
           work_class_name: self.model_class
         )

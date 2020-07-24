@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FlexibleMetadata
+module AllinsonFlex
   module Ability
     extend ActiveSupport::Concern
 
@@ -9,7 +9,7 @@ module FlexibleMetadata
     end
 
     def flexible_metadata_profile_abilities
-      can :manage, FlexibleMetadata::Profile if admin?
+      can :manage, AllinsonFlex::Profile if admin?
     end
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class FlexibleMetadata::WorksGenerator < Rails::Generators::Base
+class AllinsonFlex::WorksGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)
 
   desc 'This generator configures works to use FlexibleMetadata.'
@@ -10,7 +10,7 @@ class FlexibleMetadata::WorksGenerator < Rails::Generators::Base
   end
 
   def gather_work_types
-    @work_types = FlexibleMetadata::DynamicSchema.all.map(&:flexible_metadata_class).uniq
+    @work_types = AllinsonFlex::DynamicSchema.all.map(&:flexible_metadata_class).uniq
     @curation_concerns = Hyrax.config.curation_concerns.map(&:to_s)
     if @work_types.blank?
       say_status("error", "No FlexibleMetadata Classes have been defined. Please load or create a Profile.", :red)

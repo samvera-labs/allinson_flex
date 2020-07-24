@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class FlexibleMetadata::InstallGenerator < Rails::Generators::Base
+class AllinsonFlex::InstallGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)
 
   desc 'This generator installs FlexibleMetadata.'
@@ -67,7 +67,7 @@ class FlexibleMetadata::InstallGenerator < Rails::Generators::Base
   end
 
   def create_default_schema
-    FlexibleMetadata.retrieve_schema
+    AllinsonFlex.retrieve_schema
   end
 
   def create_gitignore

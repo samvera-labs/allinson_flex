@@ -1,4 +1,4 @@
-module FlexibleMetadata
+module AllinsonFlex
   class Validator
 
     def self.validate(data:, schema:, logger:)

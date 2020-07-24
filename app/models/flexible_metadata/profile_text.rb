@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FlexibleMetadata
+module AllinsonFlex
   class ProfileText < ApplicationRecord
     belongs_to :textable, polymorphic: true, required: false
 

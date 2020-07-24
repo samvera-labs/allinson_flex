@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :dynamic_schema, class: FlexibleMetadata::DynamicSchema do
+  factory :dynamic_schema, class: AllinsonFlex::DynamicSchema do
     flexible_metadata_class   { 'Image' }
     flexible_metadata_context { FactoryBot.build(:flexible_metadata_context_assigned) }
     flexible_metadata_profile { FactoryBot.build(:flexible_metadata) }
@@ -23,7 +23,7 @@ FactoryBot.define do
     end
   end
 
-  factory :dynamic_schema_default, class: FlexibleMetadata::DynamicSchema do
+  factory :dynamic_schema_default, class: AllinsonFlex::DynamicSchema do
     flexible_metadata_class   { 'Image' }
     flexible_metadata_context { FactoryBot.build(:flexible_metadata_context_default) }
     flexible_metadata_profile { FactoryBot.build(:flexible_metadata) }

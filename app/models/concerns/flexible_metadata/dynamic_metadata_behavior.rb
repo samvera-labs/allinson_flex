@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # override (from Hyrax 2.5.0) - new module
-module FlexibleMetadata
+module AllinsonFlex
   module DynamicMetadataBehavior
     extend ActiveSupport::Concern
 
@@ -70,7 +70,7 @@ module FlexibleMetadata
         predicate = value['predicate'].presence || "https://localhost/#{prop}"
         self.class.late_add_property prop.to_sym, predicate: predicate, multiple: !value['singular']
       end
-      self.class.type(FlexibleMetadata::DynamicSchemaService.rdf_type(work_class_name: self.class.to_s))
+      self.class.type(AllinsonFlex::DynamicSchemaService.rdf_type(work_class_name: self.class.to_s))
     end
 
     # Retrieve the dynamic schema
@@ -85,7 +85,7 @@ module FlexibleMetadata
       @as_id = as_id || admin_set_id || AdminSet::DEFAULT_ID
       @dynamic_schema_service = nil if old_as_id != @as_id
 
-      @dynamic_schema_service ||= FlexibleMetadata::DynamicSchemaService.new(
+      @dynamic_schema_service ||= AllinsonFlex::DynamicSchemaService.new(
         admin_set_id: @as_id,
         work_class_name: self.class.to_s,
         dynamic_schema_id: self.dynamic_schema

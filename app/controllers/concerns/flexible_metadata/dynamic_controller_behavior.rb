@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # override (from Hyrax 2.5.0) - new module
-module FlexibleMetadata
+module AllinsonFlex
   module DynamicControllerBehavior
     extend ActiveSupport::Concern
     include FlexibleMetadataHelper

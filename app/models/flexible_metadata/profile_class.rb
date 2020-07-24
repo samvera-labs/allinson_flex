@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FlexibleMetadata
+module AllinsonFlex
   class ProfileClass < ApplicationRecord
     # @todo any before_destroy validation?
     # many to many relationship between class and context

@@ -3,7 +3,7 @@
 require "flexible_metadata/engine"
 require 'active_support/all'
 
-module FlexibleMetadata
+module AllinsonFlex
   ROOT_PATH = Pathname.new(File.join(__dir__, ".."))
 
   class << self

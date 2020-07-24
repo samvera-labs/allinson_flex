@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FlexibleMetadata
+module AllinsonFlex
   class ProfileContext < ApplicationRecord
     # @todo any before_destroy validation?
     has_many :available_properties, as: :available_on, class_name: 'FlexibleMetadata::ProfileAvailableProperty', dependent: :destroy

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # override (from Hyrax 2.5.0) - new module
-module FlexibleMetadata
+module AllinsonFlex
   module DynamicIndexerBehavior
     extend ActiveSupport::Concern
 
@@ -12,7 +12,7 @@ module FlexibleMetadata
     # override (from Hyrax 2.5.0) - provide custom generate_solr_document
     # Use the dynamic schema for indexing
     def generate_solr_document
-      dynamic_schema_service = FlexibleMetadata::DynamicSchemaService.new(
+      dynamic_schema_service = AllinsonFlex::DynamicSchemaService.new(
         admin_set_id: object.admin_set_id,
         work_class_name: self.class.model_class.to_s
       )

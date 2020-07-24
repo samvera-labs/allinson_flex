@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FlexibleMetadata
+module AllinsonFlex
   module DynamicActorBehavior
     # @param [Hyrax::Actors::Environment] env
     def add_dynamic_schema(env)

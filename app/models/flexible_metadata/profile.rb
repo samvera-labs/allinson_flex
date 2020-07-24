@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FlexibleMetadata
+module AllinsonFlex
   class Profile < ApplicationRecord
 
     before_destroy :check_for_works
@@ -30,7 +30,7 @@ module FlexibleMetadata
     # after_create :add_profile_data
 
     def self.current_version
-      FlexibleMetadata::Profile.order("created_at asc").last
+      AllinsonFlex::Profile.order("created_at asc").last
     end
 
     def schema_version
@@ -53,8 +53,8 @@ module FlexibleMetadata
     # @todo - check if that todo is still relevant
     # @todo - check this doesn't mess up the form
     def set_profile_version
-      if FlexibleMetadata::Profile.any?
-        version = FlexibleMetadata::Profile.current_version.profile_version + 1.0
+      if AllinsonFlex::Profile.any?
+        version = AllinsonFlex::Profile.current_version.profile_version + 1.0
         unless self.profile_version && self.profile_version > version
           self.profile_version = version
           profile['profile']['version'] = version

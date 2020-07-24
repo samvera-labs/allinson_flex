@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe FlexibleMetadata::Profile, type: :model do
+RSpec.describe AllinsonFlex::Profile, type: :model do
   let(:profile) { FactoryBot.build(:flexible_metadata_profile, profile_version: 1.0) }
 
   it 'is valid' do

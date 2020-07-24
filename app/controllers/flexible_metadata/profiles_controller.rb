@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-module FlexibleMetadata
+module AllinsonFlex
   class ProfilesController < ApplicationController
     include Hyrax::ThemedLayoutController
     require 'yaml'
 
     before_action do
-      authorize! :manage, FlexibleMetadata::Profile
+      authorize! :manage, AllinsonFlex::Profile
     end
     before_action :set_flexible_metadata_profile, only: [:show, :destroy, :unlock]
     before_action :set_default_schema, only: [:new, :edit]
@@ -15,7 +15,7 @@ module FlexibleMetadata
     # GET /flexible_metadata_profiles
     def index
       add_breadcrumbs
-      @profiles = FlexibleMetadata::Profile.page(params[:profile_entries_page])
+      @profiles = AllinsonFlex::Profile.page(params[:profile_entries_page])
     end
 
     # GET /flexible_metadata_profiles/1
@@ -26,11 +26,11 @@ module FlexibleMetadata
 
     # GET /flexible_metadata_profiles/new
     def new
-      redirect_to profiles_path, alert: 'Edit an Existing Profile or Upload a New One' if FlexibleMetadata::Profile.any?
+      redirect_to profiles_path, alert: 'Edit an Existing Profile or Upload a New One' if AllinsonFlex::Profile.any?
 
       add_breadcrumbs
       add_breadcrumb 'New'
-      @flexible_metadata_profile = FlexibleMetadata::Profile.new
+      @flexible_metadata_profile = AllinsonFlex::Profile.new
 
       @flexible_metadata_profile.classes.build
       @flexible_metadata_profile.contexts.build
@@ -42,7 +42,7 @@ module FlexibleMetadata
       add_breadcrumbs
       add_breadcrumb 'Edit'
 
-      @flexible_metadata_profile = FlexibleMetadata::Profile.current_version
+      @flexible_metadata_profile = AllinsonFlex::Profile.current_version
       # auto update date on save
       @flexible_metadata_profile.profile['profile']['date_modified'] = Date.today.strftime('%Y-%m-%d')
       @flexible_metadata_profile.update(locked_by_id: current_user.id, locked_at: Time.now)
@@ -50,7 +50,7 @@ module FlexibleMetadata
 
     # POST /flexible_metadata_profiles
     def create
-      @flexible_metadata_profile = FlexibleMetadata::Profile.new(
+      @flexible_metadata_profile = AllinsonFlex::Profile.new(
         name: (flexible_metadata_profile_params[:name] || "Profile #{Time.now.utc.iso8601}"),
         profile: flexible_metadata_profile_params[:data].to_h
       )
@@ -58,7 +58,7 @@ module FlexibleMetadata
       # if FlexibleMetadata::Profile.current_version.profile == flexible_metadata_profile_params[:data].to_h
 
       if @flexible_metadata_profile.save
-        FlexibleMetadata::Importer.load_profile_from_data(profile_id: @flexible_metadata_profile.id, data: @flexible_metadata_profile.profile)
+        AllinsonFlex::Importer.load_profile_from_data(profile_id: @flexible_metadata_profile.id, data: @flexible_metadata_profile.profile)
         redirect_to profiles_path, notice: 'Flexible Metadata Profile was successfully created.'
       else
         render :new
@@ -72,7 +72,7 @@ module FlexibleMetadata
         return
       end
 
-      @flexible_metadata_profile = FlexibleMetadata::Importer.load_profile_from_path(path: uploaded_io.path)
+      @flexible_metadata_profile = AllinsonFlex::Importer.load_profile_from_path(path: uploaded_io.path)
 
       if @flexible_metadata_profile.save
         redirect_to profiles_path, notice: 'FlexibleMetadataProfile was successfully created.'
@@ -82,7 +82,7 @@ module FlexibleMetadata
     end
 
     def export
-      @flexible_metadata_profile = FlexibleMetadata::Profile.find(params[:profile_id])
+      @flexible_metadata_profile = AllinsonFlex::Profile.find(params[:profile_id])
       filename = "metadata-profile-v.#{@flexible_metadata_profile.profile_version}.yml"
       File.open(filename, "w") { |file| file.write(@flexible_metadata_profile.profile.to_hash.to_yaml(indentation: 8)) }
       send_file filename, type: "application/yaml", x_sendfile: true
@@ -107,7 +107,7 @@ module FlexibleMetadata
     private
 
       def set_default_schema
-        File.open(FlexibleMetadata.m3_schema_path) do |f|
+        File.open(AllinsonFlex.m3_schema_path) do |f|
           @default_schema = JSON.load f
         end
       end
@@ -120,7 +120,7 @@ module FlexibleMetadata
 
       # Use callbacks to share common setup or constraints between actions.
       def set_flexible_metadata_profile
-        @flexible_metadata_profile = FlexibleMetadata::Profile.find(params[:id])
+        @flexible_metadata_profile = AllinsonFlex::Profile.find(params[:id])
       end
 
       def flexible_metadata_profile_params

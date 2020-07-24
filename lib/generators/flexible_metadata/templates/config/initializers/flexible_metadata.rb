@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FlexibleMetadata.setup do |config|
+AllinsonFlex.setup do |config|
   # Use a different base repository for the m3 json schema (eg. a fork)
   # Default:
   #

@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-module FlexibleMetadata
+module AllinsonFlex
   class FlexibleMetadataConstructor
     class_attribute :default_logger
     self.default_logger = Rails.logger
 
     def self.find_or_create_from(profile_id:, data:, logger: default_logger)
-      profile = FlexibleMetadata::Profile.find(profile_id) unless profile_id.nil?
+      profile = AllinsonFlex::Profile.find(profile_id) unless profile_id.nil?
 
       # when loading from path, we need to create the profile
       # when loading from form data, we already have the profile
       if profile.blank?
-        profile = FlexibleMetadata::Profile.new(
+        profile = AllinsonFlex::Profile.new(
           profile: data,
           profile_version: data.dig('profile', 'version'),
           m3_version: data.dig('m3_version')
@@ -187,13 +187,13 @@ module FlexibleMetadata
 
       def self.construct_default_dynamic_schemas(profile:, logger: default_logger)
 
-        cxt = FlexibleMetadata::ProfileContext.where(
+        cxt = AllinsonFlex::ProfileContext.where(
           name: 'default',
           display_label: "Flexible Metadata Example",
           flexible_metadata_profile_id: profile.id
         ).first_or_create
 
-        fm_cxt = FlexibleMetadata::Context.where(
+        fm_cxt = AllinsonFlex::Context.where(
           name: 'default',
           flexible_metadata_profile_context: cxt,
           flexible_metadata_profile_id: profile.id
@@ -212,7 +212,7 @@ module FlexibleMetadata
       def self.construct_dynamic_schemas(profile:, logger: default_logger)
         profile.classes.each do |cl|
           cl.contexts.each do |cl_cxt|
-            fm_cxt = FlexibleMetadata::Context.where(
+            fm_cxt = AllinsonFlex::Context.where(
               name: cl_cxt.name,
               flexible_metadata_profile_context: cl_cxt,
               flexible_metadata_profile_id: profile.id

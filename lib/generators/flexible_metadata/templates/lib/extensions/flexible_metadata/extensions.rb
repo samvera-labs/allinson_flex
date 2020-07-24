@@ -1,11 +1,11 @@
 #  models
 AdminSet.class_eval do
-  include FlexibleMetadata::AdminSetBehavior
+  include AllinsonFlex::AdminSetBehavior
 end
 
 #  controllers
-Hyrax::Admin::PermissionTemplatesController.prepend FlexibleMetadata::PrependPermissionTemplatesController
+Hyrax::Admin::PermissionTemplatesController.prepend AllinsonFlex::PrependPermissionTemplatesController
 
 #  forms
-Hyrax::Forms::AdminSetForm.prepend FlexibleMetadata::PrependAdminSetForm
-Hyrax::Forms::PermissionTemplateForm.prepend FlexibleMetadata::PrependPermissionTemplateForm
+Hyrax::Forms::AdminSetForm.prepend AllinsonFlex::PrependAdminSetForm
+Hyrax::Forms::PermissionTemplateForm.prepend AllinsonFlex::PrependPermissionTemplateForm

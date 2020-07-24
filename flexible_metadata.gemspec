@@ -8,7 +8,7 @@ require 'flexible_metadata/version'
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = 'flexible_metadata'
-  s.version     = FlexibleMetadata::VERSION
+  s.version     = AllinsonFlex::VERSION
   s.authors     = ['Julie Allinson', 'JP Engstrom', 'Rob Kaufman']
   s.email       = ['support@notch8.com']
   s.homepage    = 'https://github.com/notch8/flexible_metadata'

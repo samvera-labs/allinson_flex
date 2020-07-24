@@ -37,7 +37,7 @@
                 <td><%= link_to flexible_metadata_profile.profile_version.to_f, flexible_metadata.profile_path(flexible_metadata_profile) %></td>
                 <td><%= flexible_metadata_profile.profile_type %></td>
                 <td><%= flexible_metadata_profile.created_at.strftime("%b %d, %Y") %></td>
-                <% if flexible_metadata_profile == FlexibleMetadata::Profile.current_version %>
+                <% if flexible_metadata_profile == AllinsonFlex::Profile.current_version %>
                   <% if flexible_metadata_profile.locked_at && flexible_metadata_profile.locked_at < Time.now %>
                     <th colspan=3 ><%= link_to raw("<span title='click to force unlock' class='glyphicon glyphicon-lock'></span>"), flexible_metadata.unlock_profile_path(flexible_metadata_profile), method: :post, data: { confirm: 'Are you sure that no other user is editing the profile right now?' } %>
                       <%= flexible_metadata_profile.lock_statement %>

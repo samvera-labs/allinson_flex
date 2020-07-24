@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FlexibleMetadata
+module AllinsonFlex
   module DynamicPresenterBehavior
     extend ActiveSupport::Concern
 
@@ -11,7 +11,7 @@ module FlexibleMetadata
 
     module ClassMethods
       def delegated_properties
-        FlexibleMetadata::DynamicSchemaService.default_properties(
+        AllinsonFlex::DynamicSchemaService.default_properties(
           work_class_name: model_class.to_s
         )
       end

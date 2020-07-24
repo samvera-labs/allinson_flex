@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module FlexibleMetadata
+module AllinsonFlex
   class DynamicSchema < ApplicationRecord
     belongs_to :flexible_metadata_context, class_name: 'FlexibleMetadata::Context'
     belongs_to :flexible_metadata_profile, class_name: 'FlexibleMetadata::Profile'

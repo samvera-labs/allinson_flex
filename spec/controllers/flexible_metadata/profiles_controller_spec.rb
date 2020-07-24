@@ -2,8 +2,8 @@
 
 require 'spec_helper'
 
-RSpec.describe FlexibleMetadata::ProfilesController, type: :controller do
-  routes { FlexibleMetadata::Engine.routes }
+RSpec.describe AllinsonFlex::ProfilesController, type: :controller do
+  routes { AllinsonFlex::Engine.routes }
 
   context "when user is unauthenticated" do
     describe "GET #index" do

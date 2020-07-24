@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FlexibleMetadata::Validator do
+RSpec.describe AllinsonFlex::Validator do
   
   let(:data) { YAML.load_file( File.join(RSpec.configuration.fixture_path, 'files/yaml_example.yaml')) }
   let(:default_schema) { JSONSchemer.schema(Pathname.new('flexible_metadata_schema.json')) }
@@ -19,11 +19,11 @@ RSpec.describe FlexibleMetadata::Validator do
       let(:data) { YAML.load_file(File.join(RSpec.configuration.fixture_path, 'files/yaml_badtype_example.yaml')) }
 
       before do
-        allow(described_class).to receive(:validate).and_raise(FlexibleMetadata::Validator::InvalidDataError)
+        allow(described_class).to receive(:validate).and_raise(AllinsonFlex::Validator::InvalidDataError)
       end
 
       it "logs error message" do
-        expect { described_class.validate(data: data, schema: default_schema, logger: default_logger) }.to raise_error(FlexibleMetadata::Validator::InvalidDataError)
+        expect { described_class.validate(data: data, schema: default_schema, logger: default_logger) }.to raise_error(AllinsonFlex::Validator::InvalidDataError)
       end
       
     end

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-module FlexibleMetadata
+module AllinsonFlex
   module DynamicCatalogBehavior
     extend ActiveSupport::Concern
 
     class_methods do
       def load_flexible_metadata
-        profile = FlexibleMetadata::Profile.current_version
+        profile = AllinsonFlex::Profile.current_version
         unless profile.blank?
           profile.properties.each do |prop|
             # blacklight wants 1 label for all classes with this property

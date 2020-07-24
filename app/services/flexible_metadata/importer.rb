@@ -4,7 +4,7 @@
 #
 require 'json_schemer'
 
-module FlexibleMetadata
+module AllinsonFlex
   class Importer
     class_attribute :default_logger
     self.default_logger = Rails.logger
@@ -26,7 +26,7 @@ module FlexibleMetadata
 
     # One profile per yaml file upload
     def construct
-      FlexibleMetadata::FlexibleMetadataConstructor.find_or_create_from(
+      AllinsonFlex::FlexibleMetadataConstructor.find_or_create_from(
         profile_id: profile_id, 
         data: ActiveSupport::HashWithIndifferentAccess.new(data)
       )
@@ -64,11 +64,11 @@ module FlexibleMetadata
       attr_accessor :data, :validator, :schema, :profile_id
 
       def default_validator
-        FlexibleMetadata::Validator
+        AllinsonFlex::Validator
       end
 
       def default_schema
-        @schema_path    = Pathname.new(FlexibleMetadata.m3_schema_path)
+        @schema_path    = Pathname.new(AllinsonFlex.m3_schema_path)
         @default_schema = JSONSchemer.schema(@schema_path)
         @default_schema
       end

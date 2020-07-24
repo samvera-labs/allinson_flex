@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'active_support/core_ext/hash/keys'
-module FlexibleMetadata
+module AllinsonFlex
   # @todo move custom error classes to a single location
   class NoFlexibleMetadataContextError < StandardError; end
 
@@ -28,8 +28,8 @@ module FlexibleMetadata
 
       # Retrieve the latest default dynamic_schema
       def schema(work_class_name:, context: nil)
-        context ||= FlexibleMetadata::Context.where(name: 'default')
-        FlexibleMetadata::DynamicSchema.where(
+        context ||= AllinsonFlex::Context.where(name: 'default')
+        AllinsonFlex::DynamicSchema.where(
           flexible_metadata_class: work_class_name,
           flexible_metadata_context: context
         ).order('created_at').last.schema
@@ -131,7 +131,7 @@ module FlexibleMetadata
       def context_for(admin_set_id:)
         cxt = AdminSet.find(admin_set_id).metadata_context
         if cxt.blank?
-          raise FlexibleMetadata::NoFlexibleMetadataContextError(
+          raise AllinsonFlex::NoFlexibleMetadataContextError(
             "No Metadata Context for Admin Set #{admin_set_id}"
           )
         end
@@ -142,9 +142,9 @@ module FlexibleMetadata
       # Retrieve the given DynamicSchema for an existing work
       def dynamic_schema_for(flexible_metadata_context_id:, work_class_name:, dynamic_schema_id: nil)
         @dynamic_schema ||= if dynamic_schema_id.present?
-                              FlexibleMetadata::DynamicSchema.find(dynamic_schema_id)
+                              AllinsonFlex::DynamicSchema.find(dynamic_schema_id)
                             else
-                              FlexibleMetadata::DynamicSchema.where(flexible_metadata_context: flexible_metadata_context_id).select do |ds|
+                              AllinsonFlex::DynamicSchema.where(flexible_metadata_context: flexible_metadata_context_id).select do |ds|
                                 ds.flexible_metadata_class == work_class_name.to_s
                               end.first
                             end

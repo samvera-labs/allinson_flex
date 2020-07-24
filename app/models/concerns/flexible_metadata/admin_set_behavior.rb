@@ -2,7 +2,7 @@
 
 require 'active_support/concern'
 
-module FlexibleMetadata
+module AllinsonFlex
   module AdminSetBehavior
     extend ActiveSupport::Concern
 
@@ -23,10 +23,10 @@ module FlexibleMetadata
     # override (from Hyrax 2.5.0) - new method to add metadata_context
     # @api public
     #
-    # @return [FlexibleMetadata::Context]
+    # @return [AllinsonFlex::Context]
     # @raise [ActiveRecord::RecordNotFound]
     def metadata_context
-      FlexibleMetadata::Context.find_metadata_context_for(
+      AllinsonFlex::Context.find_metadata_context_for(
         admin_set_id: id
       )
     end
