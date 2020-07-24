@@ -10,10 +10,10 @@ class TestAppGenerator < Rails::Generators::Base
   end
 
   def install_engine
-    generate 'flexible_metadata:install'
+    generate 'allinson_flex:install'
   end
 
-  # The following are not installed by the flexible_metadata generator
+  # The following are not installed by the allinson_flex generator
   #   install them here to configure the test_app
 
   def install_webpacker
