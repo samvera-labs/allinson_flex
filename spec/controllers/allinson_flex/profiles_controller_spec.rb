@@ -26,7 +26,7 @@ RSpec.describe AllinsonFlex::ProfilesController, type: :controller do
       it 'returns a success response' do
         expect(controller).to receive(:add_breadcrumb).with('Home', root_path(locale: 'en'))
         expect(controller).to receive(:add_breadcrumb).with('Dashboard', dashboard_path(locale: 'en'))
-        expect(controller).to receive(:add_breadcrumb).with('Flexible Metadata Profiles', profiles_path(locale: 'en'))
+        expect(controller).to receive(:add_breadcrumb).with('Allinson Flex Profiles', profiles_path(locale: 'en'))
         get :index, params: {}, session: valid_session
         expect(response).to be_successful
       end

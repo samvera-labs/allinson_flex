@@ -1,4 +1,4 @@
-# Contributing to Flexible Metadata
+# Contributing to Allinson Flex
 
 We encourage everyone to help improve this project.  Bug reports and pull requests are welcome on GitHub at https://github.com/notch8/allinson_flex.
 
@@ -28,9 +28,9 @@ The preferred way to submit feature requests is to submit an issue at https://gi
 
 ## Questions
 
-Questions can be sent to support@notch8.com. Please make sure to include "Flexible Metadata" in the subject line of your email.
+Questions can be sent to support@notch8.com. Please make sure to include "Allinson Flex" in the subject line of your email.
 
 
 # Thank You!
 
-Thank you for your interest in contributing to Flexible Metadata.  We appreciate you for taking the time to contribute.
+Thank you for your interest in contributing to Allinson Flex.  We appreciate you for taking the time to contribute.

@@ -6,7 +6,7 @@ FactoryBot.define do
     schema     do
         {
           'type' => 'http://example.com/classes/Image',
-          'display_label' => 'Flexible Metadata Example',
+          'display_label' => 'Allinson Flex Example',
           'properties' => { 
             'title' => {
               'predicate' => 'http://purl.org/dc/terms/title',

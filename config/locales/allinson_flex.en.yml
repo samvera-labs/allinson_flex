@@ -1,9 +1,9 @@
 en:
   allinson_flex:
     index:
-      profiles: Flexible Metadata Profiles
+      profiles: Allinson Flex Profiles
     dashboard:
-      profiles: Flexible Metadata Profiles
+      profiles: Allinson Flex Profiles
     admin:
       sidebar:
         profiles: Metadata Profiles

@@ -12,13 +12,11 @@ Gem::Specification.new do |s|
   s.authors     = ['Julie Allinson', 'JP Engstrom', 'Rob Kaufman']
   s.email       = ['support@notch8.com']
   s.homepage    = 'https://github.com/notch8/allinson_flex'
-  s.summary     = 'Summary of Flexible Metadata.'
-  s.description = 'Description of Flexible Metadata.'
+  s.summary     = 'Summary of Allinson Flex.'
+  s.description = 'Description of Allinson Flex.'
   s.license     = 'Apache-2.0'
 
-  # TODO: Commented out line is from Bulkrax. Is this needed?
-  # s.files = Dir["{app,config,db,lib}/**/*", "LICENSE", "Rakefile", "README.md"]
-  s.files = Dir['{lib}/**/*', 'LICENSE', 'README.md']
+  s.files = Dir["{app,config,db,lib}/**/*", "LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency 'rails', '>= 5.1.6'
   s.add_dependency 'json_schemer'

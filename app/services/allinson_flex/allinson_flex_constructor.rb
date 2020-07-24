@@ -189,7 +189,7 @@ module AllinsonFlex
 
         cxt = AllinsonFlex::ProfileContext.where(
           name: 'default',
-          display_label: "Flexible Metadata Example",
+          display_label: "Allinson Flex Example",
           allinson_flex_profile_id: profile.id
         ).first_or_create
 

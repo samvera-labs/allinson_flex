@@ -59,7 +59,7 @@ module AllinsonFlex
 
       if @allinson_flex_profile.save
         AllinsonFlex::Importer.load_profile_from_data(profile_id: @allinson_flex_profile.id, data: @allinson_flex_profile.profile)
-        redirect_to profiles_path, notice: 'Flexible Metadata Profile was successfully created.'
+        redirect_to profiles_path, notice: 'Allinson Flex Profile was successfully created.'
       else
         render :new
       end
