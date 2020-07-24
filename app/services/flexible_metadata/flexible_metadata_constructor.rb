@@ -190,13 +190,13 @@ module FlexibleMetadata
         cxt = FlexibleMetadata::ProfileContext.where(
           name: 'default',
           display_label: "Flexible Metadata Example",
-          m3_profile_id: profile.id
+          flexible_metadata_profile_id: profile.id
         ).first_or_create
 
         fm_cxt = FlexibleMetadata::Context.where(
           name: 'default',
-          m3_profile_context: cxt,
-          m3_profile_id: profile.id
+          flexible_metadata_profile_context: cxt,
+          flexible_metadata_profile_id: profile.id
         ).first_or_create
 
         profile.classes.each do |cl|
@@ -214,8 +214,8 @@ module FlexibleMetadata
           cl.contexts.each do |cl_cxt|
             fm_cxt = FlexibleMetadata::Context.where(
               name: cl_cxt.name,
-              m3_profile_context: cl_cxt,
-              m3_profile_id: profile.id
+              flexible_metadata_profile_context: cl_cxt,
+              flexible_metadata_profile_id: profile.id
             ).first_or_create
 
             profile.dynamic_schemas.build(
@@ -230,9 +230,9 @@ module FlexibleMetadata
 
       def self.intersection_properties(flexible_metadata_class, flexible_metadata_context = nil)
         if flexible_metadata_class && flexible_metadata_context
-          flexible_metadata_context.available_properties.map(&:m3_profile_property) & flexible_metadata_class.available_properties.map(&:m3_profile_property)
+          flexible_metadata_context.available_properties.map(&:flexible_metadata_profile_property) & flexible_metadata_class.available_properties.map(&:flexible_metadata_profile_property)
         else
-          flexible_metadata_class.available_properties.map(&:m3_profile_property)
+          flexible_metadata_class.available_properties.map(&:flexible_metadata_profile_property)
         end
       end
 
@@ -267,10 +267,10 @@ module FlexibleMetadata
 
       def self.display_label(property, flexible_metadata_class, flexible_metadata_context = nil)
         unless flexible_metadata_context.nil?
-          context_label = flexible_metadata_context.context_texts.map { |t| t.value if t.name == 'display_label' && t.m3_profile_property_id == property.id }.first
+          context_label = flexible_metadata_context.context_texts.map { |t| t.value if t.name == 'display_label' && t.flexible_metadata_profile_property_id == property.id }.first
           return context_label unless context_label.blank?
         end
-        class_label = flexible_metadata_class.class_texts.map { |t| t.value if t.name == 'display_label' && t.m3_profile_property_id == property.id }.first
+        class_label = flexible_metadata_class.class_texts.map { |t| t.value if t.name == 'display_label' && t.flexible_metadata_profile_property_id == property.id }.first
         return class_label unless class_label.blank?
         property.texts.map { |t| t.value if t.name == 'display_label' && t.textable_type.nil? }.compact.first
       end

@@ -31,7 +31,14 @@ class FlexibleMetadata::InstallGenerator < Rails::Generators::Base
 
     file = 'config/application.rb'
     file_text = File.read(file)
-    to_prepare = "      Dir.glob(File.join(File.dirname(__FILE__), '../lib/extensions/flexible_metadata_extensions.rb')) do |c|\n        Rails.configuration.cache_classes ? require(c) : load(c)\n      end"
+    to_include = "    config.autoload_paths += [Rails.root.join('lib', 'extensions')]\n    config.eager_load_paths += [Rails.root.join('lib', 'extensions')]\n"
+    to_prepare = "      Dir.glob(File.join(File.dirname(__FILE__), '../lib/extensions/flexible_metadata/extensions.rb')) do |c|\n        Rails.configuration.cache_classes ? require(c) : load(c)\n      end"
+
+    if !file_text.include?(to_include)
+      insert_into_file file, after: /config.load_default.*\n/ do
+        to_include
+      end
+    end
 
     if file_text.include?('config.to_prepare')
       return if file_text.include?(to_prepare)
