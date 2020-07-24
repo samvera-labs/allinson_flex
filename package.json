@@ -1,5 +1,5 @@
 {
-  "name": "flexible_metadata",
+  "name": "allinson_flex",
   "private": true,
   "dependencies": {
     "@babel/preset-react": "^7.9.4",

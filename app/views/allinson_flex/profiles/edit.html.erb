@@ -1,0 +1,14 @@
+<%= javascript_pack_tag 'flexible' %>
+
+<% provide :page_header do %>
+  <h1><span class="fa fa-edit" aria-hidden="true"></span> Edit Allinson Flex Profile</h1>
+<% end %>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default tabs">
+      <%= react_component("allinson_flex", { schema: @default_schema, allinson_flex_profile: @allinson_flex_profile }) %>
+    </div>
+  </div>
+</div>
+

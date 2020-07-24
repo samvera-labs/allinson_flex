@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import FlexibleMetadataProfileForm from './flexible_metadata_profile_form'
+import AllinsonFlexProfileForm from './allinson_flex_profile_form'
 
 const uiSchema =  {
   "properties": {
@@ -16,7 +16,7 @@ class PropertySelector extends Component {
     super(props)
     this.state = {
       tab: this.props.tab,
-      flexible_metadata_profile: this.props.flexible_metadata_profile,
+      allinson_flex_profile: this.props.allinson_flex_profile,
       selectedProperty: false
     }
   }
@@ -33,7 +33,7 @@ class PropertySelector extends Component {
 
   collectProperties(tab) {
     const output = []
-    for (const property in this.props.flexible_metadata_profile.profile[`${tab}`]) {
+    for (const property in this.props.allinson_flex_profile.profile[`${tab}`]) {
       output.push(
         <div className="btn-group col-sm-4" role="group">
           <a className='btn btn-info col-sm-11' style={{marginBottom: '15px'}}  onClick={this.handlePropertySelect.bind(this)} href='#'>{property}</a>
@@ -57,8 +57,8 @@ class PropertySelector extends Component {
   }
 
   addProperty = (tab) => {
-    if(this.props.flexible_metadata_profile.profile[tab] == undefined){
-      this.props.flexible_metadata_profile.profile[tab] = {}
+    if(this.props.allinson_flex_profile.profile[tab] == undefined){
+      this.props.allinson_flex_profile.profile[tab] = {}
     }
 
     const newFormData = { newKey: {} }
@@ -68,9 +68,9 @@ class PropertySelector extends Component {
   removeProperty = (property) => {
     const response = confirm("Are you sure you want to delete property: '" + property +  "'?");
     if(response == true){
-      delete this.props.flexible_metadata_profile.profile[this.props.tab][property]
-      const updateProfile = this.props.flexible_metadata_profile.profile[this.props.tab]
-      this.setState({flexible_metadata_profile: updateProfile})
+      delete this.props.allinson_flex_profile.profile[this.props.tab][property]
+      const updateProfile = this.props.allinson_flex_profile.profile[this.props.tab]
+      this.setState({allinson_flex_profile: updateProfile})
     } else { 
       return
     }
@@ -79,7 +79,7 @@ class PropertySelector extends Component {
   pickRender() {
     const { schema,
             tab,
-            flexible_metadata_profile,
+            allinson_flex_profile,
             setLoading
     } = this.props
     const { selectedProperty } = this.state
@@ -99,12 +99,12 @@ class PropertySelector extends Component {
       return (
         <React.Fragment>
           <a id='back-arrow' className="btn btn-info" style={{marginBottom: '15px'}} onClick={this.handlePropertyClear.bind(this)}><span className='glyphicon glyphicon-menu-left' aria-hidden="true"></span>Back</a>
-          <FlexibleMetadataProfileForm schema={schema} tab={tab} selectedProperty={selectedProperty} flexible_metadata_profile={flexible_metadata_profile} uiSchema={uiSchema} setLoading={setLoading} ></FlexibleMetadataProfileForm>
+          <AllinsonFlexProfileForm schema={schema} tab={tab} selectedProperty={selectedProperty} allinson_flex_profile={allinson_flex_profile} uiSchema={uiSchema} setLoading={setLoading} ></AllinsonFlexProfileForm>
         </React.Fragment>
       )
     } else {
       return (
-        <FlexibleMetadataProfileForm schema={schema} tab={tab} flexible_metadata_profile={flexible_metadata_profile} setLoading={setLoading} ></FlexibleMetadataProfileForm>
+        <AllinsonFlexProfileForm schema={schema} tab={tab} allinson_flex_profile={allinson_flex_profile} setLoading={setLoading} ></AllinsonFlexProfileForm>
       )
     }
 

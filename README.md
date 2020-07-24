@@ -1,5 +1,4 @@
-# flexible_metadata
-# Project Title
+# allinson_flex
 
 One Paragraph of project description goes here
 
@@ -81,6 +80,16 @@ See also the list of [contributors](https://github.com/your/project/contributors
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
+## Dedication
+
+From the beginning of the Samvera community to her sudden passing in 2020, Julie Allinson (@geekscruff)
+was a strong presence in the Samvera community. Always ready to lend a hand or to share knowledge, she 
+embodied so much of what makes this community work. This effort, the last big project she was involved
+in, was the culmination not just of her time as a developer but the combination of her work as a metadata
+specialist. It was the evolution of dog biscuits, her work in the m3 group and several other projects she
+had lead or been involved in. She was an incredible bright star and we name this gem in remembrance of
+her.
+ 
 ## Acknowledgments
 
 * Hat tip to anyone whose code was used
