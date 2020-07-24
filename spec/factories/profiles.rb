@@ -9,6 +9,7 @@ FactoryBot.define do
     classes { [FactoryBot.build(:allinson_flex_class)] }
     contexts { [FactoryBot.build(:allinson_flex_profile_context)] }
     properties { [FactoryBot.build(:allinson_flex_property)] }
+    profile { File.read('spec/fixtures/files/yaml_example.yaml') }
   end
 
   factory :allinson_flex_class, class: AllinsonFlex::ProfileClass do
