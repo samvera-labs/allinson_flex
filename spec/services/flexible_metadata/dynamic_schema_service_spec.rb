@@ -10,19 +10,19 @@ RSpec.describe FlexibleMetadata::DynamicSchemaService do
       work_class_name: 'Image'
     )
   end
-  let(:m3_context) { build(:m3_context_assigned) }
-  let(:default_m3_context) { build(:m3_context_default) }
+  let(:flexible_metadata_context) { build(:flexible_metadata_context_assigned) }
+  let(:default_flexible_metadata_context) { build(:flexible_metadata_context_default) }
   let(:dynamic_schema) { build(:dynamic_schema) }
   let(:default_dynamic_schema) { build(:dynamic_schema_default) }
 
   before do
-    allow(AdminSet).to receive_message_chain(:find, :metadata_context).and_return(m3_context)
+    allow(AdminSet).to receive_message_chain(:find, :metadata_context).and_return(flexible_metadata_context)
     allow(FlexibleMetadata::DynamicSchema).to receive(:where).and_return([dynamic_schema])
   end
 
   describe '#new' do
     context 'admin_set does not have a metadata_context' do
-      let(:m3_context) { create(:m3_context) }
+      let(:flexible_metadata_context) { create(:flexible_metadata_context) }
 
       it 'raises a custom error' do
         expect do

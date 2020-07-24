@@ -2,8 +2,6 @@
 
 module FlexibleMetadata
   class DynamicSchema < ApplicationRecord
-    self.table_name = 'dynamic_schemas'
-
     belongs_to :flexible_metadata_context, class_name: 'FlexibleMetadata::Context'
     belongs_to :flexible_metadata_profile, class_name: 'FlexibleMetadata::Profile'
     before_destroy :check_for_works

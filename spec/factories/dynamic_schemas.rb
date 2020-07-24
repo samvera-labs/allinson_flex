@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :dynamic_schema, class: FlexibleMetadata::DynamicSchema do
-    m3_class   { 'Image' }
-    m3_context { FactoryBot.build(:m3_context_assigned) }
-    m3_profile { FactoryBot.build(:m3_profile) }
+    flexible_metadata_class   { 'Image' }
+    flexible_metadata_context { FactoryBot.build(:flexible_metadata_context_assigned) }
+    flexible_metadata_profile { FactoryBot.build(:flexible_metadata) }
     schema     do
         {
           'type' => 'http://example.com/classes/Image',
@@ -24,9 +24,9 @@ FactoryBot.define do
   end
 
   factory :dynamic_schema_default, class: FlexibleMetadata::DynamicSchema do
-    m3_class   { 'Image' }
-    m3_context { FactoryBot.build(:m3_context_default) }
-    m3_profile { FactoryBot.build(:m3_profile) }
+    flexible_metadata_class   { 'Image' }
+    flexible_metadata_context { FactoryBot.build(:flexible_metadata_context_default) }
+    flexible_metadata_profile { FactoryBot.build(:flexible_metadata) }
     schema     do
       {
         'type' => 'http://example.com/classes/Image',
