@@ -2,7 +2,7 @@
 
 require "webpacker/helper"
 # override (from Hyrax 2.5.0) - new module
-module FlexibleMetadataHelper
+module AllinsonFlexHelper
 
   include ::Webpacker::Helper
   def current_webpacker_instance

@@ -3,15 +3,15 @@
 $LOAD_PATH.push File.expand_path('lib', __dir__)
 
 # Maintain your gem's version:
-require 'flexible_metadata/version'
+require 'allinson_flex/version'
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = 'flexible_metadata'
+  s.name        = 'allinson_flex'
   s.version     = AllinsonFlex::VERSION
   s.authors     = ['Julie Allinson', 'JP Engstrom', 'Rob Kaufman']
   s.email       = ['support@notch8.com']
-  s.homepage    = 'https://github.com/notch8/flexible_metadata'
+  s.homepage    = 'https://github.com/notch8/allinson_flex'
   s.summary     = 'Summary of Flexible Metadata.'
   s.description = 'Description of Flexible Metadata.'
   s.license     = 'Apache-2.0'

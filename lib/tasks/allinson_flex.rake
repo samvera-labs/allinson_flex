@@ -17,7 +17,7 @@ namespace :yarn do
   end
 end
 
-namespace :flexible_metadata do
+namespace :allinson_flex do
   namespace :webpacker do
     desc "Install deps with yarn"
     task :yarn_install do
@@ -54,9 +54,9 @@ end
 
 def enhance_assets_precompile
   # yarn:install was added in Rails 5.1
-  deps = yarn_install_available? ? [] : ["flexible_metadata:webpacker:yarn_install"]
+  deps = yarn_install_available? ? [] : ["allinson_flex:webpacker:yarn_install"]
   Rake::Task["assets:precompile"].enhance(deps) do
-    Rake::Task["flexible_metadata:webpacker:compile"].invoke
+    Rake::Task["allinson_flex:webpacker:compile"].invoke
   end
 end
 
@@ -67,6 +67,6 @@ unless skip_webpacker_precompile
   if Rake::Task.task_defined?("assets:precompile")
     enhance_assets_precompile
   else
-    Rake::Task.define_task("assets:precompile" => "flexible_metadata:webpacker:compile")
+    Rake::Task.define_task("assets:precompile" => "allinson_flex:webpacker:compile")
   end
 end

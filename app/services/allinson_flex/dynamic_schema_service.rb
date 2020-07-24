@@ -3,10 +3,10 @@
 require 'active_support/core_ext/hash/keys'
 module AllinsonFlex
   # @todo move custom error classes to a single location
-  class NoFlexibleMetadataContextError < StandardError; end
+  class NoAllinsonFlexContextError < StandardError; end
 
   class DynamicSchemaService
-    attr_accessor :dynamic_schema, :flexible_metadata_context, :flexible_metadata_context_id, :model
+    attr_accessor :dynamic_schema, :allinson_flex_context, :allinson_flex_context_id, :model
 
     class << self
       # Retrieve the properties for the model / work type
@@ -30,8 +30,8 @@ module AllinsonFlex
       def schema(work_class_name:, context: nil)
         context ||= AllinsonFlex::Context.where(name: 'default')
         AllinsonFlex::DynamicSchema.where(
-          flexible_metadata_class: work_class_name,
-          flexible_metadata_context: context
+          allinson_flex_class: work_class_name,
+          allinson_flex_context: context
         ).order('created_at').last.schema
       rescue StandardError
         {}
@@ -74,7 +74,7 @@ module AllinsonFlex
     def initialize(admin_set_id:, work_class_name:, dynamic_schema_id: nil)
       context_for(admin_set_id: (admin_set_id || AdminSet::DEFAULT_ID))
       dynamic_schema_for(
-        flexible_metadata_context_id: flexible_metadata_context_id,
+        allinson_flex_context_id: allinson_flex_context_id,
         work_class_name: work_class_name,
         dynamic_schema_id: dynamic_schema_id
       )
@@ -121,7 +121,7 @@ module AllinsonFlex
     def property_locale(property, locale_key)
       return property.to_s.capitalize unless locale_key.match('label' || 'help_text')
 
-      label = I18n.t("flexible_metadata.#{flexible_metadata_context}.#{model}.#{locale_key}.#{property}")
+      label = I18n.t("allinson_flex.#{allinson_flex_context}.#{model}.#{locale_key}.#{property}")
       label = nil if label.include?('translation missing')
       label || send("#{locale_key}_for", property) || property.to_s.capitalize
     end
@@ -131,21 +131,21 @@ module AllinsonFlex
       def context_for(admin_set_id:)
         cxt = AdminSet.find(admin_set_id).metadata_context
         if cxt.blank?
-          raise AllinsonFlex::NoFlexibleMetadataContextError(
+          raise AllinsonFlex::NoAllinsonFlexContextError(
             "No Metadata Context for Admin Set #{admin_set_id}"
           )
         end
-        @flexible_metadata_context = cxt.name
-        @flexible_metadata_context_id = cxt.id
+        @allinson_flex_context = cxt.name
+        @allinson_flex_context_id = cxt.id
       end
 
       # Retrieve the given DynamicSchema for an existing work
-      def dynamic_schema_for(flexible_metadata_context_id:, work_class_name:, dynamic_schema_id: nil)
+      def dynamic_schema_for(allinson_flex_context_id:, work_class_name:, dynamic_schema_id: nil)
         @dynamic_schema ||= if dynamic_schema_id.present?
                               AllinsonFlex::DynamicSchema.find(dynamic_schema_id)
                             else
-                              AllinsonFlex::DynamicSchema.where(flexible_metadata_context: flexible_metadata_context_id).select do |ds|
-                                ds.flexible_metadata_class == work_class_name.to_s
+                              AllinsonFlex::DynamicSchema.where(allinson_flex_context: allinson_flex_context_id).select do |ds|
+                                ds.allinson_flex_class == work_class_name.to_s
                               end.first
                             end
       end
@@ -159,7 +159,7 @@ module AllinsonFlex
       end
 
       def locale_label_for(property)
-        I18n.t("flexible_metadata.#{flexible_metadata_context}.#{model}.labels.#{property}") ||
+        I18n.t("allinson_flex.#{allinson_flex_context}.#{model}.labels.#{property}") ||
           label_for(property) ||
           property.to_s.capitalize
       end

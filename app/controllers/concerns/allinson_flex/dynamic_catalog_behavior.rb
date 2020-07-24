@@ -5,7 +5,7 @@ module AllinsonFlex
     extend ActiveSupport::Concern
 
     class_methods do
-      def load_flexible_metadata
+      def load_allinson_flex
         profile = AllinsonFlex::Profile.current_version
         unless profile.blank?
           profile.properties.each do |prop|
@@ -40,7 +40,7 @@ module AllinsonFlex
     end
 
     def initialize
-      self.class.load_flexible_metadata
+      self.class.load_allinson_flex
       super
     end
   end

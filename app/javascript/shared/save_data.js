@@ -1,7 +1,7 @@
 export function saveData(options) {
   let path = options.path
   let method = options.method ? options.method : 'get'
-  let data = { flexible_metadata_profile: { data: options.data, schema: options.schema } }
+  let data = { allinson_flex_profile: { data: options.data, schema: options.schema } }
   data = Object.assign({}, data, {})
 
   fetch(path, {

@@ -9,12 +9,12 @@ RSpec.describe AllinsonFlex::DynamicSchema, type: :model do
     expect(dynamic_schema).to be_valid
   end
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:flexible_metadata_class) }
+    it { is_expected.to validate_presence_of(:allinson_flex_class) }
     it { is_expected.to validate_presence_of(:schema) }
   end
   describe 'associations' do
-    it { is_expected.to belong_to(:flexible_metadata_context).class_name('FlexibleMetadata::Context') }
-    it { is_expected.to belong_to(:flexible_metadata_profile).class_name('FlexibleMetadata::Profile') }
+    it { is_expected.to belong_to(:allinson_flex_context).class_name('AllinsonFlex::Context') }
+    it { is_expected.to belong_to(:allinson_flex_profile).class_name('AllinsonFlex::Profile') }
   end
   describe 'serializations' do
     it { is_expected.to serialize(:schema) }

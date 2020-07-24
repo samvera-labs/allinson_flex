@@ -30,7 +30,7 @@ const override = css`
   margin-left: -100px;
 `;
 
-class FlexibleMetadata extends Component {
+class AllinsonFlex extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -64,7 +64,7 @@ class FlexibleMetadata extends Component {
   }
 
   render() {
-    const { schema, flexible_metadata_profile } = this.props
+    const { schema, allinson_flex_profile } = this.props
     const { tab, selectedProperty } = this.state
     return (
       <div>
@@ -91,11 +91,11 @@ class FlexibleMetadata extends Component {
 
         <div className='panel-body'>
           { this.loadSpinner() }
-          <PropertySelector schema={schema} tab={tab} flexible_metadata_profile={flexible_metadata_profile} setLoading={this.setLoading} ></PropertySelector>
+          <PropertySelector schema={schema} tab={tab} allinson_flex_profile={allinson_flex_profile} setLoading={this.setLoading} ></PropertySelector>
         </div>
       </div>
     )
   }
 }
 
-export default FlexibleMetadata
+export default AllinsonFlex

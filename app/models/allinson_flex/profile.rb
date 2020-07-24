@@ -5,16 +5,16 @@ module AllinsonFlex
 
     before_destroy :check_for_works
     # flexible metadata objects
-    has_many :flexible_metadata_contexts, class_name: 'FlexibleMetadata::Context', dependent: :destroy
-    has_many :dynamic_schemas, class_name: 'FlexibleMetadata::DynamicSchema', dependent: :destroy
+    has_many :allinson_flex_contexts, class_name: 'AllinsonFlex::Context', dependent: :destroy
+    has_many :dynamic_schemas, class_name: 'AllinsonFlex::DynamicSchema', dependent: :destroy
     # profile elements
-    has_many :classes, class_name: 'FlexibleMetadata::ProfileClass', dependent: :destroy
+    has_many :classes, class_name: 'AllinsonFlex::ProfileClass', dependent: :destroy
     accepts_nested_attributes_for :classes, allow_destroy: true
 
-    has_many :contexts, class_name: 'FlexibleMetadata::ProfileContext', dependent: :destroy
+    has_many :contexts, class_name: 'AllinsonFlex::ProfileContext', dependent: :destroy
     accepts_nested_attributes_for :contexts, allow_destroy: true
 
-    has_many :properties, class_name: 'FlexibleMetadata::ProfileProperty', dependent: :destroy
+    has_many :properties, class_name: 'AllinsonFlex::ProfileProperty', dependent: :destroy
     accepts_nested_attributes_for :properties, allow_destroy: true
 
     paginates_per 20
@@ -42,7 +42,7 @@ module AllinsonFlex
       Hyrax.config.curation_concerns.map(&:to_s)
     end
 
-    # @todo, extend to full set in FlexibleMetadata
+    # @todo, extend to full set in AllinsonFlex
     def available_text_names
       [
         ['Display Label', 'display_label']
@@ -101,8 +101,8 @@ module AllinsonFlex
       end
 
       def check_for_works
-        flexible_metadata_contexts.each do |flexible_metadata_context|
-          flexible_metadata_context.admin_set_ids.each do |admin_set_id|
+        allinson_flex_contexts.each do |allinson_flex_context|
+          allinson_flex_context.admin_set_ids.each do |admin_set_id|
             next unless check_admin_set(admin_set_id)
             errors.add(
               :base,

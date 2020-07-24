@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-## One FlexibleMetadata::Profile per yaml file upload
+## One AllinsonFlex::Profile per yaml file upload
 #
 require 'json_schemer'
 
@@ -26,7 +26,7 @@ module AllinsonFlex
 
     # One profile per yaml file upload
     def construct
-      AllinsonFlex::FlexibleMetadataConstructor.find_or_create_from(
+      AllinsonFlex::AllinsonFlexConstructor.find_or_create_from(
         profile_id: profile_id, 
         data: ActiveSupport::HashWithIndifferentAccess.new(data)
       )

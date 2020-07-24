@@ -17,7 +17,7 @@ RSpec.describe AllinsonFlex::ProfilesController, type: :controller do
 
   context "when logged in as an admin user" do
     let(:user) { create(:user) }
-    let!(:flexible_metadata_profile) { create(:flexible_metadata_profile) }
+    let!(:allinson_flex_profile) { create(:allinson_flex_profile) }
     let(:valid_session) { {} }
 
     before { sign_in user }

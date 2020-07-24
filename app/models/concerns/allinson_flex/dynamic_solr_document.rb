@@ -9,7 +9,7 @@ module AllinsonFlex
     end
 
     class_methods do
-      def load_flexible_metadata
+      def load_allinson_flex
         # override (from Hyrax 2.5.0) - setup the solr attributes dynamically
         # Gather all properties from the latest profile and setup the attributes
         # The SolrDocument is independent of the Model and Context, hence we use
@@ -29,7 +29,7 @@ module AllinsonFlex
     end
 
     def initialize(source_doc = {}, response = nil)
-      self.class.load_flexible_metadata
+      self.class.load_allinson_flex
       super(source_doc, response)
     end
   end

@@ -34,13 +34,13 @@ function safeStopTurbolinksProgress() {
   Turbolinks.controller.adapter.progressBar.setValue(100)
 }
 
-class FlexibleMetadataProfileForm extends Component {
+class AllinsonFlexProfileForm extends Component {
   constructor(props) {
     super(props)
 
-    let values = processForm(props.schema, (props.uiSchema || {}), ( props.flexible_metadata_profile.profile ||  {} ))
+    let values = processForm(props.schema, (props.uiSchema || {}), ( props.allinson_flex_profile.profile ||  {} ))
     this.state = {
-      flexible_metadata_profile: props.flexible_metadata_profile,
+      allinson_flex_profile: props.allinson_flex_profile,
       formData: values.formData,
       schema: values.schema,
       uiSchema: values.uiSchema,
@@ -51,9 +51,9 @@ class FlexibleMetadataProfileForm extends Component {
   }
 
   componentWillReceiveProps(props) {
-    let values = processForm(props.schema, (props.uiSchema || {}), ( props.flexible_metadata_profile.profile ||  {} ))
+    let values = processForm(props.schema, (props.uiSchema || {}), ( props.allinson_flex_profile.profile ||  {} ))
     return {
-      flexible_metadata_profile: props.flexible_metadata_profile,
+      allinson_flex_profile: props.allinson_flex_profile,
       formData: values.formData,
       schema: values.schema,
       uiSchema: values.uiSchema,
@@ -141,7 +141,7 @@ class FlexibleMetadataProfileForm extends Component {
 
   handleCancel = () => {
     saveData({
-      path: `/profiles/${this.state.flexible_metadata_profile.id}/unlock`,
+      path: `/profiles/${this.state.allinson_flex_profile.id}/unlock`,
       method: "POST",
       success: (res) => {
         window.location = '/profiles/'
@@ -178,7 +178,7 @@ class FlexibleMetadataProfileForm extends Component {
           }
         `}
         </style>
-        <Form key={this.state.flexible_metadata_profile.id}
+        <Form key={this.state.allinson_flex_profile.id}
           schema={this.state.schema.properties[this.props.tab]}
           formData={this.filteredFormData(this.state.formData)}
           uiSchema= {this.state.uiSchema}
@@ -197,4 +197,4 @@ class FlexibleMetadataProfileForm extends Component {
   }
 }
 
-export default FlexibleMetadataProfileForm
+export default AllinsonFlexProfileForm

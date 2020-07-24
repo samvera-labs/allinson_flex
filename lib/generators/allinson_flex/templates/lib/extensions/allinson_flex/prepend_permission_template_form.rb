@@ -55,7 +55,7 @@ module AllinsonFlex
         super
       end
 
-      # override (from Hyrax 2.5.0) - new method to add the admin_set_id to the FlexibleMetadata::Context
+      # override (from Hyrax 2.5.0) - new method to add the admin_set_id to the AllinsonFlex::Context
       # @return [Nil]
       def update_metadata_context
         if attributes['metadata_context_id'].present?
@@ -67,7 +67,7 @@ module AllinsonFlex
         nil
       end
 
-      # override (from Hyrax 2.5.0) - new method to remove admin_set_id from any other FlexibleMetadata::Context
+      # override (from Hyrax 2.5.0) - new method to remove admin_set_id from any other AllinsonFlex::Context
       # Remove the metadata context if this is an update
       def remove_metadata_context
         AllinsonFlex::Context.where.not(admin_set_ids: [nil, []], id: attributes['metadata_context_id']).each do |cxt|

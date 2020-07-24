@@ -4,7 +4,7 @@
 module AllinsonFlex
   module DynamicControllerBehavior
     extend ActiveSupport::Concern
-    include FlexibleMetadataHelper
+    include AllinsonFlexHelper
 
     included do
       helper_method :dynamic_schema_service

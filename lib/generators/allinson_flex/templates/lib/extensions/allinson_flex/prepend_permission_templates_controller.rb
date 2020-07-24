@@ -3,7 +3,7 @@
 
 module AllinsonFlex
   module PrependPermissionTemplatesController
-    include FlexibleMetadataHelper
+    include AllinsonFlexHelper
 
     # override (from Hyrax 2.5.0) - extend to add :metadata_context_id
     def update_params

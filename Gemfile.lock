@@ -1,7 +1,7 @@
 PATH
-  remote: /Users/rob/Work/Indiana/essi-flex/vendor/engines/flexible_metadata
+  remote: /Users/rob/Work/Indiana/essi-flex/vendor/engines/allinson_flex
   specs:
-    flexible_metadata (0.1.0)
+    allinson_flex (0.1.0)
       json_schemer
       rails (>= 5.1.6)
       react-rails
@@ -834,7 +834,7 @@ DEPENDENCIES
   engine_cart (~> 2.2)
   factory_bot
   fcrepo_wrapper
-  flexible_metadata!
+  allinson_flex!
   hyrax (~> 2.7)
   jbuilder (~> 2.5)
   jquery-rails

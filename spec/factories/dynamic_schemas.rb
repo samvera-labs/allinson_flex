@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :dynamic_schema, class: AllinsonFlex::DynamicSchema do
-    flexible_metadata_class   { 'Image' }
-    flexible_metadata_context { FactoryBot.build(:flexible_metadata_context_assigned) }
-    flexible_metadata_profile { FactoryBot.build(:flexible_metadata) }
+    allinson_flex_class   { 'Image' }
+    allinson_flex_context { FactoryBot.build(:allinson_flex_context_assigned) }
+    allinson_flex_profile { FactoryBot.build(:allinson_flex) }
     schema     do
         {
           'type' => 'http://example.com/classes/Image',
@@ -24,9 +24,9 @@ FactoryBot.define do
   end
 
   factory :dynamic_schema_default, class: AllinsonFlex::DynamicSchema do
-    flexible_metadata_class   { 'Image' }
-    flexible_metadata_context { FactoryBot.build(:flexible_metadata_context_default) }
-    flexible_metadata_profile { FactoryBot.build(:flexible_metadata) }
+    allinson_flex_class   { 'Image' }
+    allinson_flex_context { FactoryBot.build(:allinson_flex_context_default) }
+    allinson_flex_profile { FactoryBot.build(:allinson_flex) }
     schema     do
       {
         'type' => 'http://example.com/classes/Image',

@@ -3,10 +3,10 @@
 class AllinsonFlex::InstallGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)
 
-  desc 'This generator installs FlexibleMetadata.'
+  desc 'This generator installs AllinsonFlex.'
 
   def banner
-    say_status("info", "Generating FlexibleMetadata installation", :blue)
+    say_status("info", "Generating AllinsonFlex installation", :blue)
   end
 
   def add_gems
@@ -19,11 +19,11 @@ class AllinsonFlex::InstallGenerator < Rails::Generators::Base
   end
 
   def mount_route
-    route "mount FlexibleMetadata::Engine, at: '/'"
+    route "mount AllinsonFlex::Engine, at: '/'"
   end
 
   def create_config
-    copy_file 'config/initializers/flexible_metadata.rb', 'config/initializers/flexible_metadata.rb'
+    copy_file 'config/initializers/allinson_flex.rb', 'config/initializers/allinson_flex.rb'
   end
 
   def create_extensions
@@ -32,7 +32,7 @@ class AllinsonFlex::InstallGenerator < Rails::Generators::Base
     file = 'config/application.rb'
     file_text = File.read(file)
     to_include = "    config.autoload_paths += [Rails.root.join('lib', 'extensions')]\n    config.eager_load_paths += [Rails.root.join('lib', 'extensions')]\n"
-    to_prepare = "      Dir.glob(File.join(File.dirname(__FILE__), '../lib/extensions/flexible_metadata/extensions.rb')) do |c|\n        Rails.configuration.cache_classes ? require(c) : load(c)\n      end"
+    to_prepare = "      Dir.glob(File.join(File.dirname(__FILE__), '../lib/extensions/allinson_flex/extensions.rb')) do |c|\n        Rails.configuration.cache_classes ? require(c) : load(c)\n      end"
 
     if !file_text.include?(to_include)
       insert_into_file file, after: /config.load_default.*\n/ do
@@ -55,7 +55,7 @@ class AllinsonFlex::InstallGenerator < Rails::Generators::Base
   def add_ability
     file = 'app/models/ability.rb'
     file_text = File.read(file)
-    ability = 'include FlexibleMetadata::Ability'
+    ability = 'include AllinsonFlex::Ability'
     return if file_text.include?(ability)
     insert_into_file file, after: /  include Hyrax::Ability\n/ do
       "  #{ability}\n"
@@ -95,7 +95,7 @@ class AllinsonFlex::InstallGenerator < Rails::Generators::Base
   def add_helpers
     file = 'app/helpers/hyrax_helper.rb'
     file_text = File.read(file)
-    helper = '  include FlexibleMetadata::FlexibleMetadataHelper'
+    helper = '  include AllinsonFlex::AllinsonFlexHelper'
 
     return if file_text.include?(helper)
     insert_into_file file, after: /HyraxHelperBehavior/ do

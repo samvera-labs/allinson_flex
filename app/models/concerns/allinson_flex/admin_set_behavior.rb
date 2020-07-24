@@ -7,16 +7,16 @@ module AllinsonFlex
     extend ActiveSupport::Concern
 
     included do
-      before_destroy :remove_from_flexible_metadata_context
+      before_destroy :remove_from_allinson_flex_context
     end
 
     # override (from Hyrax 2.5.0) - new method (and after_destroy callback)
     #  to remove deleted admin_set from admin_set_ids
-    def remove_from_flexible_metadata_context
-      flexible_metadata_context = metadata_context
-      unless flexible_metadata_context.blank?
-        flexible_metadata_context.admin_set_ids = flexible_metadata_context.admin_set_ids.reject { |as_id| as_id == id }
-        flexible_metadata_context.save
+    def remove_from_allinson_flex_context
+      allinson_flex_context = metadata_context
+      unless allinson_flex_context.blank?
+        allinson_flex_context.admin_set_ids = allinson_flex_context.admin_set_ids.reject { |as_id| as_id == id }
+        allinson_flex_context.save
       end
     end
 

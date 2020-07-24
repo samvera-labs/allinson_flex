@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe AllinsonFlex::ProfileText, type: :model do
-  let(:profile_text) { FactoryBot.build(:flexible_metadata_profile_text) }
+  let(:profile_text) { FactoryBot.build(:allinson_flex_profile_text) }
 
   it 'is valid' do
     expect(profile_text).to be_valid

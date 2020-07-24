@@ -45,7 +45,7 @@ module AllinsonFlex
       id = attributes && (attributes.delete(:id) || attributes.delete('id'))
       @ldp_source = build_ldp_resource(id)
       raise IllegalOperation, "Attempting to recreate existing ldp_source: `#{ldp_source.subject}'" unless ldp_source.new?
-      load_flexible_metadata ## This is the new part
+      load_allinson_flex ## This is the new part
       assign_attributes(attributes) if attributes
       assert_content_model
       load_attached_files
@@ -58,14 +58,14 @@ module AllinsonFlex
     def init_with_resource(rdf_resource)
       init_internals
       @ldp_source = rdf_resource
-      load_flexible_metadata  ## This is the new part
+      load_allinson_flex  ## This is the new part
       load_attached_files
       run_callbacks :find
       run_callbacks :initialize
       self
     end
 
-    def load_flexible_metadata
+    def load_allinson_flex
       base_dynamic_schema.schema['properties'].each do |prop, value|
         predicate = value['predicate'].presence || "https://localhost/#{prop}"
         self.class.late_add_property prop.to_sym, predicate: predicate, multiple: !value['singular']

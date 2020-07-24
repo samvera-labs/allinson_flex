@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AllinsonFlex::Validator do
   
   let(:data) { YAML.load_file( File.join(RSpec.configuration.fixture_path, 'files/yaml_example.yaml')) }
-  let(:default_schema) { JSONSchemer.schema(Pathname.new('flexible_metadata_schema.json')) }
+  let(:default_schema) { JSONSchemer.schema(Pathname.new('allinson_flex_schema.json')) }
   let(:default_logger) { Rails.logger }
   
   describe 'valid schema' do

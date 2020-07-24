@@ -17,7 +17,7 @@ RSpec.describe AllinsonFlex::Importer do
     end
 
     it 'raises an error with an invalid file' do
-      expect { described_class.load_profile_from_path(path: 'app/models/flexible_metadata/profile.rb') }
+      expect { described_class.load_profile_from_path(path: 'app/models/allinson_flex/profile.rb') }
         .to raise_error(AllinsonFlex::Importer::YamlSyntaxError)
     end
 
@@ -26,7 +26,7 @@ RSpec.describe AllinsonFlex::Importer do
         .to be_an_instance_of(AllinsonFlex::Profile)
     end
 
-    it 'returns an FlexibleMetadata::Profile instance' do
+    it 'returns an AllinsonFlex::Profile instance' do
       expect(profile)
         .to be_an_instance_of(AllinsonFlex::Profile)
     end
@@ -36,8 +36,8 @@ RSpec.describe AllinsonFlex::Importer do
         .to eq(2)
     end
 
-    it 'creates associated flexible_metadata_context objects, including default' do
-      expect(profile.flexible_metadata_contexts.count)
+    it 'creates associated allinson_flex_context objects, including default' do
+      expect(profile.allinson_flex_contexts.count)
         .to eq(2)
     end
   end

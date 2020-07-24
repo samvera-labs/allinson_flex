@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe AllinsonFlex::Profile, type: :model do
-  let(:profile) { FactoryBot.build(:flexible_metadata_profile, profile_version: 1.0) }
+  let(:profile) { FactoryBot.build(:allinson_flex_profile, profile_version: 1.0) }
 
   it 'is valid' do
     expect(profile).to be_valid
@@ -14,11 +14,11 @@ RSpec.describe AllinsonFlex::Profile, type: :model do
     it { is_expected.to validate_presence_of(:responsibility) }
   end
   describe 'associations' do
-    it { is_expected.to have_many(:dynamic_schemas).class_name('FlexibleMetadata::DynamicSchema') }
-    it { is_expected.to have_many(:flexible_metadata_contexts).class_name('FlexibleMetadata::Context') }
-    it { is_expected.to have_many(:classes).class_name('FlexibleMetadata::ProfileClass') }
-    it { is_expected.to have_many(:contexts).class_name('FlexibleMetadata::ProfileContext') }
-    it { is_expected.to have_many(:properties).class_name('FlexibleMetadata::ProfileProperty') }
+    it { is_expected.to have_many(:dynamic_schemas).class_name('AllinsonFlex::DynamicSchema') }
+    it { is_expected.to have_many(:allinson_flex_contexts).class_name('AllinsonFlex::Context') }
+    it { is_expected.to have_many(:classes).class_name('AllinsonFlex::ProfileClass') }
+    it { is_expected.to have_many(:contexts).class_name('AllinsonFlex::ProfileContext') }
+    it { is_expected.to have_many(:properties).class_name('AllinsonFlex::ProfileProperty') }
   end
   describe 'serializations' do
     it { is_expected.to serialize(:profile) }
@@ -35,7 +35,7 @@ RSpec.describe AllinsonFlex::Profile, type: :model do
       )
     end
     it '#profile is set' do
-      expect(profile.profile).to eq('flexible_metadata_version' => nil,
+      expect(profile.profile).to eq('allinson_flex_version' => nil,
                                     'profile' => {
                                       'responsibility' => 'http://iu.edu',
                                       'date_modified' => '2019-09-23',

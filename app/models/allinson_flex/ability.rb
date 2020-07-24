@@ -5,10 +5,10 @@ module AllinsonFlex
     extend ActiveSupport::Concern
 
     included do
-      self.ability_logic += [:flexible_metadata_profile_abilities]
+      self.ability_logic += [:allinson_flex_profile_abilities]
     end
 
-    def flexible_metadata_profile_abilities
+    def allinson_flex_profile_abilities
       can :manage, AllinsonFlex::Profile if admin?
     end
   end

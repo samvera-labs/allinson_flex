@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "flexible_metadata/engine"
+require "allinson_flex/engine"
 require 'active_support/all'
 
 module AllinsonFlex

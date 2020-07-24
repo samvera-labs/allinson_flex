@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module AllinsonFlex
-  class FlexibleMetadataConstructor
+  class AllinsonFlexConstructor
     class_attribute :default_logger
     self.default_logger = Rails.logger
 
@@ -24,7 +24,7 @@ module AllinsonFlex
 
       construct_profile_contexts(profile: profile)
       profile.save!
-      logger.info(%(LoadedFlexibleMetadata::Profile ID=#{profile.id}))
+      logger.info(%(LoadedAllinsonFlex::Profile ID=#{profile.id}))
       create_dynamic_schemas(profile: profile)
       profile
     end
@@ -33,7 +33,7 @@ module AllinsonFlex
       profile = construct_default_dynamic_schemas(profile: profile)
       profile = construct_dynamic_schemas(profile: profile)
       profile.save!
-      logger.info(%(Created FlexibleMetadata::Context and FlexibleMetadata::DynamicSchema objects for ID=#{profile.id}))
+      logger.info(%(Created AllinsonFlex::Context and AllinsonFlex::DynamicSchema objects for ID=#{profile.id}))
     end
 
     # def self.build_profile_data(profile:)
@@ -66,8 +66,8 @@ module AllinsonFlex
     #       end.inject(:merge),
     #     'properties' =>
     #       profile.properties.map do |prop|
-    #         class_text = prop.texts.map { |text| text if text.name == 'display_label' && text.textable_type == 'FlexibleMetadata::ProfileClass' }.compact
-    #         context_text = prop.texts.map { |text| text if text.name == 'display_label' && text.textable_type == 'FlexibleMetadata::ProfileContext' }.compact
+    #         class_text = prop.texts.map { |text| text if text.name == 'display_label' && text.textable_type == 'AllinsonFlex::ProfileClass' }.compact
+    #         context_text = prop.texts.map { |text| text if text.name == 'display_label' && text.textable_type == 'AllinsonFlex::ProfileContext' }.compact
     #         display_labels = []
     #         display_labels << { 'default' => prop.texts.map { |text| text.value if text.name == 'display_label' && text.textable_type.nil? }.compact.first }
     #         class_text.each do |clt|
@@ -109,7 +109,7 @@ module AllinsonFlex
             name: name,
             display_label: profile_contexts_hash.dig(name, 'display_label')
           )
-          logger.info(%(Constructed FlexibleMetadata::ProfileContext "#{profile_context.name}"))
+          logger.info(%(Constructed AllinsonFlex::ProfileContext "#{profile_context.name}"))
 
           construct_profile_classes(profile: profile, profile_context: profile_context)
 
@@ -126,7 +126,7 @@ module AllinsonFlex
             display_label: profile_classes_hash.dig(name, 'display_label'),
             schema_uri: profile_classes_hash.dig(name, 'schema_uri')
           )
-          logger.info(%(Constructed FlexibleMetadata::ProfileClass "#{profile_class.name}"))
+          logger.info(%(Constructed AllinsonFlex::ProfileClass "#{profile_class.name}"))
 
           profile_class.contexts << profile_context
 
@@ -147,7 +147,7 @@ module AllinsonFlex
             cardinality_maximum: properties_hash.dig(name, 'cardinality', 'maximum'),
             indexing: properties_hash.dig(name, 'indexing')
           )
-          logger.info(%(Constructed FlexibleMetadata::ProfileProperty "#{property.name}"))
+          logger.info(%(Constructed AllinsonFlex::ProfileProperty "#{property.name}"))
 
           context = properties_hash.dig(name, 'available_on', 'context')
           # TODO ALL goes here?
@@ -161,7 +161,7 @@ module AllinsonFlex
             value: properties_hash.dig(name, 'display_label', 'default')
           )
 
-          logger.info(%(Constructed FlexibleMetadata::ProfileText "#{property_text.value}" for FlexibleMetadata::ProfileProperty "#{property.name}"))
+          logger.info(%(Constructed AllinsonFlex::ProfileText "#{property_text.value}" for AllinsonFlex::ProfileProperty "#{property.name}"))
 
           if properties_hash.dig(name, 'display_label').keys.include? profile_context.name
             property_text = property.texts.build(
@@ -169,7 +169,7 @@ module AllinsonFlex
               value: properties_hash.dig(name, 'display_label', profile_context.name),
               textable: profile_context
             )
-            logger.info(%(Constructed FlexibleMetadata::ProfileText "#{property_text.value}" for FlexibleMetadata::ProfileProperty "#{property.name} on #{profile_context.name}"))
+            logger.info(%(Constructed AllinsonFlex::ProfileText "#{property_text.value}" for AllinsonFlex::ProfileProperty "#{property.name} on #{profile_context.name}"))
           end
 
           if properties_hash.dig(name, 'display_label').keys.include? profile_class.name
@@ -178,7 +178,7 @@ module AllinsonFlex
               value: properties_hash.dig(name, 'display_label', profile_class.name),
               textable: profile_class
             )
-            logger.info(%(Constructed FlexibleMetadata::ProfileText "#{property_text.value}" for FlexibleMetadata::ProfileProperty "#{property.name}" on #{profile_class.name}))
+            logger.info(%(Constructed AllinsonFlex::ProfileText "#{property_text.value}" for AllinsonFlex::ProfileProperty "#{property.name}" on #{profile_class.name}))
           end
 
           property
@@ -190,19 +190,19 @@ module AllinsonFlex
         cxt = AllinsonFlex::ProfileContext.where(
           name: 'default',
           display_label: "Flexible Metadata Example",
-          flexible_metadata_profile_id: profile.id
+          allinson_flex_profile_id: profile.id
         ).first_or_create
 
         fm_cxt = AllinsonFlex::Context.where(
           name: 'default',
-          flexible_metadata_profile_context: cxt,
-          flexible_metadata_profile_id: profile.id
+          allinson_flex_profile_context: cxt,
+          allinson_flex_profile_id: profile.id
         ).first_or_create
 
         profile.classes.each do |cl|
           profile.dynamic_schemas.build(
-            flexible_metadata_class: cl.name,
-            flexible_metadata_context: fm_cxt,
+            allinson_flex_class: cl.name,
+            allinson_flex_context: fm_cxt,
             schema: build_schema(cl)
           )
         end
@@ -214,13 +214,13 @@ module AllinsonFlex
           cl.contexts.each do |cl_cxt|
             fm_cxt = AllinsonFlex::Context.where(
               name: cl_cxt.name,
-              flexible_metadata_profile_context: cl_cxt,
-              flexible_metadata_profile_id: profile.id
+              allinson_flex_profile_context: cl_cxt,
+              allinson_flex_profile_id: profile.id
             ).first_or_create
 
             profile.dynamic_schemas.build(
-              flexible_metadata_class: cl.name,
-              flexible_metadata_context: fm_cxt,
+              allinson_flex_class: cl.name,
+              allinson_flex_context: fm_cxt,
               schema: build_schema(cl, cl_cxt)
             )
           end
@@ -228,24 +228,24 @@ module AllinsonFlex
         profile
       end
 
-      def self.intersection_properties(flexible_metadata_class, flexible_metadata_context = nil)
-        if flexible_metadata_class && flexible_metadata_context
-          flexible_metadata_context.available_properties.map(&:flexible_metadata_profile_property) & flexible_metadata_class.available_properties.map(&:flexible_metadata_profile_property)
+      def self.intersection_properties(allinson_flex_class, allinson_flex_context = nil)
+        if allinson_flex_class && allinson_flex_context
+          allinson_flex_context.available_properties.map(&:allinson_flex_profile_property) & allinson_flex_class.available_properties.map(&:allinson_flex_profile_property)
         else
-          flexible_metadata_class.available_properties.map(&:flexible_metadata_profile_property)
+          allinson_flex_class.available_properties.map(&:allinson_flex_profile_property)
         end
       end
 
-      def self.build_schema(flexible_metadata_class, flexible_metadata_context = nil)
+      def self.build_schema(allinson_flex_class, allinson_flex_context = nil)
         {
-          'type' => flexible_metadata_class.schema_uri || "http://example.com/#{flexible_metadata_class.name}",
-          'display_label' => flexible_metadata_class.display_label,
+          'type' => allinson_flex_class.schema_uri || "http://example.com/#{allinson_flex_class.name}",
+          'display_label' => allinson_flex_class.display_label,
           'properties' =>
-            intersection_properties(flexible_metadata_class, flexible_metadata_context).map do |property|
+            intersection_properties(allinson_flex_class, allinson_flex_context).map do |property|
               {
                 property.name => {
                   'predicate' => property.property_uri,
-                  'display_label' => display_label(property, flexible_metadata_class, flexible_metadata_context),
+                  'display_label' => display_label(property, allinson_flex_class, allinson_flex_context),
                   'required' => required?(property.cardinality_minimum),
                   'singular' => singular?(property.cardinality_maximum),
                   'indexing' => property.indexing
@@ -265,12 +265,12 @@ module AllinsonFlex
         return true if cardinality_maximum == 1
       end
 
-      def self.display_label(property, flexible_metadata_class, flexible_metadata_context = nil)
-        unless flexible_metadata_context.nil?
-          context_label = flexible_metadata_context.context_texts.map { |t| t.value if t.name == 'display_label' && t.flexible_metadata_profile_property_id == property.id }.first
+      def self.display_label(property, allinson_flex_class, allinson_flex_context = nil)
+        unless allinson_flex_context.nil?
+          context_label = allinson_flex_context.context_texts.map { |t| t.value if t.name == 'display_label' && t.allinson_flex_profile_property_id == property.id }.first
           return context_label unless context_label.blank?
         end
-        class_label = flexible_metadata_class.class_texts.map { |t| t.value if t.name == 'display_label' && t.flexible_metadata_profile_property_id == property.id }.first
+        class_label = allinson_flex_class.class_texts.map { |t| t.value if t.name == 'display_label' && t.allinson_flex_profile_property_id == property.id }.first
         return class_label unless class_label.blank?
         property.texts.map { |t| t.value if t.name == 'display_label' && t.textable_type.nil? }.compact.first
       end

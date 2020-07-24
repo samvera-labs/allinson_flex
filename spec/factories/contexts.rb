@@ -1,20 +1,20 @@
 FactoryBot.define do
-  factory :flexible_metadata_context, class: AllinsonFlex::Context do
+  factory :allinson_flex_context, class: AllinsonFlex::Context do
     name       { "flexible_context" }
-    flexible_metadata_profile { FactoryBot.build(:flexible_metadata) }
-    flexible_metadata_context { FactoryBot.build(:flexible_metadata_context) }
+    allinson_flex_profile { FactoryBot.build(:allinson_flex) }
+    allinson_flex_context { FactoryBot.build(:allinson_flex_context) }
   end
 
-  factory :flexible_metadata_context_assigned, class: AllinsonFlex::Context do
+  factory :allinson_flex_context_assigned, class: AllinsonFlex::Context do
     name       { "flexible_context" }
-    flexible_metadata_profile { FactoryBot.build(:flexible_metadata) }
+    allinson_flex_profile { FactoryBot.build(:allinson_flex) }
     admin_set_ids { [AdminSet.find_or_create_default_admin_set_id] }
-    flexible_metadata_context { FactoryBot.build(:flexible_metadata_context) }
+    allinson_flex_context { FactoryBot.build(:allinson_flex_context) }
   end
 
-  factory :flexible_metadata_context_default, class: AllinsonFlex::Context do
+  factory :allinson_flex_context_default, class: AllinsonFlex::Context do
     name       { "default" }
-    flexible_metadata_profile { FactoryBot.build(:flexible_metadata) }
-    flexible_metadata_context { FactoryBot.build(:flexible_metadata_context) }
+    allinson_flex_profile { FactoryBot.build(:allinson_flex) }
+    allinson_flex_context { FactoryBot.build(:allinson_flex_context) }
   end
 end
