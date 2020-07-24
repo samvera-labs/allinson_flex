@@ -79,16 +79,18 @@ module AllinsonFlex
     end
 
     # Setup dynamic schema service
-    def dynamic_schema_service(as_id=nil)
+    def dynamic_schema_service(as_id=nil, update=false)
       # clear memoizaiton when as_id changes
       old_as_id = @as_id
       @as_id = as_id || admin_set_id || AdminSet::DEFAULT_ID
       @dynamic_schema_service = nil if old_as_id != @as_id
 
+      # If we want to update, dont pass an existing id in
+      schema_id = update ? nil : self.dynamic_schema
       @dynamic_schema_service ||= AllinsonFlex::DynamicSchemaService.new(
         admin_set_id: @as_id,
         work_class_name: self.class.to_s,
-        dynamic_schema_id: self.dynamic_schema
+        dynamic_schema_id: schema_id
       )
     end
   end

@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :dynamic_schema, class: AllinsonFlex::DynamicSchema do
     allinson_flex_class   { 'Image' }
     allinson_flex_context { FactoryBot.build(:allinson_flex_context_assigned) }
-    allinson_flex_profile { FactoryBot.build(:allinson_flex) }
+    allinson_flex_profile { FactoryBot.build(:allinson_flex_profile) }
     schema     do
         {
           'type' => 'http://example.com/classes/Image',
@@ -26,7 +26,7 @@ FactoryBot.define do
   factory :dynamic_schema_default, class: AllinsonFlex::DynamicSchema do
     allinson_flex_class   { 'Image' }
     allinson_flex_context { FactoryBot.build(:allinson_flex_context_default) }
-    allinson_flex_profile { FactoryBot.build(:allinson_flex) }
+    allinson_flex_profile { FactoryBot.build(:allinson_flex_profile) }
     schema     do
       {
         'type' => 'http://example.com/classes/Image',

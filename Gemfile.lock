@@ -1,5 +1,5 @@
 PATH
-  remote: /Users/rob/Work/Indiana/essi-flex/vendor/engines/allinson_flex
+  remote: /Users/rob/Work/Indiana/essi-flex/vendor/engines/flexible_metadata
   specs:
     allinson_flex (0.1.0)
       json_schemer
@@ -824,6 +824,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  allinson_flex!
   bixby
   bootstrap-sass (~> 3.0)
   byebug
@@ -834,7 +835,6 @@ DEPENDENCIES
   engine_cart (~> 2.2)
   factory_bot
   fcrepo_wrapper
-  allinson_flex!
   hyrax (~> 2.7)
   jbuilder (~> 2.5)
   jquery-rails

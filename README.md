@@ -82,7 +82,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Dedication
 
-From the beginning of the Samvera community to her sudden passing in 2020, Julie Allinson (geekscruff)
+From the beginning of the Samvera community to her sudden passing in 2020, Julie Allinson (@geekscruff)
 was a strong presence in the Samvera community. Always ready to lend a hand or to share knowledge, she 
 embodied so much of what makes this community work. This effort, the last big project she was involved
 in, was the culmination not just of her time as a developer but the combination of her work as a metadata

@@ -266,7 +266,7 @@ module AllinsonFlex
       end
 
       def self.display_label(property, allinson_flex_class, allinson_flex_context = nil)
-        unless allinson_flex_context.nil?
+        if allinson_flex_context.present?
           context_label = allinson_flex_context.context_texts.map { |t| t.value if t.name == 'display_label' && t.allinson_flex_profile_property_id == property.id }.first
           return context_label unless context_label.blank?
         end
