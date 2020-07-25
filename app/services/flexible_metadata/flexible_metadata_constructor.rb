@@ -266,11 +266,11 @@ module FlexibleMetadata
       end
 
       def self.display_label(property, flexible_metadata_class, flexible_metadata_context = nil)
-        unless flexible_metadata_context.nil?
-          context_label = flexible_metadata_context.context_texts.map { |t| t.value if t.name == 'display_label' && t.m3_profile_property_id == property.id }.first
+        if flexible_metadata_context.present?
+          context_label = flexible_metadata_context.context_texts.detect { |t| t.value if t.name == 'display_label' && t.m3_profile_property_id == property.id }&.value
           return context_label unless context_label.blank?
         end
-        class_label = flexible_metadata_class.class_texts.map { |t| t.value if t.name == 'display_label' && t.m3_profile_property_id == property.id }.first
+        class_label = flexible_metadata_class.class_texts.detect { |t| t.value if t.name == 'display_label' && t.m3_profile_property_id == property.id }&.value
         return class_label unless class_label.blank?
         property.texts.map { |t| t.value if t.name == 'display_label' && t.textable_type.nil? }.compact.first
       end
