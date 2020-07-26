@@ -74,21 +74,21 @@ module FlexibleMetadata
     end
 
     # Retrieve the dynamic schema
-    def base_dynamic_schema(as_id=nil)
-      dynamic_schema_service(as_id).dynamic_schema
+    def base_dynamic_schema(args = {})
+      dynamic_schema_service(args).dynamic_schema
     end
 
     # Setup dynamic schema service
-    def dynamic_schema_service(as_id=nil)
+    def dynamic_schema_service(args = {})
       # clear memoizaiton when as_id changes
       old_as_id = @as_id
-      @as_id = as_id || admin_set_id || AdminSet::DEFAULT_ID
+      @as_id = args[:as_id] || admin_set_id || AdminSet::DEFAULT_ID
       @dynamic_schema_service = nil if old_as_id != @as_id
-
+      schema_id = args[:update] ? nil : self.dynamic_schema
       @dynamic_schema_service ||= FlexibleMetadata::DynamicSchemaService.new(
         admin_set_id: @as_id,
         work_class_name: self.class.to_s,
-        dynamic_schema_id: self.dynamic_schema
+        dynamic_schema_id: schema_id
       )
     end
   end

@@ -26,33 +26,6 @@ class FlexibleMetadata::WorksGenerator < Rails::Generators::Base
     end
   end
 
-  def configure_actors
-    @work_types.each do |work_type|
-      file = "app/actors/hyrax/actors/#{work_type.underscore}_actor.rb"
-      file_text = File.read(file)
-      insert_1 = '      include FlexibleMetadata::DynamicActorBehavior'
-      insert_2 = "      def create(env)\n        super\n      end"
-      insert_3 = '        add_dynamic_schema(env)'
-
-      unless file_text.include?(insert_1)
-        insert_into_file file, after: /Hyrax::Actors::BaseActor/ do
-          "\n#{insert_1}"
-        end
-      end
-
-      unless file_text.include?('def create(env)')
-        insert_into_file file, before: /\n    end\n  end\nend/ do
-          "\n#{insert_2}"
-        end
-      end
-
-      next if file_text.include?(insert_3)
-      insert_into_file file, after: /def create\(env\)/ do
-        "\n#{insert_3}"
-      end
-    end
-  end
-
   def configure_controllers
     @work_types.each do |work_type|
       file = "app/controllers/hyrax/#{work_type.pluralize.underscore}_controller.rb"

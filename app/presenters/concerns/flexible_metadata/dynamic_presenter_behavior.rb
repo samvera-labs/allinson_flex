@@ -16,5 +16,18 @@ module FlexibleMetadata
         )
       end
     end
+
+    def admin_set_id
+      @admin_set_id ||= AdminSet.where(title: self.admin_set).first&.id
+    end
+
+    def dynamic_schema_service
+      return @dynamic_schema_service if @dynamic_schema_service
+      @dynamic_schema_service = FlexibleMetadata::DynamicSchemaService.new(
+        admin_set_id: (admin_set_id || AdminSet::DEFAULT_ID),
+        work_class_name: self.class.model_class.to_s,
+        dynamic_schema_id: self.dynamic_schema
+      )
+    end
   end
 end
