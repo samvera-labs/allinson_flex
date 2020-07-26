@@ -46,7 +46,7 @@ module AllinsonFlex
               end
       ActionController::Base.view_paths = paths
 
-      Hyrax::CurationConcern.actor_factory.insert_before Hyrax::Actors::ModelActor, AllinsonFlex::DynamicActorSchemaActor
+      Hyrax::CurationConcern.actor_factory.insert_before Hyrax::Actors::ModelActor, AllinsonFlex::DynamicSchemaActor
     end
   end
 end
