@@ -15,17 +15,6 @@ module AllinsonFlexHelper
     admin_set.metadata_context.id
   end
 
-  # Setup the DynamicSchemaService
-  # Retrieve the existing dynamic_schema for a saved object, or the latest for a new object
-  # If it is not set, pass the DEFAULT_ID
-  def dynamic_schema_helper(admin_set_id, work_class_name, dynamic_schema_id = nil)
-    AllinsonFlex::DynamicSchemaService.new(
-      admin_set_id: admin_set_id || AdminSet::DEFAULT_ID,
-      work_class_name: work_class_name,
-      dynamic_schema_id: dynamic_schema_id
-    )
-  end
-
   # borrowd from batch-importer https://github.com/samvera-labs/hyrax-batch_ingest/blob/master/app/controllers/hyrax/batch_ingest/batches_controller.rb
   def available_admin_sets
     # Restrict available_admin_sets to only those current user can desposit to.

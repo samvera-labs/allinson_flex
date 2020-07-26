@@ -267,10 +267,10 @@ module AllinsonFlex
 
       def self.display_label(property, allinson_flex_class, allinson_flex_context = nil)
         if allinson_flex_context.present?
-          context_label = allinson_flex_context.context_texts.map { |t| t.value if t.name == 'display_label' && t.allinson_flex_profile_property_id == property.id }.first
+          context_label = allinson_flex_context.context_texts.detect { |t| t.value if t.name == 'display_label' && t.allinson_flex_profile_property_id == property.id }&.value
           return context_label unless context_label.blank?
         end
-        class_label = allinson_flex_class.class_texts.map { |t| t.value if t.name == 'display_label' && t.allinson_flex_profile_property_id == property.id }.first
+        class_label = allinson_flex_class.class_texts.detect { |t| t.value if t.name == 'display_label' && t.allinson_flex_profile_property_id == property.id }&.value
         return class_label unless class_label.blank?
         property.texts.map { |t| t.value if t.name == 'display_label' && t.textable_type.nil? }.compact.first
       end
