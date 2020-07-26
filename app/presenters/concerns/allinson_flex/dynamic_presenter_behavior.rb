@@ -26,7 +26,7 @@ module AllinsonFlex
       @dynamic_schema_service = AllinsonFlex::DynamicSchemaService.new(
         admin_set_id: (admin_set_id || AdminSet::DEFAULT_ID),
         work_class_name: self.class.model_class.to_s,
-        dynamic_schema_id: self.dynamic_schema
+        dynamic_schema_id: self.dynamic_schema_id
       )
     end
   end

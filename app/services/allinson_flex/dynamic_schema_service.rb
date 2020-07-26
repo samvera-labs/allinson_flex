@@ -20,7 +20,7 @@ module AllinsonFlex
         props = schema(
           work_class_name: work_class_name
         )['properties'].symbolize_keys!.keys
-        props << :dynamic_schema
+        props << :dynamic_schema_id
         props
       rescue StandardError => e
         []
@@ -93,7 +93,7 @@ module AllinsonFlex
                                 end
         end
       end
-      indexers[:dynamic_schema] = ['dynamic_schema_tesim']
+      indexers[:dynamic_schema_id] = ['dynamic_schema_id_tesim']
       indexers
     end
 

@@ -5,7 +5,7 @@ module AllinsonFlex
     extend ActiveSupport::Concern
 
     included do
-      attribute :dynamic_schema, Hyrax::SolrDocument::Metadata::Solr::String, solr_name(:dynamic_schema)
+      attribute :dynamic_schema_id, Hyrax::SolrDocument::Metadata::Solr::String, solr_name(:dynamic_schema_id)
     end
 
     class_methods do

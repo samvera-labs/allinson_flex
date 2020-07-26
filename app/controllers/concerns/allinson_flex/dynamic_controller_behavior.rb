@@ -18,7 +18,7 @@ module AllinsonFlex
                               request.controller_class.included_modules.include?(Hyrax::WorksControllerBehavior)
                             nil
                           else
-                            curation_concern&.dynamic_schema
+                            curation_concern&.dynamic_schema_id
                           end
       @dynamic_schema_service = AllinsonFlex::DynamicSchemaService.new(
         admin_set_id: curation_concern&.admin_set_id || AdminSet::DEFAULT_ID,

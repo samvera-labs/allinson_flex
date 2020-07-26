@@ -6,7 +6,7 @@ module AllinsonFlex
     extend ActiveSupport::Concern
 
     included do
-      property :dynamic_schema, predicate: ::RDF::URI("https://github.com/samvera-labs/houndstooth"), multiple: false
+      property :dynamic_schema_id, predicate: ::RDF::URI("https://github.com/samvera-labs/houndstooth"), multiple: false
     end
 
     class_methods do
@@ -86,7 +86,7 @@ module AllinsonFlex
       @dynamic_schema_service = nil if old_as_id != @as_id
 
       # If we want to update, dont pass an existing id in
-      schema_id = args[:update] ? nil : self.dynamic_schema
+      schema_id = args[:update] ? nil : self.dynamic_schema_id
       @dynamic_schema_service ||= AllinsonFlex::DynamicSchemaService.new(
         admin_set_id: @as_id,
         work_class_name: self.class.to_s,
