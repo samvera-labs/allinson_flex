@@ -2,14 +2,14 @@
 
 module AllinsonFlex
   class Context < ApplicationRecord
-    belongs_to :allinson_flex_profile, class_name: 'AllinsonFlex::Profile'
-    belongs_to :allinson_flex_profile_context, class_name: 'AllinsonFlex::ProfileContext'
-    has_many :dynamic_schemas, foreign_key: 'allinson_flex_context_id', dependent: :destroy
+    belongs_to :profile
+    belongs_to :profile_context
+    has_many :dynamic_schemas, dependent: :destroy
     serialize :admin_set_ids, Array
     validates :name, presence: true
     before_create :update_admin_sets
 
-    delegate :display_label, to: :allinson_flex_profile_context
+    delegate :display_label, to: :profile_context
 
     # @api public
     # @param admin_set_id [#to_s] the admin set to which we will scope our query.
@@ -25,7 +25,7 @@ module AllinsonFlex
     # @return [Array] contexts for latest profile
     def self.available_contexts
       current = AllinsonFlex::Profile.current_version
-      current.blank? ? [] : current.allinson_flex_contexts
+      current.blank? ? [] : current.contexts
     end
 
     # Add the admin_set id to the new context so that when we grab the contexts for the admin set

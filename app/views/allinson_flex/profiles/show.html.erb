@@ -37,7 +37,7 @@
 
     <h4> Classes: </h4>
     <table class="table table-striped table-bordered">
-      <% @allinson_flex_profile.classes.each do |c| %>
+      <% @allinson_flex_profile.profile_classes.each do |c| %>
         <tr>
           <th>Display Label:</th>
           <td><%= c.display_label %></td>
@@ -48,7 +48,7 @@
 
     <h4> Contexts: </h4>
     <table class="table table-striped table-bordered">
-      <% @allinson_flex_profile.classes.each do |cc| %>
+      <% @allinson_flex_profile.profile_classes.each do |cc| %>
         <tr>
           <th>Display Label:</th>
           <td><%= cc.display_label %></td>

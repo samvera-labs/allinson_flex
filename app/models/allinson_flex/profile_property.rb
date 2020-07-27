@@ -5,10 +5,10 @@ module AllinsonFlex
     self.table_name = 'allinson_flex_profile_properties'
 
     before_destroy :check_for_works
-    has_many :available_properties, class_name: 'AllinsonFlex::ProfileAvailableProperty', foreign_key: 'allinson_flex_profile_property_id', dependent: :destroy
+    has_many :available_properties, class_name: 'AllinsonFlex::ProfileAvailableProperty', foreign_key: 'profile_property_id', dependent: :destroy
     has_many :available_on_classes, through: :available_properties, source: :available_on, source_type: 'AllinsonFlex::ProfileClass'
     has_many :available_on_contexts, through: :available_properties, source: :available_on, source_type: 'AllinsonFlex::ProfileContext'
-    has_many :texts, class_name: 'AllinsonFlex::ProfileText', foreign_key: 'allinson_flex_profile_property_id', dependent: :destroy
+    has_many :texts, class_name: 'AllinsonFlex::ProfileText', foreign_key: 'profile_property_id', dependent: :destroy
     accepts_nested_attributes_for :texts, allow_destroy: true
 
     serialize :indexing, Array

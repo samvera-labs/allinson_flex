@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe AllinsonFlex::ProfileContext, type: :model do
-  let(:profile_context) { FactoryBot.build(:allinson_flex_profile_context) }
+  let(:profile_context) { FactoryBot.build(:profile_context) }
 
   it 'is valid' do
     expect(profile_context).to be_valid

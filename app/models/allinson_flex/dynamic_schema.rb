@@ -2,12 +2,12 @@
 
 module AllinsonFlex
   class DynamicSchema < ApplicationRecord
-    belongs_to :allinson_flex_context, class_name: 'AllinsonFlex::Context'
-    belongs_to :allinson_flex_profile, class_name: 'AllinsonFlex::Profile'
+    belongs_to :context
+    belongs_to :profile
     before_destroy :check_for_works
     serialize :schema, JSON
     validates :allinson_flex_class, :schema, presence: true
-    delegate :profile_version, to: :allinson_flex_profile
+    delegate :profile_version, to: :profile
 
     private
 

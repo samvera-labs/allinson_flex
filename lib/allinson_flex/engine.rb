@@ -45,8 +45,6 @@ module AllinsonFlex
                 paths.insert(0, my_engine_root + '/app/views')
               end
       ActionController::Base.view_paths = paths
-
-      Hyrax::CurationConcern.actor_factory.insert_before Hyrax::Actors::ModelActor, AllinsonFlex::DynamicSchemaActor
     end
   end
 end

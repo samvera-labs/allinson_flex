@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe AllinsonFlex::Profile, type: :model, focus: true do
+RSpec.describe AllinsonFlex::Profile, type: :model do
   let(:profile) { FactoryBot.build(:allinson_flex_profile, profile_version: 1.0) }
 
   it 'is valid' do
@@ -15,9 +15,9 @@ RSpec.describe AllinsonFlex::Profile, type: :model, focus: true do
   end
   describe 'associations' do
     it { is_expected.to have_many(:dynamic_schemas).class_name('AllinsonFlex::DynamicSchema') }
-    it { is_expected.to have_many(:allinson_flex_contexts).class_name('AllinsonFlex::Context') }
-    it { is_expected.to have_many(:classes).class_name('AllinsonFlex::ProfileClass') }
-    it { is_expected.to have_many(:contexts).class_name('AllinsonFlex::ProfileContext') }
+    it { is_expected.to have_many(:contexts).class_name('AllinsonFlex::Context') }
+    it { is_expected.to have_many(:profile_classes).class_name('AllinsonFlex::ProfileClass') }
+    it { is_expected.to have_many(:profile_contexts).class_name('AllinsonFlex::ProfileContext') }
     it { is_expected.to have_many(:properties).class_name('AllinsonFlex::ProfileProperty') }
   end
   describe 'serializations' do

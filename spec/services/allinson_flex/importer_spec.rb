@@ -37,7 +37,7 @@ RSpec.describe AllinsonFlex::Importer do
     end
 
     it 'creates associated allinson_flex_context objects, including default' do
-      expect(profile.allinson_flex_contexts.count)
+      expect(profile.contexts.count)
         .to eq(2)
     end
   end

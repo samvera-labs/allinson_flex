@@ -5,14 +5,14 @@ module AllinsonFlex
 
     before_destroy :check_for_works
     # flexible metadata objects
-    has_many :allinson_flex_contexts, class_name: 'AllinsonFlex::Context', dependent: :destroy
-    has_many :dynamic_schemas, class_name: 'AllinsonFlex::DynamicSchema', dependent: :destroy
+    has_many :contexts, dependent: :destroy
+    has_many :dynamic_schemas, dependent: :destroy
     # profile elements
-    has_many :classes, class_name: 'AllinsonFlex::ProfileClass', dependent: :destroy
-    accepts_nested_attributes_for :classes, allow_destroy: true
+    has_many :profile_classes, dependent: :destroy
+    accepts_nested_attributes_for :profile_classes, allow_destroy: true
 
-    has_many :contexts, class_name: 'AllinsonFlex::ProfileContext', dependent: :destroy
-    accepts_nested_attributes_for :contexts, allow_destroy: true
+    has_many :profile_contexts, dependent: :destroy
+    accepts_nested_attributes_for :profile_contexts, allow_destroy: true
 
     has_many :properties, class_name: 'AllinsonFlex::ProfileProperty', dependent: :destroy
     accepts_nested_attributes_for :properties, allow_destroy: true
@@ -93,16 +93,16 @@ module AllinsonFlex
       end
 
       def contexts_errors
-        classes.collect { |cl| cl.errors[:base] unless cl.errors[:base].blank? }.compact.flatten
+        profile_classes.collect { |cl| cl.errors[:base] unless cl.errors[:base].blank? }.compact.flatten
       end
 
       def classes_errors
-        contexts.collect { |cxt| cxt.errors[:base] unless cxt.errors[:base].blank? }.compact.flatten
+        profile_contexts.collect { |cxt| cxt.errors[:base] unless cxt.errors[:base].blank? }.compact.flatten
       end
 
       def check_for_works
-        allinson_flex_contexts.each do |allinson_flex_context|
-          allinson_flex_context.admin_set_ids.each do |admin_set_id|
+        contexts.each do |context|
+          context.admin_set_ids.each do |admin_set_id|
             next unless check_admin_set(admin_set_id)
             errors.add(
               :base,

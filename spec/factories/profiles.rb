@@ -6,8 +6,8 @@ FactoryBot.define do
     sequence(:profile_version) { |n| n }
     responsibility { 'http://iu.edu' }
     date_modified { '2019-09-23' }
-    classes { [FactoryBot.build(:allinson_flex_class)] }
-    contexts { [FactoryBot.build(:allinson_flex_profile_context)] }
+    profile_classes { [FactoryBot.build(:allinson_flex_class)] }
+    profile_contexts { [FactoryBot.build(:profile_context)] }
     properties { [FactoryBot.build(:allinson_flex_property)] }
     profile { File.read('spec/fixtures/files/yaml_example.yaml') }
   end
@@ -15,11 +15,11 @@ FactoryBot.define do
   factory :allinson_flex_class, class: AllinsonFlex::ProfileClass do
     name            { "Image" }
     display_label   { "Flexible Work" }
-    contexts { [FactoryBot.build(:allinson_flex_profile_context)] }
+    profile_contexts { [FactoryBot.build(:profile_context)] }
     class_texts { [FactoryBot.build(:allinson_flex_text_for_class)] }
   end
 
-  factory :allinson_flex_profile_context, class: AllinsonFlex::ProfileContext do
+  factory :profile_context, class: AllinsonFlex::ProfileContext do
     name            { "flexible_context" }
     display_label   { "Flexible Context" }
     context_texts { [FactoryBot.build(:allinson_flex_text_for_context)] }
@@ -29,7 +29,7 @@ FactoryBot.define do
     name            { "title" }
     indexing        { ['stored_searchable'] }
     available_on_classes { [FactoryBot.build(:allinson_flex_class)] }
-    available_on_contexts { [FactoryBot.build(:allinson_flex_profile_context)] }
+    available_on_contexts { [FactoryBot.build(:profile_context)] }
     texts do
       [
         FactoryBot.build(:allinson_flex_text),

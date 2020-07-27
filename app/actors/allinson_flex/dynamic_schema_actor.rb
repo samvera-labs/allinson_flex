@@ -1,5 +1,5 @@
 module AllinsonFlex
-  class DynamicSchemaActor < Hyrax::AbstractActor
+  class DynamicSchemaActor < Hyrax::Actors::AbstractActor
     def create(env)
       add_dynamic_schema(env)
       next_actor.create(env)

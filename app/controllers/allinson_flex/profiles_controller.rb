@@ -32,8 +32,8 @@ module AllinsonFlex
       add_breadcrumb 'New'
       @allinson_flex_profile = AllinsonFlex::Profile.new
 
-      @allinson_flex_profile.classes.build
-      @allinson_flex_profile.contexts.build
+      @allinson_flex_profile.profile_classes.build
+      @allinson_flex_profile.profile_contexts.build
       @allinson_flex_profile.properties.build.texts.build
     end
 
