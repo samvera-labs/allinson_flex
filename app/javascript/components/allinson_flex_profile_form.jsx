@@ -6,15 +6,23 @@ import { css } from "@emotion/core"
 function processForm(schema, uiSchema, formData) {
   let newSchema = { ...schema }
   let newFormData = { ...formData }
-
   if ( formData.classes !== undefined ) {
+    if(newSchema.properties.properties.additionalProperties.properties.available_on.properties.class.items == undefined) {
+      newSchema.properties.properties.additionalProperties.properties.available_on.properties.class.items = {}
+    }
+    if(newSchema.properties.classes.additionalProperties.properties.contexts.items == undefined) {
+      newSchema.properties.classes.additionalProperties.properties.contexts.items = {}
+    }
+
     newSchema.properties.properties.additionalProperties.properties.available_on.properties.class.items.enum = Object.getOwnPropertyNames(formData.classes)
     newSchema.properties.classes.additionalProperties.properties.contexts.items.enum = Object.getOwnPropertyNames(formData.contexts)
   }
   if ( formData.contexts !== undefined ) {
+    if(newSchema.properties.properties.additionalProperties.properties.available_on.properties.context.items == undefined) {
+      newSchema.properties.properties.additionalProperties.properties.available_on.properties.context.items = {}
+    }
     newSchema.properties.properties.additionalProperties.properties.available_on.properties.context.items.enum = Object.getOwnPropertyNames(formData.contexts)
   }
-
   return {
     schema: newSchema,
     uiSchema: uiSchema,
@@ -168,7 +176,7 @@ class AllinsonFlexProfileForm extends Component {
   render() {
     return (
       <div>
-        <style>{` 
+        <style>{`
           button.btn-danger:nth-child(1) {
             display: none
           }

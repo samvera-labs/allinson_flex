@@ -35,10 +35,10 @@ class PropertySelector extends Component {
     const output = []
     for (const property in this.props.allinson_flex_profile.profile[`${tab}`]) {
       output.push(
-        <div className="btn-group col-sm-4" role="group">
+        <div className="btn-group col-sm-4" role="group" key={property}>
           <a className='btn btn-info col-sm-11' style={{marginBottom: '15px'}}  onClick={this.handlePropertySelect.bind(this)} href='#'>{property}</a>
           <button className='btn btn-info btn-danger col-sm-1' style={{marginBottom: '15px'}}  onClick={() => this.removeProperty(property)} href='#'>
-            <i class="glyphicon glyphicon-remove"></i>
+            <i className="glyphicon glyphicon-remove"></i>
           </button>
         </div>
       )
@@ -89,8 +89,8 @@ class PropertySelector extends Component {
       return (
         <div className='row'>
           <div className='col-sm-12'>
-            <h3 class="col-sm-11">Select a Property Or Add New</h3>
-            <button type="button" className="btn btn-info btn-add col-sm-1" tabindex="0" style={{margin: '20px 0px 10px'}} onClick={() => this.addProperty(tab)}><i class="glyphicon glyphicon-plus"></i></button>
+            <h3 className="col-sm-11">Select a Property Or Add New</h3>
+            <button type="button" className="btn btn-info btn-add col-sm-1" tabIndex="0" style={{margin: '20px 0px 10px'}} onClick={() => this.addProperty(tab)}><i className="glyphicon glyphicon-plus"></i></button>
           </div>
           { this.collectProperties(tab) }
         </div>
