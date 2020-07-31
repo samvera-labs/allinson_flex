@@ -22,8 +22,8 @@ module AllinsonFlex
     class_methods do
       def sanitize_params(form_params)
         admin_set_id = form_params[:admin_set_id]
-        return super if admin_set_id && workflow_for(admin_set_id: admin_set_id).allows_access_grant?
         build_dynamic_permitted_params(admin_set_id)
+        return super if admin_set_id && workflow_for(admin_set_id: admin_set_id).allows_access_grant?
         params_without_permissions = permitted_params.reject { |arg| arg.respond_to?(:key?) && arg.key?(:permissions_attributes) }
         form_params.permit(*params_without_permissions)
       end

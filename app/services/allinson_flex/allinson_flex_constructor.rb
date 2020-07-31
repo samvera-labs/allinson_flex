@@ -165,24 +165,24 @@ module AllinsonFlex
         profile
       end
 
-      def self.intersection_properties(allinson_flex_class, allinson_flex_context = nil)
-        if allinson_flex_class && allinson_flex_context
-          allinson_flex_context.available_properties.map(&:profile_property) & allinson_flex_class.available_properties.map(&:profile_property)
+      def self.intersection_properties(klass, context = nil)
+        if klass && context
+          context.available_properties.map(&:profile_property) & klass.available_properties.map(&:profile_property)
         else
-          allinson_flex_class.available_properties.map(&:profile_property)
+          klass.available_properties.map(&:profile_property)
         end
       end
 
-      def self.build_schema(allinson_flex_class, allinson_flex_context = nil)
+      def self.build_schema(klass, context = nil)
         {
-          'type' => allinson_flex_class.schema_uri || "http://example.com/#{allinson_flex_class.name}",
-          'display_label' => allinson_flex_class.display_label,
+          'type' => klass.schema_uri || "http://example.com/#{klass.name}",
+          'display_label' => klass.display_label,
           'properties' =>
-            intersection_properties(allinson_flex_class, allinson_flex_context).map do |property|
+            intersection_properties(klass, context).map do |property|
               {
                 property.name => {
                   'predicate' => property.property_uri,
-                  'display_label' => display_label(property, allinson_flex_class, allinson_flex_context),
+                  'display_label' => display_label(property, klass, context),
                   'required' => required?(property.cardinality_minimum),
                   'singular' => singular?(property.cardinality_maximum),
                   'indexing' => property.indexing
@@ -202,12 +202,12 @@ module AllinsonFlex
         return true if cardinality_maximum == 1
       end
 
-      def self.display_label(property, allinson_flex_class, allinson_flex_context = nil)
-        if allinson_flex_context.present?
-          context_label = allinson_flex_context.context_texts.detect { |t| t.value if t.name == 'display_label' && t.profile_property_id == property.id }&.value
+      def self.display_label(property, klass, context = nil)
+        if context.present?
+          context_label = context.context_texts.detect { |t| t.value if t.name == 'display_label' && t.profile_property_id == property.id }&.value
           return context_label unless context_label.blank?
         end
-        class_label = allinson_flex_class.class_texts.detect { |t| t.value if t.name == 'display_label' && t.profile_property_id == property.id }&.value
+        class_label = klass.class_texts.detect { |t| t.value if t.name == 'display_label' && t.profile_property_id == property.id }&.value
         return class_label unless class_label.blank?
         property.texts.map { |t| t.value if t.name == 'display_label' && t.textable_type.nil? }.compact.first
       end
