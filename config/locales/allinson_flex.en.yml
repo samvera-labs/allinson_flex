@@ -14,3 +14,7 @@ en:
         form:
           permission_update_notices:
             metadata_context: The collection's metadata context has been updated.
+    dashboard:
+      my:
+        heading:
+          profile_version: Profile Version

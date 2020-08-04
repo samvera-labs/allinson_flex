@@ -93,7 +93,8 @@ module AllinsonFlex
                                 end
         end
       end
-      indexers[:dynamic_schema_id] = ['dynamic_schema_id_tesim']
+      indexers[:profile_version] = ['profile_version_ssi']
+      indexers[:dynamic_schema_id] = ['dynamic_schema_id_ssi']
       indexers
     end
 

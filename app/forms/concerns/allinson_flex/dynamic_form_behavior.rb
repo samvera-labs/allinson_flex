@@ -7,14 +7,15 @@ module AllinsonFlex
 
     included do
       class_attribute :base_terms
+      attr_accessor :dynamic_schema_service
 
       # base terms that are not basic_metadata
       # @see https://github.com/samvera/hyrax/blob/master/app/forms/hyrax/forms/work_form.rb
-      self.base_terms = [:title, :representative_id, :thumbnail_id, :rendering_ids, :files,
+      self.base_terms = [:title, :profile_version, :representative_id, :thumbnail_id, :rendering_ids, :files,
                          :visibility_during_embargo, :embargo_release_date, :visibility_after_embargo,
                          :visibility_during_lease, :lease_expiration_date, :visibility_after_lease,
                          :visibility, :ordered_member_ids, :source, :in_works_ids,
-                         :member_of_collection_ids, :admin_set_id]
+                         :member_of_collection_ids, :admin_set_id, :profile_version]
 
      self.required_fields = []
     end
@@ -29,6 +30,7 @@ module AllinsonFlex
       end
 
       def build_dynamic_permitted_params(admin_set_id)
+        # this always means the "latest" schema is used
         dynamic_schema_service = AllinsonFlex::DynamicSchemaService.new(
           admin_set_id: admin_set_id,
           work_class_name: self.model_class
@@ -60,9 +62,9 @@ module AllinsonFlex
     #   set the terms and required terms to those from the contextual schema
     def initialize(model, current_ability, controller)
       model.admin_set_id = controller.params['admin_set_id'] if controller&.params&.[]('admin_set_id')&.present?
-
-      self.class.terms = (model.dynamic_schema_service.property_keys + self.class.base_terms).uniq
-      self.class.required_fields = model.dynamic_schema_service.required_properties
+      self.dynamic_schema_service = model.dynamic_schema_service(update: true)
+      self.class.terms = (dynamic_schema_service.property_keys + self.class.base_terms).uniq
+      self.class.required_fields = [:profile_version] + dynamic_schema_service.required_properties
 
       super(model, current_ability, controller)
     end
