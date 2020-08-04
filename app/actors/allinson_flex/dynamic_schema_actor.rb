@@ -12,10 +12,12 @@ module AllinsonFlex
 
     # @param [Hyrax::Actors::Environment] env
     def add_dynamic_schema(env)
-      env.curation_concern.dynamic_schema_id = env.curation_concern.base_dynamic_schema(
+      schema = env.curation_concern.base_dynamic_schema(
         as_id: env.attributes[:admin_set_id] || AdminSet::DEFAULT_ID,
         update: true
-      ).id
+      )
+      env.attributes[:dynamic_schema_id] = schema.id
+      env.attributes[:profile_version] = schema.profile_version.to_f
     end
   end
 end
