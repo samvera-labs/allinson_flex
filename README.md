@@ -1,84 +1,49 @@
-# allinson_flex
+# Allinson Flex - A Flexible Machine-readballe Metadata Modeling Implementation
 
-One Paragraph of project description goes here
+This library implements the M3 specifications found in [Houndstooth](https://github.com/samvera-labs/houndstooth) for Hyrax and other Samvera repository systems. It is able to read an M3 schema along with a profile YAML file and provides a graphical interface for editing the classes, contexts, mappings and properties found with in. It then provides hooks to the various pieces of Hyrax and similar Rails based systems to in order to assign contexts to Admin Sets, create and modify works and have all the properties of that work defined dynamically by users during run time. Work Types must exists in code (there is a work type generator), but all properties within can be edited dynamically by the library and are stored as data.
 
-## Getting Started
+## Installing
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+### Install Generator
 
-### Prerequisites
+Add this line to your application's Gemfile:
 
-What things you need to install the software and how to install them
-
-```
-Give examples
+```ruby
+gem 'allinson_flex', git: 'https://github.com/samvera-labs/allinson_flex.git'
 ```
 
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
+And then execute:
+```bash
+$ bundle update
+$ rails generate allinson_flex:install
 ```
 
-And repeat
+### Create work types
 
+```bash
+$ rails generate allinson_flex:work Image
 ```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
 ## Contributing
+See
+[CONTRIBUTING.md](https://github.com/samvera-labs/allinson_flex/blob/master/CONTRIBUTING.md)
+for contributing guidelines.
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+We encourage everyone to help improve this project.  Bug reports and pull requests are welcome on GitHub at https://github.com/samvera-labs/allinson_flex.
+
+This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](https://contributor-covenant.org) code of conduct.
+
+All Contributors should have signed the Hydra Contributor License Agreement (CLA)
+
+## Questions
+Questions can be sent to support@notch8.com. Please make sure to include "AllinsonFlex" in the subject line of your email.
+
+## License
+The gem is available as open source under the terms of the [Apache 2.0 License](https://opensource.org/licenses/Apache-2.0).
 
 ## Versioning
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Dedication
 
@@ -92,7 +57,5 @@ her.
  
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* Indiana University - This work was initially commissioned for the ESSI project. We will always be grateful for their patience and the opportunity to take a hard swing at such a big set of challenges. 
 
