@@ -67,16 +67,22 @@ module AllinsonFlex
     end
 
     def load_allinson_flex
-      base_dynamic_schema.schema['properties'].each do |prop, value|
+      dynamic_schema.schema['properties'].each do |prop, value|
         predicate = value['predicate'].presence || "https://localhost/#{prop}"
         self.class.late_add_property prop.to_sym, predicate: predicate, multiple: !value['singular']
       end
       self.class.type(AllinsonFlex::DynamicSchemaService.rdf_type(work_class_name: self.class.to_s))
     end
 
-    # Retrieve the dynamic schema
-    def base_dynamic_schema(args = {})
-      dynamic_schema_service(args).dynamic_schema
+
+    def dynamic_schema
+      @dynamic_schema ||= AllinsonFlex::DynamicSchema.find_by_id(id: self.dynamic_schema_id) || self.dynamic_schema_service(update: true)&.dynamic_schema
+    end
+
+    def dynamic_schema=(value)
+      @dynamic_schema = value
+      self.dynamic_schema_id = value.id
+      self.profile_version = value.profile_version.to_f
     end
 
     # Setup dynamic schema service

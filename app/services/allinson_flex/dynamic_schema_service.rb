@@ -132,7 +132,7 @@ module AllinsonFlex
       def context_for(admin_set_id:)
         cxt = AdminSet.find(admin_set_id).metadata_context
         if cxt.blank?
-          raise AllinsonFlex::NoAllinsonFlexContextError(
+          raise AllinsonFlex::NoAllinsonFlexContextError.new(
             "No Metadata Context for Admin Set #{admin_set_id}"
           )
         end

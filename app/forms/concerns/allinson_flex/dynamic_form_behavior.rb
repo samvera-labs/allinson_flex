@@ -63,8 +63,8 @@ module AllinsonFlex
     def initialize(model, current_ability, controller)
       model.admin_set_id = controller.params['admin_set_id'] if controller&.params&.[]('admin_set_id')&.present?
       self.dynamic_schema_service = model.dynamic_schema_service(update: true)
-      self.class.terms = (dynamic_schema_service.property_keys + self.class.base_terms).uniq
-      self.class.required_fields = [:profile_version] + dynamic_schema_service.required_properties
+      self.class.terms = (self.dynamic_schema_service.property_keys + self.class.base_terms).uniq
+      self.class.required_fields = [:profile_version] + self.dynamic_schema_service.required_properties
 
       super(model, current_ability, controller)
     end

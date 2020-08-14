@@ -1,4 +1,6 @@
-<% updating = f.object.profile_version.to_f < f.object.dynamic_schema_service.dynamic_schema.profile_version %>
+<% dynamic_schema_service = f.object.dynamic_schema_service %>
+<% # dynamic_schema_service comes from form where it is always the most updated %>
+<% updating = (f.object.profile_version.to_f < dynamic_schema_service.dynamic_schema.profile_version) ? 'updating' : '' %>
 <div class='pull-right'>
   <% if f.object.profile_version.present? %>
     <div class='profile-version text-center'>
@@ -6,8 +8,8 @@
       <span>Previous Profile Version</span>
     </div>
   <% end %>
-  <div class='profile-version text-center <%= updating ? 'updating' : '' %>'>
-    <h4><%= f.object.dynamic_schema_service.dynamic_schema.profile_version %></h4>
+  <div class='profile-version text-center <%= updating %>'>
+    <h4><%= dynamic_schema_service.dynamic_schema.profile_version %></h4>
     <span>Next Profile Version</span>
   </div>
 </div>
