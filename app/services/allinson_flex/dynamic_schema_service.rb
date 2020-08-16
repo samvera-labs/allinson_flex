@@ -127,6 +127,10 @@ module AllinsonFlex
       label || send("#{locale_key}_for", property) || property.to_s.capitalize
     end
 
+    def multiple?(value)
+      !properties[value][:singular] if properties[value]
+    end
+
     private
 
       def context_for(admin_set_id:)

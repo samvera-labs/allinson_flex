@@ -68,5 +68,14 @@ module AllinsonFlex
 
       super(model, current_ability, controller)
     end
+
+    def multiple?(field)
+      field_name = field.to_sym
+      if self.dynamic_schema_service.property_keys.include?(field_name)
+        self.dynamic_schema_service.multiple?(field_name)
+      else
+        super
+      end
+    end
   end
 end
