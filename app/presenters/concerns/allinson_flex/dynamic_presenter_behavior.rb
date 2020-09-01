@@ -22,7 +22,7 @@ module AllinsonFlex
     end
 
     def dynamic_schema_service
-      return @dynamic_schema_service if @dynamic_schema_service
+      # TODO caching return @dynamic_schema_service if @dynamic_schema_service
       @dynamic_schema_service = AllinsonFlex::DynamicSchemaService.new(
         admin_set_id: (admin_set_id || AdminSet::DEFAULT_ID),
         work_class_name: self.class.model_class.to_s,
