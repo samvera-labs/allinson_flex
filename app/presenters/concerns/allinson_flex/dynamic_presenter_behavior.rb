@@ -22,7 +22,9 @@ module AllinsonFlex
     end
 
     def dynamic_schema_service
-      # TODO caching return @dynamic_schema_service if @dynamic_schema_service
+      return @dynamic_schema_service if @dynamic_schema_service
+      # Reload the delegation since that was done at the class level and may have changed
+      self.class.delegate(*self.class.delegated_properties, to: :solr_document)
       @dynamic_schema_service = AllinsonFlex::DynamicSchemaService.new(
         admin_set_id: (admin_set_id || AdminSet::DEFAULT_ID),
         work_class_name: self.class.model_class.to_s,
