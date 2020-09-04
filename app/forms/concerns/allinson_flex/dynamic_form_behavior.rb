@@ -21,22 +21,36 @@ module AllinsonFlex
     end
 
     class_methods do
+      def multiple?(field)
+        field_name = field.to_sym
+        if @dynamic_schema_service && @dynamic_schema_service.property_keys.include?(field_name)
+          @dynamic_schema_service.multiple?(field_name)
+        else
+          super
+        end
+      end
+
       def sanitize_params(form_params)
         admin_set_id = form_params[:admin_set_id]
         build_dynamic_permitted_params(admin_set_id)
-        return super if admin_set_id && workflow_for(admin_set_id: admin_set_id).allows_access_grant?
-        params_without_permissions = permitted_params.reject { |arg| arg.respond_to?(:key?) && arg.key?(:permissions_attributes) }
-        form_params.permit(*params_without_permissions)
+        result = if admin_set_id && workflow_for(admin_set_id: admin_set_id).allows_access_grant?
+                   params_with_permissions = permitted_params
+                   form_params.permit(*params_with_permissions)
+                 else
+                   params_without_permissions = permitted_params.reject { |arg| arg.respond_to?(:key?) && arg.key?(:permissions_attributes) }
+                   form_params.permit(*params_without_permissions)
+                 end
+        return result
       end
 
       def build_dynamic_permitted_params(admin_set_id)
         # this always means the "latest" schema is used
-        dynamic_schema_service = AllinsonFlex::DynamicSchemaService.new(
+        @dynamic_schema_service = AllinsonFlex::DynamicSchemaService.new(
           admin_set_id: admin_set_id,
           work_class_name: self.model_class
         )
 
-        terms = (dynamic_schema_service.property_keys + self.base_terms).uniq
+        terms = (@dynamic_schema_service.property_keys + self.base_terms).uniq
         permitted = []
         terms.each do |term|
           if multiple?(term)
