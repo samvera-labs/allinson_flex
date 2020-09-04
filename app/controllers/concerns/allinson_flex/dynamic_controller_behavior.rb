@@ -12,7 +12,6 @@ module AllinsonFlex
 
     # Retrieve the dynamic_schema_service for the curation_concern
     def dynamic_schema_service
-      return @dynamic_schema_service if @dynamic_schema_service
       if action_name == 'edit' &&
           request.controller_class.included_modules.include?(Hyrax::WorksControllerBehavior)
         @dynamic_schema_service = curation_concern&.dynamic_schema_service(update: true)
