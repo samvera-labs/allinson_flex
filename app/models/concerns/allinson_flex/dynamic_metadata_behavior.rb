@@ -17,6 +17,7 @@ module AllinsonFlex
         raise ArgumentError, "You must provide a `:predicate' option to property" unless properties.key?(:predicate)
         # Logic stolen from ActiveFedora property class method
         properties = { multiple: true }.merge(properties)
+
         # always recreate the delegated attributes class in case of property changes
         delegated_attributes[name] = ActiveFedora::ActiveTripleAttribute.new(name, properties)
         reflection = ActiveFedora::Attributes::PropertyBuilder.build(self, name, properties)
@@ -72,8 +73,9 @@ module AllinsonFlex
         self.class.late_add_property prop.to_sym, predicate: predicate, multiple: !value['singular']
       end
       self.class.type(AllinsonFlex::DynamicSchemaService.rdf_type(work_class_name: self.class.to_s))
+      # Reset attribute names so they are regenerated correctly
+      self.class.instance_variable_set("@attribute_names", nil)
     end
-
 
     def dynamic_schema
       @dynamic_schema ||= AllinsonFlex::DynamicSchema.find_by_id(id: self.dynamic_schema_id) || self.dynamic_schema_service(update: true)&.dynamic_schema
