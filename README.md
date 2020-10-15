@@ -1,4 +1,4 @@
-# Allinson Flex - A Flexible Machine-readballe Metadata Modeling Implementation
+# Allinson Flex - A Flexible Machine-readable Metadata Modeling Implementation
 
 This library implements the M3 specifications found in [Houndstooth](https://github.com/samvera-labs/houndstooth) for Hyrax and other Samvera repository systems. It is able to read an M3 schema along with a profile YAML file and provides a graphical interface for editing the classes, contexts, mappings and properties found with in. It then provides hooks to the various pieces of Hyrax and similar Rails based systems to in order to assign contexts to Admin Sets, create and modify works and have all the properties of that work defined dynamically by users during run time. Work Types must exists in code (there is a work type generator), but all properties within can be edited dynamically by the library and are stored as data.
 
