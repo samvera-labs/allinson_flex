@@ -18,6 +18,16 @@ $ bundle update
 $ rails generate allinson_flex:install
 ```
 
+AllinsonFlex uses webpacker and React JS (via the react-rails gem).
+
+Please run the following if they are not already installed in your application:
+
+```bash
+$ rails webpacker:install
+$ rails webpacker:install:react
+$ rails generate react:install
+```
+
 ### Create work types
 
 ```bash
