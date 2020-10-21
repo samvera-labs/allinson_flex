@@ -16,6 +16,7 @@ And then execute:
 ```bash
 $ bundle update
 $ rails generate allinson_flex:install
+$ rails db:migrate
 ```
 
 AllinsonFlex uses webpacker and React JS (via the react-rails gem).
@@ -28,10 +29,16 @@ $ rails webpacker:install:react
 $ rails generate react:install
 ```
 
+### Set up profiles and classes
+
+Open the app in a browser and navigate to the Hyrax Dashboard > Metadata Profiles 
+and click Import Profile. You can select the example profile in config/metadata_profile/hyrax.yaml
+
+
 ### Create work types
 
 ```bash
-$ rails generate allinson_flex:work Image
+$ rails generate allinson_flex:works
 ```
 
 ## Contributing
