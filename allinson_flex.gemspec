@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.description = 'Description of Allinson Flex.'
   s.license     = 'Apache-2.0'
 
-  s.files = Dir["{app,config,db,lib}/**/*", "LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,db,lib}/**/*", "public/flexible-packs/**/*", "LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency 'rails', '>= 5.1.6'
   s.add_dependency 'json_schemer'
