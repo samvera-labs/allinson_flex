@@ -489,7 +489,6 @@ properties:
     data_type: http://www.w3.org/2001/XMLSchema#string
     cardinality:
       minimum: 1
-      maximum: 1
     index_documentation: "Title should be indexed as searchable and displayable."
     mapping:
       dpla: "http://purl.org/dc/terms/title"
