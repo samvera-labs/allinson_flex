@@ -15,7 +15,7 @@ profile:
   responsibility_statement: Samvera Community
   date_modified: "2020-09-28"
   type: Hyrax 3.0 concept
-  version: 2.0
+  version: 1.0
 
 #---------------------------------------------------------
 # Mapping Definitions
@@ -91,7 +91,6 @@ properties:
     data_type: http://www.w3.org/2001/XMLSchema#anyURI
     cardinality:
       minimum: 1
-      maximum: 1
     index_documentation: "Rights statement should be indexed as facetable."
     mapping:
       dpla: "http://www.europeana.eu/schemas/edm/rights"
@@ -554,3 +553,4 @@ properties:
     data_type: http://www.w3.org/2001/XMLSchema#dateTime
     cardinality:
       minimum: 0
+      maximum: 1

@@ -29,9 +29,21 @@ $ rails webpacker:install:react
 $ rails generate react:install
 ```
 
+Add to app/assets/application.css
+
+```css
+ *= require allinson_flex/application
+```
+
+and to app/assets/javascript/application.js
+
+```js
+//= require allinson_flex/application
+```
+
 ### Set up profiles and classes
 
-Open the app in a browser and navigate to the Hyrax Dashboard > Metadata Profiles 
+Open the app in a browser and navigate to the Hyrax Dashboard > Metadata Profiles
 and click Import Profile. You can select the example profile in config/metadata_profile/hyrax.yaml
 
 
@@ -40,6 +52,8 @@ and click Import Profile. You can select the example profile in config/metadata_
 ```bash
 $ rails generate allinson_flex:works
 ```
+
+You must restart rails after generating work classes
 
 ## Contributing
 See
@@ -60,19 +74,18 @@ The gem is available as open source under the terms of the [Apache 2.0 License](
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
 
 ## Dedication
 
 From the beginning of the Samvera community to her sudden passing in 2020, Julie Allinson (@geekscruff)
-was a strong presence in the Samvera community. Always ready to lend a hand or to share knowledge, she 
+was a strong presence in the Samvera community. Always ready to lend a hand or to share knowledge, she
 embodied so much of what makes this community work. This effort, the last big project she was involved
 in, was the culmination not just of her time as a developer but the combination of her work as a metadata
 specialist. It was the evolution of dog biscuits, her work in the m3 group and several other projects she
 had lead or been involved in. She was an incredible bright star and we name this gem in remembrance of
 her.
- 
+
 ## Acknowledgments
 
-* Indiana University - This work was initially commissioned for the ESSI project. We will always be grateful for their patience and the opportunity to take a hard swing at such a big set of challenges. 
-
+* Indiana University - This work was initially commissioned for the ESSI project. We will always be grateful for their patience and the opportunity to take a hard swing at such a big set of challenges.
