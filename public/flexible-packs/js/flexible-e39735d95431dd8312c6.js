@@ -268,6 +268,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_spinners_RotateLoader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-spinners/RotateLoader */ "./node_modules/react-spinners/RotateLoader.js");
 /* harmony import */ var react_spinners_RotateLoader__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_spinners_RotateLoader__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _property_selector__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./property_selector */ "./app/javascript/components/property_selector.jsx");
+/* harmony import */ var _flash_messages__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./flash_messages */ "./app/javascript/components/flash_messages.jsx");
 var _jsxFileName = "/Users/rob/Work/Indiana/essi-flex/vendor/engines/allinson_flex/app/javascript/components/allinson_flex.jsx";
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -301,6 +302,7 @@ function _templateObject() {
 }
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
 
 
 
@@ -399,14 +401,22 @@ var AllinsonFlex = /*#__PURE__*/function (_Component) {
           lineNumber: 70,
           columnNumber: 7
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Nav"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_flash_messages__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        messages: [],
+        __self: this,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 71,
+          columnNumber: 9
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["Nav"], {
         bsStyle: "tabs",
         activeKey: tab,
         onSelect: this.handleSelect.bind(this),
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 71,
+          lineNumber: 72,
           columnNumber: 9
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NavItem"], {
@@ -416,7 +426,7 @@ var AllinsonFlex = /*#__PURE__*/function (_Component) {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 72,
+          lineNumber: 73,
           columnNumber: 11
         }
       }, schema.properties.m3_version.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NavItem"], {
@@ -426,7 +436,7 @@ var AllinsonFlex = /*#__PURE__*/function (_Component) {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 75,
+          lineNumber: 76,
           columnNumber: 11
         }
       }, schema.properties.profile.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NavItem"], {
@@ -436,7 +446,7 @@ var AllinsonFlex = /*#__PURE__*/function (_Component) {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 78,
+          lineNumber: 79,
           columnNumber: 11
         }
       }, schema.properties.classes.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NavItem"], {
@@ -446,7 +456,7 @@ var AllinsonFlex = /*#__PURE__*/function (_Component) {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 81,
+          lineNumber: 82,
           columnNumber: 11
         }
       }, schema.properties.contexts.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NavItem"], {
@@ -456,7 +466,7 @@ var AllinsonFlex = /*#__PURE__*/function (_Component) {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 84,
+          lineNumber: 85,
           columnNumber: 11
         }
       }, schema.properties.properties.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_1__["NavItem"], {
@@ -466,7 +476,7 @@ var AllinsonFlex = /*#__PURE__*/function (_Component) {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 87,
+          lineNumber: 88,
           columnNumber: 11
         }
       }, schema.properties.mappings.title)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -474,7 +484,7 @@ var AllinsonFlex = /*#__PURE__*/function (_Component) {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 92,
+          lineNumber: 93,
           columnNumber: 9
         }
       }, this.loadSpinner(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_property_selector__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -485,7 +495,7 @@ var AllinsonFlex = /*#__PURE__*/function (_Component) {
         __self: this,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 94,
+          lineNumber: 95,
           columnNumber: 11
         }
       })));
@@ -88381,4 +88391,4 @@ module.exports = function (module) {
 /***/ })
 
 /******/ });
-//# sourceMappingURL=flexible-14ab9f2128fadc023b2f.js.map
+//# sourceMappingURL=flexible-e39735d95431dd8312c6.js.map

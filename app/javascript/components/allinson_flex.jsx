@@ -4,7 +4,7 @@ import { Nav, NavItem } from 'react-bootstrap';
 import { css } from "@emotion/core";
 import RotateLoader from "react-spinners/RotateLoader";
 import PropertySelector from './property_selector'
-
+import FlashMessages from './flash_messages'
 // This React warning (each child in a list should have unique key prop) doesnt apply
 // to our use case. However, React's dev team is very insistant about not providing a
 // sane way to turn off this warning. So here we are.
@@ -68,6 +68,7 @@ class AllinsonFlex extends Component {
     const { tab, selectedProperty } = this.state
     return (
       <div>
+        <FlashMessages messages={[]} />
         <Nav bsStyle="tabs" activeKey={tab} onSelect={this.handleSelect.bind(this)}>
           <NavItem eventKey="m3_version" title='M3 Version' href="#m3_version">
             {schema.properties.m3_version.title}
