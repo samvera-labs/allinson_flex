@@ -29,7 +29,7 @@ $ rails webpacker:install:react
 $ rails generate react:install
 ```
 
-Add to app/assets/application.css
+Add to app/assets/stylesheets/application.css
 
 ```css
  *= require allinson_flex/application
