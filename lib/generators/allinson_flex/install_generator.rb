@@ -34,7 +34,7 @@ class AllinsonFlex::InstallGenerator < Rails::Generators::Base
     to_include = "    config.autoload_paths += [Rails.root.join('lib', 'extensions')]\n    config.eager_load_paths += [Rails.root.join('lib', 'extensions')]\n"
     to_prepare = "      Dir.glob(File.join(File.dirname(__FILE__), '../lib/extensions/allinson_flex/extensions.rb')) do |c|\n        Rails.configuration.cache_classes ? require(c) : load(c)\n      end"
 
-    if !file_text.include?(to_include)
+    unless file_text.include?(to_include)
       insert_into_file file, after: /config.load_default.*\n/ do
         to_include
       end
@@ -43,7 +43,7 @@ class AllinsonFlex::InstallGenerator < Rails::Generators::Base
     if file_text.include?('config.to_prepare')
       return if file_text.include?(to_prepare)
       insert_into_file file, after: /  config.to_prepare\n/ do
-        "#{to_prepare}"
+        to_prepare.to_s
       end
     else
       insert_into_file file, before: /\n    # Settings in config/ do
@@ -125,5 +125,13 @@ class AllinsonFlex::InstallGenerator < Rails::Generators::Base
 
   def display_readme
     readme 'README'
+  end
+
+  def inject_css
+    inject_into_file 'app/assets/stylesheets/application.css', " *= require allinson_flex/application\n", before: " *= require_self\n"
+  end
+
+  def inject_js
+    inject_into_file 'app/assets/javascripts/application.js', "//= require allinson_flex/application\n", after: "//= require hyrax\n"
   end
 end

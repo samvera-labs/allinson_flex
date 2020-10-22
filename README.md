@@ -29,18 +29,6 @@ $ rails webpacker:install:react
 $ rails generate react:install
 ```
 
-Add to app/assets/stylesheets/application.css
-
-```css
- *= require allinson_flex/application
-```
-
-and to app/assets/javascript/application.js
-
-```js
-//= require allinson_flex/application
-```
-
 ### Set up profiles and classes
 
 Open the app in a browser and navigate to the Hyrax Dashboard > Metadata Profiles
