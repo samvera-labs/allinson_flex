@@ -35,7 +35,7 @@ Add to app/assets/stylesheets/application.css
  *= require allinson_flex/application
 ```
 
-and to app/assets/javascript/application.js
+and to app/assets/javascripts/application.js
 
 ```js
 //= require allinson_flex/application
