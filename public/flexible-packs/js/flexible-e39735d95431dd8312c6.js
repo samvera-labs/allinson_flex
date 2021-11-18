@@ -805,7 +805,7 @@ var AllinsonFlexProfileForm = /*#__PURE__*/function (_Component) {
           lineNumber: 179,
           columnNumber: 9
         }
-      }, "\n          button.btn-danger:nth-child(1) {\n            display: none\n          }\n\n          #root > .row {\n            display: none\n          }\n        "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_rjsf_core__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }, "\n          #root > div.form-group > div.row > div:nth-child(3) > button.btn-danger {\n            display: none\n          }\n\n          #root > .row {\n            display: none\n          }\n        "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_rjsf_core__WEBPACK_IMPORTED_MODULE_1__["default"], {
         key: this.state.allinson_flex_profile.id,
         schema: this.state.schema.properties[this.props.tab],
         formData: this.filteredFormData(this.state.formData),
