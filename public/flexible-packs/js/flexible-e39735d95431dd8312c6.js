@@ -5336,29 +5336,34 @@ var ArrayField = /*#__PURE__*/function (_Component) {
 
     Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_11__["default"])(Object(_babel_runtime_corejs2_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_9__["default"])(_this), "onDropIndexClick", function (index) {
       return function (event) {
-        if (event) {
-          event.preventDefault();
-        }
+          var response = confirm("Are you sure you want to remove this property definition?");
+          if (response == true) {
+              if (event) {
+                  event.preventDefault();
+              }
 
-        var onChange = _this.props.onChange;
-        var keyedFormData = _this.state.keyedFormData; // refs #195: revalidate to ensure properly reindexing errors
+              var onChange = _this.props.onChange;
+              var keyedFormData = _this.state.keyedFormData; // refs #195: revalidate to ensure properly reindexing errors
 
-        var newErrorSchema;
+              var newErrorSchema;
 
-        if (_this.props.errorSchema) {
-          newErrorSchema = {};
-          var errorSchema = _this.props.errorSchema;
+              if (_this.props.errorSchema) {
+                  newErrorSchema = {};
+                  var errorSchema = _this.props.errorSchema;
 
-          for (var i in errorSchema) {
-            i = _babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_3___default()(i);
+                  for (var i in errorSchema) {
+                      i = _babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_3___default()(i);
 
-            if (i < index) {
-              newErrorSchema[i] = errorSchema[i];
-            } else if (i > index) {
-              newErrorSchema[i - 1] = errorSchema[i];
-            }
+                      if (i < index) {
+                          newErrorSchema[i] = errorSchema[i];
+                      } else if (i > index) {
+                          newErrorSchema[i - 1] = errorSchema[i];
+                      }
+                  }
+              }
+          } else {
+              return;
           }
-        }
 
         var newKeyedFormData = keyedFormData.filter(function (_, i) {
           return i !== index;
