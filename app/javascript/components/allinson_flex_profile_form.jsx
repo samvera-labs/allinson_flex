@@ -177,10 +177,13 @@ class AllinsonFlexProfileForm extends Component {
     return (
       <div>
         <style>{`
-          button.btn-danger:nth-child(1) {
+	  /* below modifications to address allinson_flex #68 */
+	  /* hide removal button for entire property object */
+          #root > div.form-group > div.row > div:nth-child(3) > button.btn-danger {
             display: none
           }
 
+          /* hide add button for entire property object */
           #root > .row {
             display: none
           }
