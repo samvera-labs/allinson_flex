@@ -17,13 +17,19 @@ module AllinsonFlex
         # profile directly.
         profile = AllinsonFlex::Profile.current_version
         unless profile.blank?
-          profile.properties.each do |prop|
-            attribute(
-              prop.name,
-              # if the property is singular, make it so
-              prop.cardinality_maximum == 1 ? Hyrax::SolrDocument::Metadata::Solr::String : Hyrax::SolrDocument::Metadata::Solr::Array,
-              solr_name(prop.name.to_s)
-            )
+          # Loading attributes is done by defining a method for each property. This only needs to be done once or when the profile changes.
+          # Code that needs to run for every SolrDocument instance should go outside this block.
+          if @loaded_allinson_flex_version != profile.profile_version
+            Rails.logger.debug { "AllinsonFlex profile not yet loaded, or version mismatch. Setting attributes..." }
+            profile.properties.each do |prop|
+              attribute(
+                prop.name,
+                # if the property is singular, make it so
+                prop.cardinality_maximum == 1 ? Hyrax::SolrDocument::Metadata::Solr::String : Hyrax::SolrDocument::Metadata::Solr::Array,
+                solr_name(prop.name.to_s)
+              )
+            end
+            @loaded_allinson_flex_version = profile.profile_version
           end
         end
       end
