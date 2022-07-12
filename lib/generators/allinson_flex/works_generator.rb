@@ -11,14 +11,15 @@ class AllinsonFlex::WorksGenerator < Rails::Generators::Base
 
   def gather_work_types
     Account.find_each do |account|
-      puts "=============== updating #{account.name} ============"
-      next if account.name == "search"
+      account_name = account.name
+      puts "=============== updating #{account_name} ============"
+      next if account_name == "search"
       switch!(account)
 
       @work_types = AllinsonFlex::DynamicSchema.all.map(&:allinson_flex_class).uniq
       @curation_concerns = Hyrax.config.curation_concerns.map(&:to_s)
       if @work_types.blank?
-        say_status("error", "No AllinsonFlex Classes have been defined. Please load or create a Profile.", :red)
+        say_status("error", "[ACCOUNT: #{account_name}] - No AllinsonFlex Classes have been defined. Please load or create a Profile.", :red)
         exit 0
       end
     end
