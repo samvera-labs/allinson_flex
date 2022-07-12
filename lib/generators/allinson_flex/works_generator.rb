@@ -15,8 +15,6 @@ class AllinsonFlex::WorksGenerator < Rails::Generators::Base
       next if account.name == "search"
       switch!(account)
 
-      next if AllinsonFlex::DynamicSchema.nil?
-
       @work_types = AllinsonFlex::DynamicSchema.all.map(&:allinson_flex_class).uniq
       @curation_concerns = Hyrax.config.curation_concerns.map(&:to_s)
       if @work_types.blank?
