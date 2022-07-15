@@ -10,6 +10,7 @@ class AllinsonFlex::WorksGenerator < Rails::Generators::Base
   end
 
   def gather_work_types
+    # check if this is a hyku application
     switch!(Account.first) if defined? Account
 
     @work_types = AllinsonFlex::DynamicSchema.all.map(&:allinson_flex_class).uniq
