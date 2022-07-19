@@ -3,10 +3,11 @@
 module AllinsonFlex
   module DynamicSolrDocument
     extend ActiveSupport::Concern
+    require 'solrizer'
 
     included do
-      attribute :dynamic_schema_id, Hyrax::SolrDocument::Metadata::Solr::String, solr_name(:dynamic_schema_id, :stored_sortable)
-      attribute :profile_version, Hyrax::SolrDocument::Metadata::Solr::String, solr_name(:profile_version, :stored_sortable)
+      attribute :dynamic_schema_id, Hyrax::SolrDocument::Metadata::Solr::String, Solrizer.solr_name(:dynamic_schema_id, :stored_sortable)
+      attribute :profile_version, Hyrax::SolrDocument::Metadata::Solr::String, Solrizer.solr_name(:profile_version, :stored_sortable)
     end
 
     class_methods do
@@ -26,7 +27,7 @@ module AllinsonFlex
                 prop.name,
                 # if the property is singular, make it so
                 prop.cardinality_maximum == 1 ? Hyrax::SolrDocument::Metadata::Solr::String : Hyrax::SolrDocument::Metadata::Solr::Array,
-                solr_name(prop.name.to_s)
+                Solrizer.solr_name(prop.name.to_s)
               )
             end
             @loaded_allinson_flex_version = profile.profile_version

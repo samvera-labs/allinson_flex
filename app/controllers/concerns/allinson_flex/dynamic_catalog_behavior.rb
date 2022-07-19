@@ -3,6 +3,7 @@
 module AllinsonFlex
   module DynamicCatalogBehavior
     extend ActiveSupport::Concern
+    require 'solrizer'
 
     class_methods do
       def load_allinson_flex
@@ -19,17 +20,17 @@ module AllinsonFlex
               }
 
               if prop.indexing.include?("facetable")
-                index_args[:link_to_search] = solr_name(prop.name.to_s, :facetable)
+                index_args[:link_to_search] = Solrizer.solr_name(prop.name.to_s, :facetable)
               end
 
-              name = solr_name(prop.name.to_s, :stored_searchable)
+              name = Solrizer.solr_name(prop.name.to_s, :stored_searchable)
               unless blacklight_config.index_fields[name].present?
                 blacklight_config.add_index_field(name, index_args)
               end
             end
 
             if prop.indexing.include?("facetable")
-              name = solr_name(prop.name.to_s, :facetable)
+              name = Solrizer.solr_name(prop.name.to_s, :facetable)
               unless blacklight_config.facet_fields[name].present?
                 blacklight_config.add_facet_field(name, label: label)
               end
