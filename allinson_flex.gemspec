@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "public/flexible-packs/**/*", "LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency 'rails', '>= 5.1.6'
-  s.add_dependency 'solrizer'
   s.add_dependency 'json_schemer'
   s.add_dependency 'webpacker'
   s.add_dependency 'react-rails'
