@@ -3,7 +3,6 @@
 module AllinsonFlex
   module DynamicCatalogBehavior
     extend ActiveSupport::Concern
-    require 'solrizer'
 
     class_methods do
       def load_allinson_flex
