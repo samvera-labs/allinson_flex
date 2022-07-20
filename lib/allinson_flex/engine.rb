@@ -48,6 +48,3 @@ module AllinsonFlex
     end
   end
 end
-
-# devise has a generator that pulls in the gem for you to edit yourself. if you dont have them, then they will use their own by default
-
