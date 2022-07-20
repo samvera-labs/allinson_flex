@@ -26,12 +26,26 @@ module AllinsonFlex
 
     # GET /allinson_flex_profiles/new
     def new
-      redirect_to profiles_path, alert: 'Create a Profile by uploading a new one' if AllinsonFlex::Profile.any?
+      redirect_to profiles_path, alert: 'Edit an Existing Profile or Upload a New One' if AllinsonFlex::Profile.any?
+
+      add_breadcrumbs
+      add_breadcrumb 'New'
+      @allinson_flex_profile = AllinsonFlex::Profile.new
+
+      @allinson_flex_profile.profile_classes.build
+      @allinson_flex_profile.profile_contexts.build
+      @allinson_flex_profile.properties.build.texts.build
     end
 
     # GET /allinson_flex_profiles/1/edit
     def edit
-      redirect_to profiles_path, alert: 'Edit a Profile by uploading a new one' if AllinsonFlex::Profile.any?
+      add_breadcrumbs
+      add_breadcrumb 'Edit'
+
+      @allinson_flex_profile = AllinsonFlex::Profile.current_version
+      # auto update date on save
+      @allinson_flex_profile.profile['profile']['date_modified'] = Date.today.strftime('%Y-%m-%d')
+      @allinson_flex_profile.update(locked_by_id: current_user.id, locked_at: Time.now)
     end
 
     # POST /allinson_flex_profiles
