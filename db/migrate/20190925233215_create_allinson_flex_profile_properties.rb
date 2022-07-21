@@ -1,5 +1,6 @@
 class CreateAllinsonFlexProfileProperties < ActiveRecord::Migration[5.1]
   def change
+    unless table_exists?(:allinson_flex_profile_properties)
     create_table :allinson_flex_profile_properties, id: :integer do |t|
       t.string :name
       t.string :property_uri

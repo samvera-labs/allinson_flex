@@ -1,5 +1,6 @@
 class CreateAllinsonFlexProfiles < ActiveRecord::Migration[5.1]
   def change
+    unless table_exists?(:allinson_flex_profiles)
     create_table :allinson_flex_profiles, id: :integer do |t|
       t.string :name
       t.float :profile_version # version in m3
