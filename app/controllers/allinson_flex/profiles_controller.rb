@@ -72,7 +72,12 @@ module AllinsonFlex
         return
       end
 
-      @allinson_flex_profile = AllinsonFlex::Importer.load_profile_from_path(path: uploaded_io.path)
+      begin
+        @allinson_flex_profile = AllinsonFlex::Importer.load_profile_from_path(path: uploaded_io.path)
+      rescue => e
+        redirect_to profiles_path, alert: "#{e.message}"
+        return
+      end
 
       if @allinson_flex_profile.save
         redirect_to profiles_path, notice: 'AllinsonFlexProfile was successfully created.'
