@@ -2,6 +2,7 @@
 
 class AllinsonFlex::WorksGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)
+  class_option :include_module, type: :string, default: nil
 
   desc 'This generator configures works to use AllinsonFlex.'
 
@@ -26,6 +27,25 @@ class AllinsonFlex::WorksGenerator < Rails::Generators::Base
       next if @curation_concerns.include?(work_type)
       say_status("info", "GENERATING #{work_type}", :blue)
       generate "hyrax:work #{work_type}", '-f'
+    end
+
+  end
+
+  def add_additional_modules
+    # add additional modules to generated classes
+    # example: rails generate allinson_flex:works --include_module < ModuleName >
+
+    @work_types.each do |work_type|
+      argument = options['include_module']
+      say_status("info", "adding #{options['include_module']} to #{work_type.underscore}", :blue)
+      file = "app/models/#{work_type.underscore}.rb"
+      file_text = File.read(file)
+      module_name = "  include #{options['include_module']}"
+
+      return if file_text.include?(module_name)
+      insert_into_file file, after: /WorkBehavior/ do
+        "\n#{module_name}"
+      end
     end
   end
 
