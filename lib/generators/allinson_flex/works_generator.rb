@@ -33,7 +33,7 @@ class AllinsonFlex::WorksGenerator < Rails::Generators::Base
 
   def add_additional_modules
     # add additional modules to generated classes
-    # example: rails generate allinson_flex:works --include_module < ModuleName >
+    # example: rails generate allinson_flex:works --include_module ModuleName
 
     @work_types.each do |work_type|
       argument = options['include_module']
