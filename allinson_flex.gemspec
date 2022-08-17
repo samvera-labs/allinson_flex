@@ -9,7 +9,7 @@ require 'allinson_flex/version'
 Gem::Specification.new do |s|
   s.name        = 'allinson_flex'
   s.version     = AllinsonFlex::VERSION
-  s.authors     = ['Julie Allinson', 'JP Engstrom', 'Rob Kaufman']
+  s.authors     = ['Julie Allinson', 'JP Engstrom', 'Rob Kaufman', 'Shana Moore']
   s.email       = ['support@notch8.com']
   s.homepage    = 'https://github.com/notch8/allinson_flex'
   s.summary     = 'Summary of Allinson Flex.'
