@@ -25,7 +25,8 @@ module AllinsonFlex
               attribute(
                 prop.name,
                 # if the property is singular, make it so
-                prop.cardinality_maximum == 1 ? Hyrax::SolrDocument::Metadata::Solr::String : Hyrax::SolrDocument::Metadata::Solr::Array,
+                # WIP(alishaevn): don't base this on cardinality
+                prop.multi_value ? Hyrax::SolrDocument::Metadata::Solr::Array : Hyrax::SolrDocument::Metadata::Solr::String,
                 "#{prop.name.to_s}_tesim"
               )
             end

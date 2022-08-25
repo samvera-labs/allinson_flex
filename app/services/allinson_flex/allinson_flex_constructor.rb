@@ -82,7 +82,9 @@ module AllinsonFlex
             property_uri: properties_hash.dig(name, 'property_uri'),
             cardinality_minimum: properties_hash.dig(name, 'cardinality', 'minimum'),
             cardinality_maximum: properties_hash.dig(name, 'cardinality', 'maximum'),
-            indexing: properties_hash.dig(name, 'indexing')
+            indexing: properties_hash.dig(name, 'indexing'),
+            # WIP(alishaevn): get this property to register
+            multi_value: properties_hash.dig(name, 'multi_value')
           )
           logger.info(%(Constructed AllinsonFlex::ProfileProperty "#{property.name}"))
 
@@ -183,8 +185,9 @@ module AllinsonFlex
                 property.name => {
                   'predicate' => property.property_uri,
                   'display_label' => display_label(property, klass, context),
-                  'required' => required?(property.cardinality_minimum),
-                  'singular' => singular?(property.cardinality_maximum),
+                  # WIP(alishaevn): make "property.multi_value" a thing
+                  'required' => required?(property.requirement, property.cardinality_minimum),
+                  'singular' => singular?(property.multi_value, property.cardinality_maximum),
                   'indexing' => property.indexing
                 }.compact
               }.compact
@@ -192,14 +195,15 @@ module AllinsonFlex
         }
       end
 
-      def self.required?(cardinality_minimum)
-        return false if cardinality_minimum.blank?
-        cardinality_minimum > 0
+      # WIP(alishaevn): why weren't we using the "requirement" property here?
+      def self.required?(requirement, cardinality_minimum)
+        return true if requirement == 'required' || cardinality_minimum > 0
+        false
       end
 
-      def self.singular?(cardinality_maximum)
-        return false if cardinality_maximum.blank? || cardinality_maximum > 1
-        return true if cardinality_maximum == 1
+      # WIP(alishaevn): if multi_value is set, use it. if not, fall back to maximum
+      def self.singular?(multi_value, cardinality_maximum)
+        return false if multi_value || cardinality_maximum.blank? || cardinality_maximum > 1
       end
 
       def self.display_label(property, klass, context = nil)
