@@ -422,14 +422,6 @@
               }
             ]
           },
-          "multi_value": {
-            "type": "boolean",
-            "description": "Set whether the property is singular or multiple",
-            "default": "true",
-            "examples": [
-              true
-            ]
-          },
           "index_documentation": {
             "type": "string",
             "description": "Free text documentation field about whether a property should be faceted, searchable, displayable, treated as text, etc.",
