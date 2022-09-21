@@ -91,7 +91,12 @@ module AllinsonFlex
     def dynamic_schema_service(args = {})
       # clear memoizaiton when as_id changes
       old_as_id = @as_id
-      @as_id = args[:as_id] || admin_set_id || AdminSet::DEFAULT_ID
+      @as_id = if self.class == FileSet || self.class == Collection
+        nil
+      else
+        @as_id = args[:as_id] || admin_set_id || AdminSet::DEFAULT_ID
+      end
+
       @dynamic_schema_service = nil if old_as_id != @as_id
 
       # If we want to update, dont pass an existing id in
