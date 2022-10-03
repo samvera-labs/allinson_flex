@@ -84,7 +84,8 @@ module AllinsonFlex
             cardinality_maximum: properties_hash.dig(name, 'cardinality', 'maximum'),
             indexing: properties_hash.dig(name, 'indexing'),
             # WIP(alishaevn): get this property to register
-            multi_value: properties_hash.dig(name, 'multi_value')
+            multi_value: properties_hash.dig(name, 'multi_value'),
+            requirement: properties_hash.dig(name, 'requirement') 
           )
           logger.info(%(Constructed AllinsonFlex::ProfileProperty "#{property.name}"))
 
