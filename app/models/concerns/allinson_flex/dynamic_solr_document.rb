@@ -24,8 +24,6 @@ module AllinsonFlex
             profile.properties.each do |prop|
               attribute(
                 prop.name,
-                # if the property is singular, make it so
-                # WIP(alishaevn): don't base this on cardinality
                 prop.try(:multi_value) ? Hyrax::SolrDocument::Metadata::Solr::Array : Hyrax::SolrDocument::Metadata::Solr::String,
                 "#{prop.name.to_s}_tesim"
               )

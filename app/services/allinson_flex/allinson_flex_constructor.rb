@@ -83,7 +83,6 @@ module AllinsonFlex
             cardinality_minimum: properties_hash.dig(name, 'cardinality', 'minimum'),
             cardinality_maximum: properties_hash.dig(name, 'cardinality', 'maximum'),
             indexing: properties_hash.dig(name, 'indexing'),
-            # WIP(alishaevn): get this property to register
             multi_value: properties_hash.dig(name, 'multi_value'),
             requirement: properties_hash.dig(name, 'requirement')
           )
@@ -200,7 +199,6 @@ module AllinsonFlex
         false
       end
 
-      # # WIP(alishaevn): if multi_value is set, use it. if not, fall back to maximum
       def self.singular?(multi_value, cardinality_maximum)
         return false if multi_value == true || cardinality_maximum.blank? || cardinality_maximum > 1
         return true if cardinality_maximum == 1
