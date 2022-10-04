@@ -84,8 +84,8 @@ module AllinsonFlex
             cardinality_maximum: properties_hash.dig(name, 'cardinality', 'maximum'),
             indexing: properties_hash.dig(name, 'indexing'),
             # WIP(alishaevn): get this property to register
-            multi_value: properties_hash.dig(name, 'multi_value'),
-            requirement: properties_hash.dig(name, 'requirement') 
+            multi_value: properties_hash.dig(name, 'multi_value') || false,
+            requirement: properties_hash.dig(name, 'requirement') || 'optional'
           )
           logger.info(%(Constructed AllinsonFlex::ProfileProperty "#{property.name}"))
 
@@ -187,8 +187,8 @@ module AllinsonFlex
                   'predicate' => property.property_uri,
                   'display_label' => display_label(property, klass, context),
                   # WIP(alishaevn): make "property.multi_value" a thing
-                  'required' => required?(property.requirement, property.cardinality_minimum),
-                  'singular' => singular?(property.multi_value, property.cardinality_maximum),
+                  'required' => required?(property.try(:requirement), property.cardinality_minimum),
+                  'singular' => singular?(property.try(:multi_value), property.cardinality_maximum),
                   'indexing' => property.indexing
                 }.compact
               }.compact

@@ -26,8 +26,9 @@ module AllinsonFlex
                 prop.name,
                 # if the property is singular, make it so
                 # WIP(alishaevn): don't base this on cardinality
-                prop.multi_value ? Hyrax::SolrDocument::Metadata::Solr::Array : Hyrax::SolrDocument::Metadata::Solr::String,
+                prop.try(:multi_value) ? Hyrax::SolrDocument::Metadata::Solr::Array : Hyrax::SolrDocument::Metadata::Solr::String,
                 "#{prop.name.to_s}_tesim"
+                # prop.try(:multi_value) ? "#{prop.name.to_s}_tesim" : "#{prop.name.to_s}_tesi" 
               )
             end
             @loaded_allinson_flex_version = profile.profile_version
