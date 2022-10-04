@@ -185,8 +185,8 @@ module AllinsonFlex
                 property.name => {
                   'predicate' => property.property_uri,
                   'display_label' => display_label(property, klass, context),
-                  'required' => required?(property.requirement, property.cardinality_minimum),
-                  'singular' => singular?(property.multi_value, property.cardinality_maximum),
+                  'required' => required?(property.try(:requirement), property.cardinality_minimum),
+                  'singular' => singular?(property.try(:multi_value), property.cardinality_maximum),
                   'indexing' => property.indexing
                 }.compact
               }.compact
