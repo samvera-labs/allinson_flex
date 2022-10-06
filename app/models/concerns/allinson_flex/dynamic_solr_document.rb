@@ -22,11 +22,15 @@ module AllinsonFlex
           if @loaded_allinson_flex_version != profile.profile_version
             Rails.logger.debug { "AllinsonFlex profile not yet loaded, or version mismatch. Setting attributes..." }
             profile.properties.each do |prop|
-              attribute(
-                prop.name,
-                prop.try(:multi_value) ? Hyrax::SolrDocument::Metadata::Solr::Array : Hyrax::SolrDocument::Metadata::Solr::String,
-                "#{prop.name.to_s}_tesim"
-              )
+              data_type = if prop.try(:multi_value).present?
+                            prop.multi_value ? Hyrax::SolrDocument::Metadata::Solr::Array : Hyrax::SolrDocument::Metadata::Solr::String
+                          elsif prop.cardinality_maximum == 1
+                            Hyrax::SolrDocument::Metadata::Solr::String 
+                          else
+                            Hyrax::SolrDocument::Metadata::Solr::Array
+                          end
+
+              attribute(prop.name, data_type,"#{prop.name.to_s}_tesim")
             end
             @loaded_allinson_flex_version = profile.profile_version
           end
