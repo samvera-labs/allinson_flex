@@ -77,6 +77,14 @@
           <td><%= p.cardinality_maximum %></td>
         </tr>
         <tr>
+          <th>Multi Value:</th>
+          <td><%= p.try(:multi_value) %></td>
+        </tr>
+        <tr>
+          <th>Requirement:</th>
+          <td><%= p.try(:requirement) %></td>
+        </tr>
+        <tr>
           <th>Indexing:</th>
           <td><%= p.indexing %></td>
         </tr>
