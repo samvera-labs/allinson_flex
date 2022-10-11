@@ -81,8 +81,8 @@
           <td><%= p.try(:multi_value) %></td>
         </tr>
         <tr>
-          <th>Requirement:</th>
-          <td><%= p.try(:requirement) %></td>
+          <th>Required:</th>
+          <td><%= AllinsonFlex::AllinsonFlexConstructor.required?(p.try(:requirement), p.cardinality_minimum) %></td>
         </tr>
         <tr>
           <th>Indexing:</th>
