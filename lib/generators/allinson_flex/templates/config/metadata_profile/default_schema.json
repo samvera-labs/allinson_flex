@@ -424,7 +424,7 @@
           },
           "multi_value": {
             "type": "boolean",
-            "description": "Set whether the property is singular or multiple",
+            "description": "Set whether the property is singular or multiple. Singular treats this property as a String; multiple treats it as an Array",
             "default": "true",
             "examples": [
               true
