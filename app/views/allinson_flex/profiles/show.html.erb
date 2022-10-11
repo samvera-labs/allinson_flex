@@ -77,10 +77,6 @@
           <td><%= p.cardinality_maximum %></td>
         </tr>
         <tr>
-          <th>Multi Value:</th>
-          <td><%= p.try(:multi_value) %></td>
-        </tr>
-        <tr>
           <th>Required:</th>
           <td><%= AllinsonFlex::AllinsonFlexConstructor.required?(p.try(:requirement), p.cardinality_minimum) %></td>
         </tr>
