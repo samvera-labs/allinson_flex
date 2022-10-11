@@ -169,9 +169,10 @@ module AllinsonFlex
 
       def self.intersection_properties(klass, context = nil)
         if klass && context
-          context.available_properties.map(&:profile_property) & klass.available_properties.map(&:profile_property)
+          context.available_properties.includes(profile_property: :texts).map(&:profile_property) &
+          klass.available_properties.includes(profile_property: :texts).map(&:profile_property)
         else
-          klass.available_properties.map(&:profile_property)
+          klass.available_properties.includes(profile_property: :texts).map(&:profile_property)
         end
       end
 
