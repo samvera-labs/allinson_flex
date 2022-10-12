@@ -15,9 +15,9 @@ module AllinsonFlex
                          :visibility_during_embargo, :embargo_release_date, :visibility_after_embargo,
                          :visibility_during_lease, :lease_expiration_date, :visibility_after_lease,
                          :visibility, :ordered_member_ids, :source, :in_works_ids,
-                         :member_of_collection_ids, :admin_set_id, :profile_version]
+                         :member_of_collection_ids, :admin_set_id]
 
-     self.required_fields = []
+      self.required_fields = []
     end
 
     class_methods do
