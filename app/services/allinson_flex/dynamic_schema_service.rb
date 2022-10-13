@@ -4,6 +4,7 @@ require 'active_support/core_ext/hash/keys'
 module AllinsonFlex
   # @todo move custom error classes to a single location
   class NoAllinsonFlexContextError < StandardError; end
+  class NoAllinsonFlexSchemaError < StandardError; end
 
   class DynamicSchemaService
     attr_accessor :dynamic_schema, :context, :context_id, :model
@@ -88,8 +89,9 @@ module AllinsonFlex
         indexers[prop_name] = if prop_value[:indexing].blank?
                                 ["#{prop_name}#{default_indexing}"]
                               else
-                                "#{prop_name}#{index_as(indexing_key)}" if index_as(indexing_key)
-                              end.compact.uniq
+                                prop_value[:indexing].map do |indexing_key|
+                                  "#{prop_name}#{index_as(indexing_key)}" if index_as(indexing_key)
+                                end.compact.uniq
         end
       end
       indexers[:profile_version] = ['profile_version_ssi']
@@ -119,7 +121,7 @@ module AllinsonFlex
     # @param locale_key - valid keys are: label, help_text
     # @return [String] the value for the given locale
     def property_locale(property, locale_key)
-      return property.to_s.capitalize unless locale_key.match('label' || 'help_text')
+      return property.to_s.capitalize unless locale_key.match(/(label|help_text)/)
 
       label = I18n.t("allinson_flex.#{context}.#{model}.#{locale_key}.#{property}")
       label = nil if label.include?('translation missing')
@@ -150,6 +152,11 @@ module AllinsonFlex
                             else
                               AllinsonFlex::DynamicSchema.find_by(context_id: context_id, allinson_flex_class: work_class_name.to_s)
                             end
+        if @dynamic_schema.nil?
+          raise AllinsonFlex::NoAllinsonFlexSchemaError.new(
+            "No Metadata Schema for ID #{dynamic_schema_id}, context #{context_id}, class #{work_class_name.to_s}"
+          )
+        end
       end
 
       def properties
@@ -204,11 +211,13 @@ module AllinsonFlex
         when 'stored_searchable'
           '_tesim'
         when 'facetable'
-          '_ssm'
+          '_sim'
         when 'searchable'
           '_teim'
         when 'stored_sortable'
           '_ssi'
+        when 'sortable'
+          '_tei'
         when 'symbol'
           '_ssim'
         when 'displayable'
