@@ -112,7 +112,7 @@ module AllinsonFlex
     # @return [Array] hashes of property => label
     def view_properties
       property_keys.map do |prop|
-        { prop => { label: property_locale(prop, 'label') } }
+        { prop => { label: property_locale(prop, 'label'), admin_only: admin_only_for(prop) } }
       end.inject(:merge)
     end
 
@@ -155,6 +155,10 @@ module AllinsonFlex
 
       def properties
         @properties ||= dynamic_schema.schema.deep_symbolize_keys![:properties]
+      end
+
+      def admin_only_for(property)
+        property_hash_for(property)[:indexing]&.include?('admin_only')
       end
 
       def required_for(property)

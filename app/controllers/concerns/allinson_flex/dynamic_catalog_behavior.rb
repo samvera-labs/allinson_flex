@@ -18,8 +18,12 @@ module AllinsonFlex
                 label: label
               }
 
+              if prop.indexing.include?("admin_only")
+                index_args[:if] = lambda { |context, _field_config, _document| context.try(:current_user)&.admin? }
+              end
+
               if prop.indexing.include?("facetable")
-                index_args[:link_to_search] = "#{prop.name.to_s}}_sim"
+                index_args[:link_to_facet] = "#{prop.name.to_s}}_sim"
               end
 
               name = "#{prop.name.to_s}}_tesim"
@@ -30,8 +34,12 @@ module AllinsonFlex
 
             if prop.indexing.include?("facetable")
               name = "#{prop.name.to_s}}_sim"
+              facet_args = { label: label }
+              if prop.indexing.include?("admin_only")
+                facet_args[:if] = lambda { |context, _field_config, _document| context.try(:current_user)&.admin? }
+              end
               unless blacklight_config.facet_fields[name].present?
-                blacklight_config.add_facet_field(name, label: label)
+                blacklight_config.add_facet_field(name, **facet_args)
               end
             end
           end
