@@ -88,9 +88,8 @@ module AllinsonFlex
         indexers[prop_name] = if prop_value[:indexing].blank?
                                 ["#{prop_name}#{default_indexing}"]
                               else
-                                prop_value[:indexing].map do |indexing_key|
-                                  "#{prop_name}#{index_as(indexing_key)}"
-                                end
+                                "#{prop_name}#{index_as(indexing_key)}" if index_as(indexing_key)
+                              end.compact.uniq
         end
       end
       indexers[:profile_version] = ['profile_version_ssi']
@@ -200,6 +199,8 @@ module AllinsonFlex
       # @todo comine with data type to determine indexing value
       def index_as(indexing_key)
         case indexing_key
+        when 'admin_only'
+          nil
         when 'stored_searchable'
           '_tesim'
         when 'facetable'
