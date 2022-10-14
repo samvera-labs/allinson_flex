@@ -16,7 +16,8 @@ module AllinsonFlex
     validate :validate_indexing
 
     # array of valid values for indexing
-    INDEXING = %w[displayable
+    INDEXING = %w[admin_only
+                  displayable
                   facetable
                   searchable
                   sortable
@@ -24,6 +25,12 @@ module AllinsonFlex
                   stored_sortable
                   symbol
                   fulltext_searchable].freeze
+
+    def self.included(base)
+      base.class_eval do
+        const_set(:INDEXING, INDEXING)
+      end
+    end
 
     private
 
