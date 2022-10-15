@@ -57,6 +57,18 @@ and click Import Profile. You can select the example profile in config/metadata_
 $ rails generate allinson_flex:works
 ```
 
+To run the generator against specific models, pass the command an argument like: 
+
+```bash
+$ rails generate allinson_flex:works image
+```
+
+and for mulitple models...
+
+```bash
+$ rails generate allinson_flex:works audio book
+```
+
 You must restart rails after generating work classes
 
 ## Contributing
