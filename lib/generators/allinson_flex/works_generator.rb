@@ -2,6 +2,7 @@
 
 class AllinsonFlex::WorksGenerator < Rails::Generators::Base
   source_root File.expand_path('../templates', __FILE__)
+  argument :model_name, type: :array, default: []
   class_option :include_module, type: :string, default: nil
 
   desc 'This generator configures works to use AllinsonFlex.'
@@ -14,7 +15,7 @@ class AllinsonFlex::WorksGenerator < Rails::Generators::Base
     # check if this is a hyku application
     switch!(Account.first) if defined? Account
 
-    @work_types = AllinsonFlex::DynamicSchema.all.map(&:allinson_flex_class).uniq
+    @work_types = model_name.presence.map(&:titleize) || AllinsonFlex::DynamicSchema.all.map(&:allinson_flex_class).uniq
     @curation_concerns = Hyrax.config.curation_concerns.map(&:to_s)
     if @work_types.blank?
       say_status("error", "No AllinsonFlex Classes have been defined. Please load or create a Profile.", :red)
