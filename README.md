@@ -66,7 +66,7 @@ $ rails generate allinson_flex:works image
 You can pass it multiple arguments for mulitple models, like:
 
 ```bash
-$ rails generate allinson_flex:works audio book
+$ rails generate allinson_flex:works image book
 ```
 
 You must restart rails after generating work classes
