@@ -103,6 +103,14 @@ class AllinsonFlex::InstallGenerator < Rails::Generators::Base
     end
   end
 
+  def remove_indexer
+    file = "app/indexers/app_indexer.rb"
+    file_text = File.read(file)
+    if file_text.include?('  include Hyrax::IndexesBasicMetadata')
+      comment_lines file, /  include Hyrax::IndexesBasicMetadata/
+    end
+  end
+
   def add_gitignore
     lines = [
       '/public/packs',

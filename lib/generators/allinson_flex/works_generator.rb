@@ -86,12 +86,6 @@ class AllinsonFlex::WorksGenerator < Rails::Generators::Base
         "\n#{insert}\n"
       end
     end
-
-    file = "app/indexers/app_indexer.rb"
-    file_text = File.read(file)
-    if file_text.include?('  include Hyrax::IndexesBasicMetadata')
-      comment_lines file, /  include Hyrax::IndexesBasicMetadata/
-    end
   end
 
   def configure_models
