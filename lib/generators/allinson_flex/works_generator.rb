@@ -98,7 +98,7 @@ class AllinsonFlex::WorksGenerator < Rails::Generators::Base
         insert_into_file file, before: /  include ::Hyrax::BasicMetadata/ do
           "\n#{insert}\n"
         end
-        comment_lines file, /  include ::Hyrax::BasicMetadata/
+        comment_lines file, /include ::Hyrax::BasicMetadata/
       else
         insert_into_file file, before: /\nend/ do
           "\n#{insert}"

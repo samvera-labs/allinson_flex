@@ -107,7 +107,7 @@ class AllinsonFlex::InstallGenerator < Rails::Generators::Base
     file = "app/indexers/app_indexer.rb"
     file_text = File.read(file)
     if file_text.include?('  include Hyrax::IndexesBasicMetadata')
-      comment_lines file, /  include Hyrax::IndexesBasicMetadata/
+      comment_lines file, /include Hyrax::IndexesBasicMetadata/
     end
   end
 
