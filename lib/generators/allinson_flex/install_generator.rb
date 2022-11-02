@@ -120,7 +120,7 @@ class AllinsonFlex::InstallGenerator < Rails::Generators::Base
  
       unless file_text.include?(menu_text)
         if file_text.include?("<%= render 'hyrax/dashboard/sidebar/menu_partials'")
-          insert_into_file, file, before: /<%= render 'hyrax\/dashboard\/sidebar\/menu_partials', menu: menu, section: :repository_content %>/ do
+          insert_into_file, file, before: /<%= render 'hyrax\/dashboard\/sidebar\/menu_partials'/ do
             "\n#{insert_text}"
           end
         else

@@ -25,7 +25,8 @@ $ rails db:migrate
 
 AllinsonFlex uses webpacker and React JS (via the react-rails gem).
 
-Please run the following if they are not already installed in your application:
+Please run the following if they are not already installed in your application. 
+Note: If running a docker container, these need to be installed outside of the container in order to find the github ssh links.
 
 ```bash
 $ rails webpacker:install
@@ -79,6 +80,8 @@ Overwrite /app/samvera/hyrax-webapp/app/views/hyrax/base/_attribute_rows.html.er
 ```
 
 You must restart rails after generating work classes.
+
+Note: When used together, AllinsonFlex and Bulkrax cause conflicting uses of the `app/views/hyrax/dashboard/sidebar/_repository_content.html.erb` partial. The install generator attempts to handle this, but they may require a manual override.
 
 ## Contributing
 See
