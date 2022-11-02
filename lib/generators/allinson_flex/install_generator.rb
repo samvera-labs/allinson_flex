@@ -115,14 +115,19 @@ class AllinsonFlex::InstallGenerator < Rails::Generators::Base
     file = "app/views/hyrax/dashboard/sidebar/_repository_content.html.erb"
     if File.exist?(file)
       file_text = File.read(file)
-      insert = "<% if current_user.can? :manage, AllinsonFlex::Profile %>\n
-      <%= menu.nav_link(allinson_flex.profiles_path) do %>\n
-        <span class='fa fa-table' aria-hidden='true'></span> <span class='sidebar-action-text'><%= t('allinson_flex.admin.sidebar.profiles') %></span>\n
-      <% end %>\n
-    <% end %>\n"
-      unless file_text.include?('<%= menu.nav_link(allinson_flex.profiles_path) do %>')
-        append_file file do
-          "\n#{insert}"
+      menu_text = '<%= menu.nav_link(allinson_flex.profiles_path) do %>'
+      insert_text = "<% if current_user.can? :manage, AllinsonFlex::Profile %>\n  <%= menu.nav_link(allinson_flex.profiles_path) do %>\n    <span class='fa fa-table' aria-hidden='true'></span> <span class='sidebar-action-text'><%= t('allinson_flex.admin.sidebar.profiles') %></span>\n  <% end %>\n<% end %>\n"
+      location_text = "<%= render 'hyrax/dashboard/sidebar/menu_partials', menu: menu, section: :repository_content %>"
+
+      unless file_text.include?(menu_text)
+        if file_text.include?(location_text)
+          insert_into_file, file, before: insert_text do
+            "\n#{insert_text}"
+          end
+        else
+          append_file file do
+            "\n#{insert_text}"
+          end
         end
       end
     end
