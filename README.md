@@ -18,7 +18,7 @@ gem 'allinson_flex', git: 'https://github.com/samvera-labs/allinson_flex.git'
 
 And then execute:
 ```bash
-$ bundle update
+$ bundle install
 $ rails generate allinson_flex:install
 $ rails db:migrate
 ```

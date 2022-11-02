@@ -121,7 +121,7 @@ class AllinsonFlex::InstallGenerator < Rails::Generators::Base
 
       unless file_text.include?(menu_text)
         if file_text.include?(location_text)
-          insert_into_file, file, before: insert_text do
+          insert_into_file, file, before: /#{location_text}/ do
             "\n#{insert_text}"
           end
         else
