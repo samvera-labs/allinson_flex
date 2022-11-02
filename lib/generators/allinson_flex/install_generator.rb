@@ -117,12 +117,13 @@ class AllinsonFlex::InstallGenerator < Rails::Generators::Base
       file_text = File.read(file)
       insert = "<% if current_user.can? :manage, AllinsonFlex::Profile %>\n
       <%= menu.nav_link(allinson_flex.profiles_path) do %>\n
-        <span class="fa fa-table" aria-hidden="true"></span> <span class="sidebar-action-text"><%= t('allinson_flex.admin.sidebar.profiles') %></span>\n
+        <span class='fa fa-table' aria-hidden='true'></span> <span class='sidebar-action-text'><%= t('allinson_flex.admin.sidebar.profiles') %></span>\n
       <% end %>\n
     <% end %>\n"
       unless file_text.include?('<%= menu.nav_link(allinson_flex.profiles_path) do %>')
         append_file file do
-        "\n#{insert}"
+          "\n#{insert}"
+        end
       end
     end
   end
