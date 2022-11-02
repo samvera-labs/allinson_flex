@@ -50,8 +50,11 @@ and to app/assets/javascripts/application.js
 Open the app in a browser and navigate to the Hyrax Dashboard > Metadata Profiles
 and click Import Profile. You can select the example profile in config/metadata_profile/hyrax.yaml
 
-
 ### Create work types
+
+The work type installer can run over existing work models or generate new ones. 
+
+Add or modify all existing work types, based on Hyrax curation concerns or Dynamic Shemas:
 
 ```bash
 $ rails generate allinson_flex:works
@@ -60,16 +63,22 @@ $ rails generate allinson_flex:works
 To run the generator against specific models, pass the command a model_name argument like: 
 
 ```bash
-$ rails generate allinson_flex:works image
+$ rails generate allinson_flex:works Image
 ```
 
 You can pass it multiple arguments for mulitple models, like:
 
 ```bash
-$ rails generate allinson_flex:works image book
+$ rails generate allinson_flex:works Image Book GenericWork
 ```
 
-You must restart rails after generating work classes
+Accept the overwrite when requested: 
+
+```
+Overwrite /app/samvera/hyrax-webapp/app/views/hyrax/base/_attribute_rows.html.erb? (enter "h" for help) [Ynaqdhm]
+```
+
+You must restart rails after generating work classes.
 
 ## Contributing
 See
