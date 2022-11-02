@@ -117,11 +117,10 @@ class AllinsonFlex::InstallGenerator < Rails::Generators::Base
       file_text = File.read(file)
       menu_text = '<%= menu.nav_link(allinson_flex.profiles_path) do %>'
       insert_text = "<% if current_user.can? :manage, AllinsonFlex::Profile %>\n  <%= menu.nav_link(allinson_flex.profiles_path) do %>\n    <span class='fa fa-table' aria-hidden='true'></span> <span class='sidebar-action-text'><%= t('allinson_flex.admin.sidebar.profiles') %></span>\n  <% end %>\n<% end %>\n"
-      location_text = "<%= render 'hyrax/dashboard/sidebar/menu_partials', menu: menu, section: :repository_content %>"
-
+ 
       unless file_text.include?(menu_text)
-        if file_text.include?(location_text)
-          insert_into_file, file, before: /#{location_text}/ do
+        if file_text.include?("<%= render 'hyrax/dashboard/sidebar/menu_partials'")
+          insert_into_file, file, before: /<%= render 'hyrax\/dashboard\/sidebar\/menu_partials', menu: menu, section: :repository_content %>/ do
             "\n#{insert_text}"
           end
         else
