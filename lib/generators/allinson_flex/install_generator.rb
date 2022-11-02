@@ -103,11 +103,27 @@ class AllinsonFlex::InstallGenerator < Rails::Generators::Base
     end
   end
 
-  def remove_indexer
+  def remove_basic_metadata_indexer
     file = "app/indexers/app_indexer.rb"
     file_text = File.read(file)
     if file_text.include?('  include Hyrax::IndexesBasicMetadata')
       comment_lines file, /include Hyrax::IndexesBasicMetadata/
+    end
+  end
+
+  def add_sidebar_menu_option
+    file = "app/views/hyrax/dashboard/sidebar/_repository_content.html.erb"
+    if File.exist?(file)
+      file_text = File.read(file)
+      insert = "<% if current_user.can? :manage, AllinsonFlex::Profile %>\n
+      <%= menu.nav_link(allinson_flex.profiles_path) do %>\n
+        <span class="fa fa-table" aria-hidden="true"></span> <span class="sidebar-action-text"><%= t('allinson_flex.admin.sidebar.profiles') %></span>\n
+      <% end %>\n
+    <% end %>\n"
+      unless file_text.include?('<%= menu.nav_link(allinson_flex.profiles_path) do %>')
+        append_file file do
+        "\n#{insert}"
+      end
     end
   end
 
