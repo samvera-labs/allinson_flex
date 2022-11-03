@@ -18,14 +18,15 @@ gem 'allinson_flex', git: 'https://github.com/samvera-labs/allinson_flex.git'
 
 And then execute:
 ```bash
-$ bundle update
+$ bundle install
 $ rails generate allinson_flex:install
 $ rails db:migrate
 ```
 
 AllinsonFlex uses webpacker and React JS (via the react-rails gem).
 
-Please run the following if they are not already installed in your application:
+Please run the following if they are not already installed in your application. 
+Note: If running a docker container, these need to be installed outside of the container in order to find the github ssh links.
 
 ```bash
 $ rails webpacker:install
@@ -50,8 +51,11 @@ and to app/assets/javascripts/application.js
 Open the app in a browser and navigate to the Hyrax Dashboard > Metadata Profiles
 and click Import Profile. You can select the example profile in config/metadata_profile/hyrax.yaml
 
-
 ### Create work types
+
+The work type installer can run over existing work models or generate new ones. 
+
+Add or modify all existing work types, based on Hyrax curation concerns or Dynamic Shemas:
 
 ```bash
 $ rails generate allinson_flex:works
@@ -60,16 +64,24 @@ $ rails generate allinson_flex:works
 To run the generator against specific models, pass the command a model_name argument like: 
 
 ```bash
-$ rails generate allinson_flex:works image
+$ rails generate allinson_flex:works Image
 ```
 
 You can pass it multiple arguments for mulitple models, like:
 
 ```bash
-$ rails generate allinson_flex:works image book
+$ rails generate allinson_flex:works Image Book GenericWork
 ```
 
-You must restart rails after generating work classes
+Accept the overwrite when requested: 
+
+```
+Overwrite /app/samvera/hyrax-webapp/app/views/hyrax/base/_attribute_rows.html.erb? (enter "h" for help) [Ynaqdhm]
+```
+
+You must restart rails after generating work classes.
+
+Note: When used together, AllinsonFlex and Bulkrax cause conflicting uses of the `app/views/hyrax/dashboard/sidebar/_repository_content.html.erb` partial. The install generator attempts to handle this, but they may require a manual override.
 
 ## Contributing
 See

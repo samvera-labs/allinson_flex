@@ -69,6 +69,8 @@ module AllinsonFlex
 
     def load_allinson_flex
       dynamic_schema.schema['properties'].each do |prop, value|
+        # do not override if part of AllinsonFlex::FoundationalMetadata
+        next if attributes_not_defined_dynamically.include?(prop.to_sym)
         predicate = value['predicate'].presence || "https://localhost/#{prop}"
         self.class.late_add_property prop.to_sym, predicate: predicate, multiple: !value['singular']
       end
@@ -91,7 +93,6 @@ module AllinsonFlex
     def dynamic_schema_service(args = {})
       # clear memoizaiton when as_id changes
       old_as_id = @as_id
-      
       @as_id = args[:as_id] || admin_set_id || AdminSet::DEFAULT_ID
       @dynamic_schema_service = nil if old_as_id != @as_id
 

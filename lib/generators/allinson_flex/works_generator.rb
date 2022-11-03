@@ -15,7 +15,7 @@ class AllinsonFlex::WorksGenerator < Rails::Generators::Base
     # check if this is a hyku application
     switch!(Account.first) if defined? Account
 
-    @work_types = model_name.presence.map(&:titleize) || AllinsonFlex::DynamicSchema.all.map(&:allinson_flex_class).uniq
+    @work_types = model_name.presence&.map(&:to_s)&.map(&:camelcase) || AllinsonFlex::DynamicSchema.all.map(&:allinson_flex_class).uniq
     @curation_concerns = Hyrax.config.curation_concerns.map(&:to_s)
     if @work_types.blank?
       say_status("error", "No AllinsonFlex Classes have been defined. Please load or create a Profile.", :red)
@@ -85,6 +85,9 @@ class AllinsonFlex::WorksGenerator < Rails::Generators::Base
       insert_into_file file, before: /\nend/ do
         "\n#{insert}\n"
       end
+      if file_text.include?('  include Hyrax::IndexesBasicMetadata')
+        comment_lines file, /include Hyrax::IndexesBasicMetadata/
+      end
     end
   end
 
@@ -98,11 +101,16 @@ class AllinsonFlex::WorksGenerator < Rails::Generators::Base
         insert_into_file file, before: /  include ::Hyrax::BasicMetadata/ do
           "\n#{insert}\n"
         end
+        comment_lines file, /include ::Hyrax::BasicMetadata/
       else
         insert_into_file file, before: /\nend/ do
           "\n#{insert}"
         end
       end
+      insert = '  include AllinsonFlex::FoundationalMetadata'
+      insert_into_file file, before: /\nend/ do
+        "\n#{insert}"
+      end unless file_text.include?(insert)
     end
   end
 
