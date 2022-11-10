@@ -3,7 +3,7 @@
 This library implements the M3 specifications found in [Houndstooth](https://github.com/samvera-labs/houndstooth) for Hyrax and other Samvera repository systems. It is able to read an M3 schema along with a profile YAML file and provides a graphical interface for editing the classes, contexts, mappings and properties found with in. It then provides hooks to the various pieces of Hyrax and similar Rails based systems to in order to assign contexts to Admin Sets, create and modify works and have all the properties of that work defined dynamically by users during run time. Work Types must exists in code (there is a work type generator), but all properties within can be edited dynamically by the library and are stored as data.
 
 
-Overview/intro to flex [graphic](https://repo.samvera.org/concern/images/3a052332-11db-4b4a-9356-ae0291ec096f?locale=en#?c=0&m=0&s=0&cv=0&xywh=-1475%2C0%2C5449%2C1875)
+Overview/intro to flex [graphic](https://repo.samvera.org/concern/images/3a052332-11db-4b4a-9356-ae0291ec096f?locale=en#?c=0&m=0&s=0&cv=0&xywh=-1475%2C0%2C5449%2C1875) Note that Flexible Metadata for FileSets and Collections is currently not supported. 
 ![Allinson_Flex_Poster](https://user-images.githubusercontent.com/10081604/195655778-2d23cba2-fb81-4da9-8a24-cf66c82b1741.jpg)
 
 ## Installing
