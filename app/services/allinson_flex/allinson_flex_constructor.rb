@@ -86,8 +86,7 @@ module AllinsonFlex
             multi_value: properties_hash.dig(name, 'multi_value'),
             requirement: properties_hash.dig(name, 'requirement'),
             controlled_value_sources: properties_hash.dig(name, 'controlled_values', 'sources'),
-            range: properties_hash.dig(name, 'range'),
-            mappings: properties_hash.dig(name, 'mappings')
+            range: properties_hash.dig(name, 'range')
           )
           logger.info(%(Constructed AllinsonFlex::ProfileProperty "#{property.name}"))
 
@@ -193,8 +192,7 @@ module AllinsonFlex
                   'singular' => singular?(property.try(:multi_value), property.cardinality_maximum),
                   'indexing' => property.indexing,
                   'controlled_values' => property.controlled_value_sources,
-                  'range' => property.range,
-                  'mappings' => property.mappings,
+                  'range' => property.range
                 }.compact
               }.compact
             end.inject(:merge)
