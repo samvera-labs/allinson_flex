@@ -111,19 +111,17 @@ class AllinsonFlex::InstallGenerator < Rails::Generators::Base
     end
   end
 
+  # This is attempting to insert the menu option in a case where the repository_content
+  # partial already exists and it does not include this menu already
   def add_sidebar_menu_option
     file = "app/views/hyrax/dashboard/sidebar/_repository_content.html.erb"
     if File.exist?(file)
       file_text = File.read(file)
       menu_text = '<%= menu.nav_link(allinson_flex.profiles_path) do %>'
       insert_text = "<% if current_user.can? :manage, AllinsonFlex::Profile %>\n  <%= menu.nav_link(allinson_flex.profiles_path) do %>\n    <span class='fa fa-table' aria-hidden='true'></span> <span class='sidebar-action-text'><%= t('allinson_flex.admin.sidebar.profiles') %></span>\n  <% end %>\n<% end %>\n"
- 
-      unless file_text.include?(menu_text)
-        if file_text.include?("<%= render 'hyrax/dashboard/sidebar/menu_partials'")
-          insert_into_file file, "#{insert_text}\n", before: "<%= render 'hyrax/dashboard/sidebar/menu_partials'"
-        else
-          append_file file, "\n#{insert_text}"
-        end
+
+      unless file_text.include?(menu_text) && file_text.include?("<%= render 'hyrax/dashboard/sidebar/menu_partials'")
+        append_file file, "\n#{insert_text}"
       end
     end
   end
