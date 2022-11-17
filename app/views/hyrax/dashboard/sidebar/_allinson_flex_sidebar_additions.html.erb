@@ -1,0 +1,5 @@
+<% if current_ability.admin? %>
+  <%= menu.nav_link(allinson_flex.profiles_path) do %>
+    <span class="fa fa-table" aria-hidden="true"></span> <span class="sidebar-action-text"><%= t('allinson_flex.admin.sidebar.profiles') %></span>
+  <% end %>
+<% end %>
