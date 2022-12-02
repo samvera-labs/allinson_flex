@@ -192,7 +192,7 @@ module AllinsonFlex
                   'required' => required?(property.try(:requirement), property.cardinality_minimum),
                   'singular' => singular?(property.try(:multi_value), property.cardinality_maximum),
                   'indexing' => property.indexing,
-                  'controlled_values' => property.controlled_value_sources,
+                  'controlled_values' => JSON.parse(property.controlled_value_sources),
                   'range' => property.range,
                   'mappings' => property.mappings
                 }.compact
