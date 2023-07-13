@@ -33,7 +33,7 @@ module AllinsonFlex
             end
 
             if prop.indexing.include?("facetable")
-              name = "#{prop.name.to_s}}_sim"
+              name = "#{prop.name.to_s}_sim"
               facet_args = { label: label }
               if prop.indexing.include?("admin_only")
                 facet_args[:if] = lambda { |context, _field_config, _document| context.try(:current_user)&.admin? }
