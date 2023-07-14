@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'hyrax/my/allinson_flex_profiles/index.html.erb', type: :view do
+RSpec.describe 'views/allinson_flex/profiles/index.html.erb', type: :view do
   before do
     allow(view).to receive(:current_ability).and_return(ability)
     allow(view).to receive(:provide).and_yield
@@ -15,7 +15,7 @@ RSpec.describe 'hyrax/my/allinson_flex_profiles/index.html.erb', type: :view do
     let(:ability) { instance_double(Ability, allinson_flex_profile_abilities: true) }
 
     it 'the line item displays the work and its actions' do
-      expect(rendered).to have_selector('h1', text: 'AllinsonFlex Profiles')
+      expect(rendered).to have_selector('h1', text: 'Allinson Flex Profiles')
       expect(rendered).to have_link('Create Profile')
     end
   end

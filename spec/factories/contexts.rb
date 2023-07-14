@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :allinson_flex_context, class: AllinsonFlex::Context do
     name       { "flexible_context" }
     allinson_flex_profile { FactoryBot.build(:allinson_flex_profile) }
-    allinson_flex_context { FactoryBot.build(:allinson_flex_context) }
+    # allinson_flex_context { FactoryBot.build(:allinson_flex_context) }
   end
 
   factory :allinson_flex_context_assigned, class: AllinsonFlex::Context do

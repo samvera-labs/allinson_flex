@@ -2,9 +2,9 @@
 
 require 'spec_helper'
 
-RSpec.describe AllinsonFlex::Importer do
+RSpec.describe AllinsonFlex::Importer, focus: true do
   describe '#load_profile_from_path' do
-    let(:profile) { described_class.load_profile_from_path(path: File.join(RSpec.configuration.fixture_path, 'files/yaml_example.yaml')) }
+    let(:profile) { described_class.load_profile_from_path(path: './spec/fixtures/files/yaml_example.yaml') }
 
     it 'returns valid with a valid path' do
       expect(profile)

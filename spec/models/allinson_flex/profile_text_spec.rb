@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe AllinsonFlex::ProfileText, type: :model do
-  let(:profile_text) { FactoryBot.build(:allinson_flex_profile_text) }
+  let(:profile_text) { FactoryBot.build(:allinson_flex_text) }
 
   it 'is valid' do
     expect(profile_text).to be_valid
@@ -13,6 +13,6 @@ RSpec.describe AllinsonFlex::ProfileText, type: :model do
     it { is_expected.to validate_presence_of(:value) }
   end
   describe 'associations' do
-    it { is_expected.to belong_to(:textable).optional }
+    it { is_expected.to belong_to(:textable) }
   end
 end

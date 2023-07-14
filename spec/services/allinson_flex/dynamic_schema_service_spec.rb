@@ -10,10 +10,12 @@ RSpec.describe AllinsonFlex::DynamicSchemaService do
       work_class_name: 'Image'
     )
   end
-  let(:allinson_flex_context) { build(:allinson_flex_context_assigned) }
-  let(:default_allinson_flex_context) { build(:allinson_flex_context_default) }
-  let(:dynamic_schema) { build(:dynamic_schema) }
-  let(:default_dynamic_schema) { build(:dynamic_schema_default) }
+
+  let(:allinson_flex_context) { FactoryBot.build(:allinson_flex_context_assigned) }
+  let(:default_allinson_flex_context) { FactoryBot.build(:allinson_flex_context_default) }
+  let(:dynamic_schema) { FactoryBot.build(:dynamic_schema) }
+  let(:default_dynamic_schema) { FactoryBot.build(:dynamic_schema_default) }
+ 
 
   before do
     allow(AdminSet).to receive_message_chain(:find, :metadata_context).and_return(allinson_flex_context)
@@ -22,7 +24,7 @@ RSpec.describe AllinsonFlex::DynamicSchemaService do
 
   describe '#new' do
     context 'admin_set does not have a metadata_context' do
-      let(:allinson_flex_context) { create(:allinson_flex_context) }
+      # let(:allinson_flex_context) { create(:allinson_flex_context) }
 
       it 'raises a custom error' do
         expect do

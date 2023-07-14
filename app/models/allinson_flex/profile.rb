@@ -22,7 +22,7 @@ module AllinsonFlex
     # serlializations
     serialize :profile
     # validations
-    # validates :name, :profile_version, :responsibility, presence: true
+    validates :name, :profile_version, :responsibility, presence: true
     validates :profile, presence: true
     validates :profile_version, uniqueness: true
     # callbacks
