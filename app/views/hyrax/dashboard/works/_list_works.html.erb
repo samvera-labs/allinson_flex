@@ -7,7 +7,11 @@
   <td>
     <div class='media'>
       <%= link_to [main_app, document], class: 'media-left', 'aria-hidden' => true do %>
-        <%= render_thumbnail_tag document, { class: 'hidden-xs file_listing_thumbnail' }, { suppress_link: true } %>
+        <% if document.thumbnail_id.nil? %>
+          <%= image_tag default_work_image, { class: 'hidden-xs file_listing_thumbnail', alt: 'Default work thumbnail' } %>
+        <% else %>
+          <%= render_thumbnail_tag document, { class: 'hidden-xs file_listing_thumbnail', alt: block_for(name: 'default_work_image_text') }, { suppress_link: true } %>
+        <% end %>
       <% end %>
 
       <div class='media-body'>
