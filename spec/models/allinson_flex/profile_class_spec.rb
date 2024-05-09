@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe AllinsonFlex::ProfileClass, type: :model do
-  let(:profile_class) { FactoryBot.build(:allinson_flex_profile_class) }
+  let(:profile_class) { FactoryBot.build(:allinson_flex_class) }
 
   it 'is valid' do
     expect(profile_class).to be_valid

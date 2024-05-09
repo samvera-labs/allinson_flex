@@ -26,7 +26,6 @@ RSpec.describe AllinsonFlex::Profile, type: :model do
   describe 'methods' do
     before do
       profile.add_date_modified
-      profile.add_profile_data
     end
 
     it '#available_classes returns an array of Classes' do
@@ -36,7 +35,7 @@ RSpec.describe AllinsonFlex::Profile, type: :model do
     end
     it '#profile is set' do
       expect(profile.profile).to be_present
-      expect(profile.profile).match('Indiana University')
+      expect(profile.name).to eq('Indiana University')
     end
     it '#available_text_names returns an array of values' do
       expect(profile.available_text_names).to eq(
