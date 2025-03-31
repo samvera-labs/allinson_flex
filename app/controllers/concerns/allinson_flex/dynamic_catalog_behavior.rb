@@ -6,7 +6,7 @@ module AllinsonFlex
 
     class_methods do
       def load_allinson_flex
-        profile = AllinsonFlex::Profile.current_version
+        profile = AllinsonFlex::Profile.includes(properties: :texts).current_version
         unless profile.blank?
           profile.properties.each do |prop|
             # blacklight wants 1 label for all classes with this property
