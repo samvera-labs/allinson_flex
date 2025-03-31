@@ -18,7 +18,7 @@ module AllinsonFlex
     end
 
     def admin_set_id
-      @admin_set_id ||= AdminSet.where(title: self.admin_set).first&.id
+      @admin_set_id ||= Hyrax::SolrService.query("title_tesim:\"#{self.admin_set.first}\"", rows: 1, fl: 'id').first['id']
     end
 
     def dynamic_schema_service
